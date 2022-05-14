@@ -1,0 +1,3 @@
+userapi:
+  resource: "@EvrinomaUserBundle/Resources/config/routing/api.yml"
+  prefix: evrinoma

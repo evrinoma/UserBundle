@@ -1,0 +1,2 @@
+user:
+    resource: "@EvrinomaUserBundle/Resources/config/routes.yml"

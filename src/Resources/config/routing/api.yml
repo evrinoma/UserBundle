@@ -1,0 +1,3 @@
+user_api:
+  resource: "@EvrinomaUserBundle/Controller/UserApiController.php"
+  type: annotation
