@@ -3,8 +3,8 @@
 namespace Evrinoma\UserBundle\Dto;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
-use Evrinoma\DtoCommon\ValueObject\ActiveInterface;
-use Evrinoma\DtoCommon\ValueObject\IdInterface;
+use Evrinoma\DtoCommon\ValueObject\Mutable\ActiveInterface;
+use Evrinoma\DtoCommon\ValueObject\Mutable\IdInterface;
 
 interface UserApiDtoInterface extends DtoInterface, IdInterface, ActiveInterface
 {
