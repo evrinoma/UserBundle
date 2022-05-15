@@ -4,30 +4,31 @@ namespace Evrinoma\UserBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Evrinoma\UserBundle\Model\User\UserInterface;
 
 trait CreateUpdateByTrait
 {
 //region SECTION: Fields
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="App\User\Entity\User")
+     * @var UserInterface
+     * @ORM\ManyToOne(targetEntity="Evrinoma\UserBundle\Model\User\UserInterface")
      */
-    private $createdBy;
+    private UserInterface $createdBy;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="App\User\Entity\User")
+     * @var UserInterface
+     * @ORM\ManyToOne(targetEntity="Evrinoma\UserBundle\Model\User\UserInterface")
      */
-    private $updatedBy;
+    private UserInterface $updatedBy;
 //endregion Fields
 
 //region SECTION: Getters/Setters
     /**
      * Returns createdBy.
      *
-     * @return User
+     * @return UserInterface
      */
-    public function getCreatedBy():User
+    public function getCreatedBy():UserInterface
     {
         return $this->createdBy;
     }
@@ -35,9 +36,9 @@ trait CreateUpdateByTrait
     /**
      * Returns updatedBy.
      *
-     * @return User
+     * @return UserInterface
      */
-    public function getUpdatedBy():?User
+    public function getUpdatedBy():?UserInterface
     {
         return $this->updatedBy;
     }

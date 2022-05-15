@@ -48,7 +48,7 @@ abstract class AbstractUser implements UserInterface
 
     /**
      * @var ?DateTimeImmutable
-     * @ORM\Type("DateTimeImmutable<'d-m-Y'>")
+     *
      * @ORM\Column(name="expired_at", type="datetime_immutable", nullable=true)
      */
     protected ?DateTimeImmutable $expiredAt;
@@ -78,7 +78,7 @@ abstract class AbstractUser implements UserInterface
 
     /**
      * @var ?DateTimeImmutable
-     * @ORM\Type("DateTimeImmutable<'d-m-Y'>")
+     *
      * @ORM\Column(name="last_login", type="datetime_immutable", nullable=true)
      */
     protected ?DateTimeImmutable $lastLogin;

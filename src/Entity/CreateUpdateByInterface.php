@@ -3,9 +3,11 @@
 
 namespace Evrinoma\UserBundle\Entity;
 
+use Evrinoma\UserBundle\Model\User\UserInterface;
+
 interface CreateUpdateByInterface
 {
-    public function getCreatedBy():User;
+    public function getCreatedBy():UserInterface;
 
-    public function getUpdatedBy():?User;
+    public function getUpdatedBy():?UserInterface;
 }
