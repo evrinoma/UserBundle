@@ -6,7 +6,7 @@ use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
 use Evrinoma\UserBundle\Exception\UserCannotBeRemovedException;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Evrinoma\UserBundle\Model\User\UserInterface;
 
 interface CommandMediatorInterface
 {
