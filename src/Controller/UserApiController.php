@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class UserController extends AbstractApiController implements ApiControllerInterface
+final class UserApiController extends AbstractApiController implements ApiControllerInterface
 {
 //region SECTION: Fields
     private string $dtoClass = UserApiDto::class;
