@@ -1,0 +1,58 @@
+services:
+  Evrinoma\UserBundle\Controller\UserApiController:
+    alias: evrinoma.user.api.controller
+    public: true
+
+  evrinoma.user.api.controller:
+    class: Evrinoma\UserBundle\Controller\UserApiController
+    arguments:
+      - '@jms_serializer'
+      - '@request_stack'
+      - '@evrinoma.dto.factory'
+      - '@evrinoma.user.command.manager'
+      - '@evrinoma.user.query.manager'
+    autowire: true
+
+  evrinoma.user.factory:
+    class: Evrinoma\UserBundle\Factory\UserFactory
+    public: true
+    arguments:
+
+  evrinoma.user.repository:
+    class: Evrinoma\UserBundle\Repository\UserRepository
+    public: true
+    arguments:
+
+  evrinoma.user.command.manager:
+    class: Evrinoma\UserBundle\Manager\CommandManager
+    arguments:
+      - '@evrinoma.user.repository'
+      - '@evrinoma.user.factory'
+      - '@evrinoma.user.command.mediator'
+
+  evrinoma.user.query.manager:
+    class: Evrinoma\UserBundle\Manager\QueryManager
+    arguments:
+      - '@evrinoma.user.repository'
+
+  evrinoma.user.query.mediator:
+    class: Evrinoma\UserBundle\Mediator\QueryMediator
+    public: true
+    arguments:
+
+  Evrinoma\UserBundle\Mediator\QueryMediator:
+    alias: evrinoma.user.query.mediator
+
+  Evrinoma\UserBundle\Mediator\QueryMediatorInterface:
+    alias: evrinoma.user.query.mediator
+
+  evrinoma.user.command.mediator:
+    class: Evrinoma\UserBundle\Mediator\CommandMediator
+    public: true
+    arguments:
+
+  Evrinoma\UserBundle\Mediator\CommandMediator:
+    alias: evrinoma.user.command.mediator
+
+  Evrinoma\UserBundle\Mediator\CommandMediatorInterface:
+    alias: evrinoma.user.command.mediator

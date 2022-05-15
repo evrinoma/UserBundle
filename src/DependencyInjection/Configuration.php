@@ -37,7 +37,8 @@ class Configuration implements ConfigurationInterface
             //           ->arrayNode('decorates')->addDefaultsIfNotSet()->children()
             //           ->scalarNode('command')->defaultNull()->info('This option is used for command user decoration')->end()f
             //           ->scalarNode('query')->defaultNull()->info('This option is used for query user decoration')->end()
-            ->end()->end()->end();
+            //->end()
+            ->end()->end();
 
         return $treeBuilder;
     }
