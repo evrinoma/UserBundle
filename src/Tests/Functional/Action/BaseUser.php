@@ -4,9 +4,12 @@ namespace Evrinoma\UserBundle\Tests\Functional\Action;
 
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
 use Evrinoma\UserBundle\Dto\UserApiDto;
+use Evrinoma\UserBundle\Tests\Functional\Helper\BaseUserTestTrait;
 
 class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 {
+    use BaseUserTestTrait;
+
 //region SECTION: Fields
     public const API_GET      = 'evrinoma/api/user';
     public const API_CRITERIA = 'evrinoma/api/user/criteria';
@@ -24,8 +27,16 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     protected static function defaultData(): array
     {
         return [
-            "id"          => '1',
-            "class"       => static::getDtoClass(),
+            "id"    => '1',
+            "class" => static::getDtoClass(),
+            "username"   => "nikolns",
+            "email"      => "nikolns@ite-ng.ru",
+            "password"   => "1234",
+            "active"     => "b",
+            "name"       => "Ivan",
+            "surname"    => "Ivanov",
+            "patronymic" => "Ivanovich",
+            "expired_at" => "2021-12-30",
         ];
     }
 //endregion Protected
@@ -33,7 +44,8 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 //region SECTION: Public
     public function actionPost(): void
     {
-
+        $this->createUser();
+        $this->testResponseStatusCreated();
     }
 
     public function actionCriteriaNotFound(): void
