@@ -4,21 +4,21 @@ namespace Evrinoma\UserBundle\Factory;
 
 
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
-use Evrinoma\UserBundle\Entity\User;
+use Evrinoma\UserBundle\Entity\BaseUser;
 use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
-use FOS\UserBundle\Model\UserManagerInterface;
+use Evrinoma\UserBundle\Voter\RoleInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserFactory implements UserFactoryInterface
 {
 //region SECTION: Fields
-    private UserManagerInterface $userManager;
+    private static string $entityClass = BaseUser::class;
 //endregion Fields
 
 //region SECTION: Constructor
-    public function __construct(UserManagerInterface $userManager)
+    public function __construct(string $entityClass)
     {
-        $this->userManager = $userManager;
+        self::$entityClass = $entityClass;
     }
 //endregion Constructor
 
@@ -30,16 +30,15 @@ class UserFactory implements UserFactoryInterface
      */
     public function create(UserApiDtoInterface $dto): UserInterface
     {
-        /** @var User $user */
-        $user = $this->userManager->createUser();
+        /** @var BaseUser $user */
+        $user = new self::$entityClass;
 
-        $user->setUsername($dto->getUsername());
-        $user->setEmail($dto->getEmail());
-        $user->setPlainPassword($dto->getPassword());
-        $user->setEnabled(true);
-        $user->setSuperAdmin(false);
-        $this->userManager->updateCanonicalFields($user);
-        $this->userManager->updatePassword($user);
+        $user
+            ->setUsername($dto->getUsername())
+            ->setSurname($dto->getUsername())
+            ->setEmail($dto->getEmail())
+            ->addRole(RoleInterface::ROLE_DEFAULT)
+            ->setActiveToActive();
 
         if ($dto->hasName() && $dto->hasSurname()) {
             $user->setName($dto->getName());
