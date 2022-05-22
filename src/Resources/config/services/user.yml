@@ -50,6 +50,7 @@ services:
     class: Evrinoma\UserBundle\Mediator\CommandMediator
     public: true
     arguments:
+      - '@security.user_password_hasher'
 
   Evrinoma\UserBundle\Mediator\CommandMediator:
     alias: evrinoma.user.command.mediator
