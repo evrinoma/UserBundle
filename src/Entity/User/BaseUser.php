@@ -8,7 +8,7 @@ use Evrinoma\UserBundle\Model\User\AbstractUser;
 /**
  * Class User
  *
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="user")
  * @ORM\Entity()
  */
 class BaseUser extends AbstractUser

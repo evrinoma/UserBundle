@@ -3,12 +3,28 @@
 namespace Evrinoma\UserBundle\Model\User;
 
 use DateTimeImmutable;
+use Evrinoma\UtilsBundle\Entity\ActiveInterface;
+use Evrinoma\UtilsBundle\Entity\IdInterface;
+use Evrinoma\UtilsBundle\Entity\NameInterface;
+use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
-interface UserInterface extends BaseUserInterface
+interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswordAuthenticatedUserInterface, BaseUserInterface, ActiveInterface, IdInterface, NameInterface
 {
-    public function addRole(string $role): void;
+//region SECTION: Public
+    /**
+     * @param string $role
+     *
+     * @return UserInterface
+     */
+    public function addRole(string $role): UserInterface;
 
+    /**
+     * @param string $role
+     *
+     * @return bool
+     */
     public function hasRole(string $role): bool;
 //endregion Public
 
@@ -33,11 +49,6 @@ interface UserInterface extends BaseUserInterface
     /**
      * @return string
      */
-    public function getName(): string;
-
-    /**
-     * @return string
-     */
     public function getPatronymic(): string;
 
     /**
@@ -46,42 +57,51 @@ interface UserInterface extends BaseUserInterface
     public function getExpiredAt(): ?DateTimeImmutable;
 
     /**
-     * @return string
-     */
-    public function getPlainPassword(): string;
-
-    /**
      * @param DateTimeImmutable|null $lastLogin
+     *
+     * @return UserInterface
      */
-    public function setLastLogin(?DateTimeImmutable $lastLogin): void;
+    public function setLastLogin(?DateTimeImmutable $lastLogin): UserInterface;
 
     /**
      * @param string $email
+     *
+     * @return UserInterface
      */
-    public function setEmail(string $email): void;
+    public function setEmail(string $email): UserInterface;
 
     /**
      * @param string $surname
+     *
+     * @return UserInterface
      */
-    public function setSurname(string $surname): void;
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void;
+    public function setSurname(string $surname): UserInterface;
 
     /**
      * @param string $patronymic
+     *
+     * @return UserInterface
      */
-    public function setPatronymic(string $patronymic): void;
+    public function setPatronymic(string $patronymic): UserInterface;
 
     /**
      * @param DateTimeImmutable|null $expiredAt
+     *
+     * @return UserInterface
      */
-    public function setExpiredAt(?DateTimeImmutable $expiredAt): void;
+    public function setExpiredAt(?DateTimeImmutable $expiredAt): UserInterface;
 
     /**
-     * @param string $plainPassword
+     * @param string $surname
+     *
+     * @return UserInterface
      */
-    public function setPlainPassword(string $plainPassword): void;
+    public function setPassword(string $surname): UserInterface;
+
+    /**
+     * @param string $username
+     *
+     * @return UserInterface
+     */
+    public function setUsername(string $username): UserInterface;
 }

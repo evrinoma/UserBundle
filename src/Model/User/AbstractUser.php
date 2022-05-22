@@ -5,24 +5,24 @@ namespace Evrinoma\UserBundle\Model\User;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use Evrinoma\UserBundle\Voter\RoleInterface;
 use Evrinoma\UtilsBundle\Entity\ActiveTrait;
 use Evrinoma\UtilsBundle\Entity\IdTrait;
+use Evrinoma\UtilsBundle\Entity\NameTrait;
 
 abstract class AbstractUser implements UserInterface
 {
-    use IdTrait, ActiveTrait;
+    use IdTrait, ActiveTrait, NameTrait;
 
 //region SECTION: Fields
     /**
      * @var string
      */
-    protected string $username;
+    protected string $username = '';
 
     /**
      * @var string
      */
-    protected string $email;
+    protected string $email = '';
 
     /**
      * @var string
@@ -31,13 +31,6 @@ abstract class AbstractUser implements UserInterface
      *
      */
     protected string $surname = '';
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", nullable=false)
-     */
-    protected string $name = '';
 
     /**
      * @var string
@@ -51,30 +44,21 @@ abstract class AbstractUser implements UserInterface
      *
      * @ORM\Column(name="expired_at", type="datetime_immutable", nullable=true)
      */
-    protected ?DateTimeImmutable $expiredAt;
+    protected ?DateTimeImmutable $expiredAt = null;
 
     /**
-     * The salt to use for hashing.
+     * @var ?string
      *
-     * @var string
-     * @ORM\Column(name="salt", type="string", nullable=false)
+     * @ORM\Column(name="salt", type="string", nullable=true)
      */
-    protected string $salt;
+    protected ?string $salt = null;
 
     /**
-     * Encrypted password. Must be persisted.
-     *
      * @var string
+     *
      * @ORM\Column(name="password", type="string", nullable=false)
      */
-    protected string $password;
-
-    /**
-     * Plain password. Used for model validation. Must not be persisted.
-     *
-     * @var string
-     */
-    protected string $plainPassword;
+    protected string $password = '';
 
     /**
      * @var ?DateTimeImmutable
@@ -92,14 +76,16 @@ abstract class AbstractUser implements UserInterface
 //endregion Fields
 
 //region SECTION: Public
-    public function addRole(string $role): void
+    public function addRole(string $role): UserInterface
     {
         $role = strtoupper($role);
-        if ($role !== RoleInterface::ROLE_DEFAULT) {
-            if (!in_array($role, $this->roles, true)) {
-                $this->roles[] = $role;
-            }
+//        if ($role !== RoleInterface::ROLE_DEFAULT) {
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+//            }
         }
+
+        return $this;
     }
 
     public function hasRole(string $role): bool
@@ -107,9 +93,9 @@ abstract class AbstractUser implements UserInterface
         return in_array(strtoupper($role), $this->getRoles(), true);
     }
 
-    public function eraseCredentials(): void
+    public function eraseCredentials(): UserInterface
     {
-        $this->plainPassword = null;
+
     }
 //endregion Public
 
@@ -150,7 +136,7 @@ abstract class AbstractUser implements UserInterface
         return $this->password;
     }
 
-    public function getSalt(): string
+    public function getSalt(): ?string
     {
         return $this->salt;
     }
@@ -196,67 +182,87 @@ abstract class AbstractUser implements UserInterface
     }
 
     /**
-     * @return string
+     * @param string $password
+     *
+     * @return UserInterface
      */
-    public function getPlainPassword(): string
+    public function setPassword(string $password): UserInterface
     {
-        return $this->plainPassword;
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
      * @param DateTimeImmutable|null $lastLogin
+     *
+     * @return UserInterface
      */
-    public function setLastLogin(?DateTimeImmutable $lastLogin): void
+    public function setLastLogin(?DateTimeImmutable $lastLogin): UserInterface
     {
         $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return UserInterface
+     */
+    public function setUsername(string $username): UserInterface
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
      * @param string $email
+     *
+     * @return UserInterface
      */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): UserInterface
     {
         $this->email = $email;
+
+        return $this;
     }
 
     /**
      * @param string $surname
+     *
+     * @return UserInterface
      */
-    public function setSurname(string $surname): void
+    public function setSurname(string $surname): UserInterface
     {
         $this->surname = $surname;
-    }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
+        return $this;
     }
 
     /**
      * @param string $patronymic
+     *
+     * @return UserInterface
      */
-    public function setPatronymic(string $patronymic): void
+    public function setPatronymic(string $patronymic): UserInterface
     {
         $this->patronymic = $patronymic;
+
+        return $this;
     }
 
     /**
      * @param DateTimeImmutable|null $expiredAt
+     *
+     * @return UserInterface
      */
-    public function setExpiredAt(?DateTimeImmutable $expiredAt): void
+    public function setExpiredAt(?DateTimeImmutable $expiredAt): UserInterface
     {
         $this->expiredAt = $expiredAt;
-    }
 
-    /**
-     * @param string $plainPassword
-     */
-    public function setPlainPassword(string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
+        return $this;
     }
 //endregion Getters/Setters
 }
