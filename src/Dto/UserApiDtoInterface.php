@@ -3,10 +3,11 @@
 namespace Evrinoma\UserBundle\Dto;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
-use Evrinoma\DtoCommon\ValueObject\Mutable\ActiveInterface;
-use Evrinoma\DtoCommon\ValueObject\Mutable\IdInterface;
+use Evrinoma\DtoCommon\ValueObject\Immutable\ActiveInterface;
+use Evrinoma\DtoCommon\ValueObject\Immutable\IdInterface;
+use Evrinoma\DtoCommon\ValueObject\Immutable\NameInterface;
 
-interface UserApiDtoInterface extends DtoInterface, IdInterface, ActiveInterface
+interface UserApiDtoInterface extends DtoInterface, IdInterface, ActiveInterface, NameInterface
 {
 //region SECTION: Public
     /**
@@ -33,11 +34,6 @@ interface UserApiDtoInterface extends DtoInterface, IdInterface, ActiveInterface
      * @return bool
      */
     public function isActive(): bool;
-
-    /**
-     * @return bool
-     */
-    public function hasName(): bool;
 
     /**
      * @return bool
@@ -80,11 +76,6 @@ interface UserApiDtoInterface extends DtoInterface, IdInterface, ActiveInterface
      * @return array
      */
     public function getRoles(): array;
-
-    /**
-     * @return string
-     */
-    public function getName(): string;
 
     /**
      * @return string

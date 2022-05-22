@@ -2,24 +2,24 @@
 
 namespace Evrinoma\UserBundle\Dto;
 
+use Evrinoma\DtoCommon\ValueObject\Mutable\NameTrait;
 use Evrinoma\UserBundle\Model\ModelInterface;
 use Evrinoma\DtoBundle\Dto\AbstractDto;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
-use Evrinoma\DtoCommon\ValueObject\ActiveTrait;
-use Evrinoma\DtoCommon\ValueObject\IdTrait;
+use Evrinoma\DtoCommon\ValueObject\Mutable\ActiveTrait;
+use Evrinoma\DtoCommon\ValueObject\Mutable\IdTrait;
 use Evrinoma\UtilsBundle\Model\ActiveModel;
 use Symfony\Component\HttpFoundation\Request;
 
 final class UserApiDto extends AbstractDto implements UserApiDtoInterface
 {
-    use ActiveTrait, IdTrait;
+    use ActiveTrait, IdTrait, NameTrait;
 
 //region SECTION: Fields
     private string $username = '';
     private string $password = '';
     private string $email    = '';
 
-    private string  $name       = '';
     private string  $surname    = '';
     private string  $patronymic = '';
     private ?string $expiredAt  = null;
@@ -50,14 +50,6 @@ final class UserApiDto extends AbstractDto implements UserApiDtoInterface
     public function hasRoles(): bool
     {
         return count($this->roles);
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasName(): bool
-    {
-        return $this->name !== '';
     }
 
     /**
@@ -133,16 +125,6 @@ final class UserApiDto extends AbstractDto implements UserApiDtoInterface
     }
 
     /**
-     * @param string $id
-     *
-     * @return void
-     */
-    private function setId(string $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @param array $roles
      *
      * @return void
@@ -150,24 +132,6 @@ final class UserApiDto extends AbstractDto implements UserApiDtoInterface
     private function setRoles(array $roles): void
     {
         $this->roles = $roles;
-    }
-
-    /**
-     * @param string $active
-     *
-     * @return void
-     */
-    private function setActive(string $active): void
-    {
-        $this->active = $active;
-    }
-
-    /**
-     * @param string $name
-     */
-    private function setName(string $name): void
-    {
-        $this->name = $name;
     }
 
     /**
@@ -247,14 +211,6 @@ final class UserApiDto extends AbstractDto implements UserApiDtoInterface
     public function getExpiredAt(): string
     {
         return $this->expiredAt;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**
