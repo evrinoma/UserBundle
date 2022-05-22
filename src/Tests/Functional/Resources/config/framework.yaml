@@ -1,5 +1,14 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    router:
-        resource: '%kernel.root_dir%/Resources/config/routing/routing.yml'
+  router:
+    resource: '%kernel.root_dir%/Resources/config/routing/routing.yml'
 
+security:
+  password_hashers:
+    Evrinoma\UserBundle\Entity\BaseUser:
+      algorithm: plaintext
+
+  firewalls:
+    test:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
