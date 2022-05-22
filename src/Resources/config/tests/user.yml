@@ -1,0 +1,9 @@
+services:
+  evrinoma.user.test.functional.action.user:
+    class: Evrinoma\UserBundle\Tests\Functional\Action\BaseUser
+    public: true
+    arguments:
+
+  Evrinoma\UserBundle\Tests\Functional\Action\BaseUser:
+    alias: evrinoma.user.test.functional.action.user
+    public: true

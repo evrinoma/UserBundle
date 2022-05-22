@@ -46,10 +46,10 @@ class EvrinomaUserExtension extends Extension
 //        if ($container->getParameter('kernel.environment') !== 'prod') {
 //            $loader->load('fixtures.yml');
 //        }
-//
-//        if ($container->getParameter('kernel.environment') === 'test') {
-//            $loader->load('tests.yml');
-//        }
+
+        if ($container->getParameter('kernel.environment') === 'test') {
+            $loader->load('tests.yml');
+        }
 
         $configuration = $this->getConfiguration($configs, $container);
         $config        = $this->processConfiguration($configuration, $configs);
