@@ -31,13 +31,13 @@ class Configuration implements ConfigurationInterface
             ->defaultValue('orm')
             ->end()
             ->scalarNode('factory')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::ENTITY_FACTORY_USER)->end()
-            //           ->scalarNode('entity')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::ENTITY_BASE_USER)->end()
-            //           ->scalarNode('constraints')->defaultTrue()->info('This option is used for enable/disable basic user constraints')->end()
+            ->scalarNode('entity')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::ENTITY_BASE_USER)->end()
+            ->scalarNode('constraints')->defaultTrue()->info('This option is used for enable/disable basic user constraints')->end()
             ->scalarNode('dto')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::DTO_BASE_USER)->info('This option is used for dto class override')->end()
-            //           ->arrayNode('decorates')->addDefaultsIfNotSet()->children()
-            //           ->scalarNode('command')->defaultNull()->info('This option is used for command user decoration')->end()f
-            //           ->scalarNode('query')->defaultNull()->info('This option is used for query user decoration')->end()
-            //->end()
+            ->arrayNode('decorates')->addDefaultsIfNotSet()->children()
+            ->scalarNode('command')->defaultNull()->info('This option is used for command user decoration')->end()
+            ->scalarNode('query')->defaultNull()->info('This option is used for query user decoration')->end()
+            ->end()
             ->end()->end();
 
         return $treeBuilder;
