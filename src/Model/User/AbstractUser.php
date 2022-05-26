@@ -88,10 +88,9 @@ abstract class AbstractUser implements UserInterface
     public function addRole(string $role): UserInterface
     {
         $role = strtoupper($role);
-//        if ($role !== RoleInterface::ROLE_DEFAULT) {
+
         if (!in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
-//            }
         }
 
         return $this;
