@@ -1,0 +1,12 @@
+services:
+  evrinoma.user.constraint.property.email:
+    class: Evrinoma\UserBundle\Constraint\Property\Email
+
+  evrinoma.user.constraint.property.active:
+    class: Evrinoma\UserBundle\Constraint\Property\Active
+
+  evrinoma.user.constraint.property.password:
+    class: Evrinoma\UserBundle\Constraint\Property\Password
+
+  evrinoma.user.constraint.property.username:
+    class: Evrinoma\UserBundle\Constraint\Property\Username
