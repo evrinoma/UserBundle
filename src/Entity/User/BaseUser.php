@@ -6,9 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Evrinoma\UserBundle\Model\User\AbstractUser;
 
 /**
- * Class User
- *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="e_user")
  * @ORM\Entity()
  */
 class BaseUser extends AbstractUser

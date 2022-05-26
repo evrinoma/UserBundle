@@ -2,7 +2,6 @@
 
 namespace Evrinoma\UserBundle\Model\User;
 
-
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Evrinoma\UtilsBundle\Entity\ActiveTrait;
@@ -10,10 +9,11 @@ use Evrinoma\UtilsBundle\Entity\IdTrait;
 use Evrinoma\UtilsBundle\Entity\NameTrait;
 
 /**
- * Class AbstractBaseContractor
- *
  * @ORM\MappedSuperclass
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="idx_username", columns={"username"})})
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="idx_username", columns={"username"})
+ *     }
+ * )
  */
 abstract class AbstractUser implements UserInterface
 {
@@ -23,7 +23,7 @@ abstract class AbstractUser implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", nullable=false)
+     * @ORM\Column(name="username", type="string", length=255, nullable=false)
      */
     protected string $username = '';
 
