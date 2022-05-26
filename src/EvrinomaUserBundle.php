@@ -2,6 +2,7 @@
 
 namespace Evrinoma\UserBundle;
 
+use Evrinoma\UserBundle\DependencyInjection\Compiler\MapEntityPass;
 use Evrinoma\UserBundle\DependencyInjection\EvrinomaUserExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -14,6 +15,8 @@ class EvrinomaUserBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+        $container
+            ->addCompilerPass(new MapEntityPass($this->getNamespace(), $this->getPath()));
     }
 //region SECTION: Getters/Setters
     public function getContainerExtension()
