@@ -9,6 +9,12 @@ use Evrinoma\UtilsBundle\Entity\ActiveTrait;
 use Evrinoma\UtilsBundle\Entity\IdTrait;
 use Evrinoma\UtilsBundle\Entity\NameTrait;
 
+/**
+ * Class AbstractBaseContractor
+ *
+ * @ORM\MappedSuperclass
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="idx_username", columns={"username"})})
+ */
 abstract class AbstractUser implements UserInterface
 {
     use IdTrait, ActiveTrait, NameTrait;
@@ -16,11 +22,15 @@ abstract class AbstractUser implements UserInterface
 //region SECTION: Fields
     /**
      * @var string
+     *
+     * @ORM\Column(name="username", type="string", nullable=false)
      */
     protected string $username = '';
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="email", type="string", nullable=false)
      */
     protected string $email = '';
 
@@ -28,7 +38,6 @@ abstract class AbstractUser implements UserInterface
      * @var string
      *
      * @ORM\Column(name="surname", type="string", nullable=false)
-     *
      */
     protected string $surname = '';
 
@@ -65,7 +74,7 @@ abstract class AbstractUser implements UserInterface
      *
      * @ORM\Column(name="last_login", type="datetime_immutable", nullable=true)
      */
-    protected ?DateTimeImmutable $lastLogin;
+    protected ?DateTimeImmutable $lastLogin = null;
 
     /**
      * @var array
