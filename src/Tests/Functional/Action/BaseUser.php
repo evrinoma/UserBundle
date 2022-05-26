@@ -5,6 +5,8 @@ namespace Evrinoma\UserBundle\Tests\Functional\Action;
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
 use Evrinoma\UserBundle\Dto\UserApiDto;
 use Evrinoma\UserBundle\Tests\Functional\Helper\BaseUserTestTrait;
+use Evrinoma\UtilsBundle\Model\ActiveModel;
+use PHPUnit\Framework\Assert;
 
 class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 {
@@ -60,7 +62,16 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 
     public function actionDelete(): void
     {
+        $find = $this->assertGet(1);
 
+        Assert::assertEquals(ActiveModel::ACTIVE, $find['data']['active']);
+
+        $this->delete(1);
+        $this->testResponseStatusAccepted();
+
+        $delete = $this->assertGet(1);
+
+        Assert::assertEquals(ActiveModel::DELETED, $delete['data']['active']);
     }
 
     public function actionPut(): void

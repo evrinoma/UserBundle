@@ -1,6 +1,6 @@
 <?php
 
-namespace Evrinoma\UserBundle\Entity;
+namespace Evrinoma\UserBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
 use Evrinoma\UserBundle\Model\User\AbstractUser;

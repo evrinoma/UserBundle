@@ -5,7 +5,7 @@ framework:
 
 security:
   password_hashers:
-    Evrinoma\UserBundle\Entity\BaseUser:
+    Evrinoma\UserBundle\Entity\User\BaseUser:
       algorithm: plaintext
 
   firewalls:
