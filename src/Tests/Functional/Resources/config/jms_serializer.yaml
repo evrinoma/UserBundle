@@ -1,6 +1,6 @@
-#jms_serializer:
-#  metadata:
-#    directories:
-#      UserBundle:
-#        namespace_prefix: "Evrinoma\\UserBundle"
-#        path: '%kernel.root_dir%/Resources/config/serializer/UserBundle'
+jms_serializer:
+  metadata:
+    directories:
+      UserBundle:
+        namespace_prefix: "Evrinoma\\UserBundle"
+        path: '%kernel.root_dir%/Resources/config/serializer/UserBundle'

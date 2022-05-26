@@ -1,0 +1,39 @@
+Evrinoma\UserBundle\Model\User\AbstractUser:
+  exclusion_policy: ALL
+  properties:
+    id:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    active:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    roles:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    lastLogin:
+      type: DateTimeImmutable<'Y-m-d H:i'>
+      groups: [ api_get_user, api_post_user, api_put_user ]
+    password:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    salt:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    expiredAt:
+      type: DateTimeImmutable<'Y-m-d H:i'>
+      groups: [ api_get_user, api_post_user, api_put_user ]
+    patronymic:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    surname:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    email:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    username:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
+    name:
+      groups: [ api_get_user, api_post_user, api_put_user ]
+      expose: true
