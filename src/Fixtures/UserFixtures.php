@@ -73,8 +73,6 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
         return $this;
     }
 //endregion Protected
-//region SECTION: Private
-//endregion Private
 
 //region SECTION: Getters/Setters
     public static function getGroups(): array

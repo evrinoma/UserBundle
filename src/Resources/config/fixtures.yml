@@ -1,0 +1,5 @@
+services:
+  evrinoma.user.fixtures.user:
+    class: Evrinoma\UserBundle\Fixtures\UserFixtures
+    tags:
+      - { name: doctrine.fixture.orm }
