@@ -2,11 +2,10 @@
 
 namespace Evrinoma\UserBundle\Tests\Functional\Controller;
 
-
 use Evrinoma\TestUtilsBundle\Action\ActionTestInterface;
 use Evrinoma\TestUtilsBundle\Functional\AbstractFunctionalTest;
+use Evrinoma\UserBundle\Fixtures\FixtureInterface;
 use Psr\Container\ContainerInterface;
-
 
 /**
  * @group functional
@@ -27,7 +26,7 @@ final class ApiControllerTest extends AbstractFunctionalTest
 //region SECTION: Getters/Setters
     public static function getFixtures(): array
     {
-        return [];
+        return [FixtureInterface::USER_FIXTURES];
     }
 //endregion Getters/Setters
 }
