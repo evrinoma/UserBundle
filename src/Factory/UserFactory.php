@@ -4,10 +4,11 @@ namespace Evrinoma\UserBundle\Factory;
 
 
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
-use Evrinoma\UserBundle\Entity\BaseUser;
+use Evrinoma\UserBundle\Entity\User\BaseUser;
 use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
+use Evrinoma\UserBundle\Exception\UserInvalidException;
+use Evrinoma\UserBundle\Model\User\UserInterface;
 use Evrinoma\UserBundle\Voter\RoleInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserFactory implements UserFactoryInterface
 {
@@ -38,16 +39,10 @@ class UserFactory implements UserFactoryInterface
             ->setSurname($dto->getUsername())
             ->setEmail($dto->getEmail())
             ->addRole(RoleInterface::ROLE_DEFAULT)
+            ->setName($dto->getName())
+            ->setSurname($dto->getSurname())
+            ->setPatronymic($dto->getPatronymic())
             ->setActiveToActive();
-
-        if ($dto->hasName() && $dto->hasSurname()) {
-            $user->setName($dto->getName());
-            $user->setSurname($dto->getSurname());
-        } else {
-            throw new UserCannotBeCreatedException();
-        }
-
-        $user->setPatronymic($dto->getPatronymic());
 
         if ($dto->hasExpiredAt()) {
             if ($dto->emptyExpiredAt()) {
@@ -56,7 +51,7 @@ class UserFactory implements UserFactoryInterface
                 $user->setExpiredAt(new \DateTimeImmutable($dto->getExpiredAt()));
             }
         } else {
-            throw new UserCannotBeCreatedException();
+            throw new UserInvalidException();
         }
 
         return $user;

@@ -3,7 +3,7 @@
 namespace Evrinoma\UserBundle\Factory;
 
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Evrinoma\UserBundle\Model\User\UserInterface;
 
 interface UserFactoryInterface
 {
