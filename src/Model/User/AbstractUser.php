@@ -85,6 +85,11 @@ abstract class AbstractUser implements UserInterface
 //endregion Fields
 
 //region SECTION: Public
+    /**
+     * @param string $role
+     *
+     * @return UserInterface
+     */
     public function addRole(string $role): UserInterface
     {
         $role = strtoupper($role);
@@ -96,11 +101,19 @@ abstract class AbstractUser implements UserInterface
         return $this;
     }
 
+    /**
+     * @param string $role
+     *
+     * @return bool
+     */
     public function hasRole(string $role): bool
     {
         return in_array(strtoupper($role), $this->getRoles(), true);
     }
 
+    /**
+     * @return UserInterface
+     */
     public function eraseCredentials(): UserInterface
     {
         return $this;
@@ -116,6 +129,9 @@ abstract class AbstractUser implements UserInterface
         return $this->lastLogin;
     }
 
+    /**
+     * @return string
+     */
     public function getFio(): string
     {
         $fi = ($this->surname !== '' && $this->name !== '') ? $this->surname.' '.mb_substr($this->name, 0, 1, 'utf-8').'.' : '';
@@ -134,16 +150,25 @@ abstract class AbstractUser implements UserInterface
         return $this->username;
     }
 
+    /**
+     * @return array
+     */
     public function getRoles(): array
     {
         return $this->roles;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSalt(): ?string
     {
         return $this->salt;

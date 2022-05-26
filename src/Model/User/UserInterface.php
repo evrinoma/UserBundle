@@ -34,6 +34,9 @@ interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswo
      */
     public function getLastLogin(): ?DateTimeImmutable;
 
+    /**
+     * @return string
+     */
     public function getFio(): string;
 
     /**
