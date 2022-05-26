@@ -26,6 +26,7 @@ services:
   evrinoma.user.command.manager:
     class: Evrinoma\UserBundle\Manager\CommandManager
     arguments:
+      - '@evrinoma.user.validator'
       - '@evrinoma.user.repository'
       - '@evrinoma.user.factory'
       - '@evrinoma.user.command.mediator'
@@ -34,6 +35,14 @@ services:
     class: Evrinoma\UserBundle\Manager\QueryManager
     arguments:
       - '@evrinoma.user.repository'
+
+  evrinoma.user.validator:
+    class: Evrinoma\UserBundle\Validator\UserValidator
+    public: true
+    arguments:
+
+  Evrinoma\UserBundle\Validator\UserValidator:
+    alias: evrinoma.user.validator
 
   evrinoma.user.query.mediator:
     class: Evrinoma\UserBundle\Mediator\QueryMediator
