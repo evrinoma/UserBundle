@@ -92,11 +92,11 @@ interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswo
     public function setExpiredAt(?DateTimeImmutable $expiredAt): UserInterface;
 
     /**
-     * @param string $surname
+     * @param string $password
      *
      * @return UserInterface
      */
-    public function setPassword(string $surname): UserInterface;
+    public function setPassword(string $password): UserInterface;
 
     /**
      * @param string $username

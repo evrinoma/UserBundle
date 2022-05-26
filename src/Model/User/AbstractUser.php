@@ -103,7 +103,7 @@ abstract class AbstractUser implements UserInterface
 
     public function eraseCredentials(): UserInterface
     {
-
+        return $this;
     }
 //endregion Public
 
