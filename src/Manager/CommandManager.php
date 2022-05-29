@@ -6,7 +6,6 @@ namespace Evrinoma\UserBundle\Manager;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
 use Evrinoma\UserBundle\Exception\UserCannotBeRemovedException;
-use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
 use Evrinoma\UserBundle\Exception\UserInvalidException;
 use Evrinoma\UserBundle\Exception\UserNotFoundException;
 use Evrinoma\UserBundle\Factory\UserFactoryInterface;
@@ -14,6 +13,7 @@ use Evrinoma\UserBundle\Mediator\CommandMediatorInterface;
 use Evrinoma\UserBundle\Repository\UserCommandRepositoryInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
 use Evrinoma\UtilsBundle\Rest\RestTrait;
+use Evrinoma\UtilsBundle\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class CommandManager implements CommandManagerInterface, RestInterface
@@ -22,13 +22,15 @@ final class CommandManager implements CommandManagerInterface, RestInterface
 
 //region SECTION: Fields
     private UserCommandRepositoryInterface $repository;
+    private ValidatorInterface             $validator;
     private UserFactoryInterface           $factory;
     private CommandMediatorInterface       $mediator;
 //endregion Fields
 
 //region SECTION: Constructor
-    public function __construct(UserCommandRepositoryInterface $repository, UserFactoryInterface $factory, CommandMediatorInterface $mediator)
+    public function __construct(ValidatorInterface $validator, UserCommandRepositoryInterface $repository, UserFactoryInterface $factory, CommandMediatorInterface $mediator)
     {
+        $this->validator  = $validator;
         $this->repository = $repository;
         $this->factory    = $factory;
         $this->mediator   = $mediator;
@@ -49,11 +51,16 @@ final class CommandManager implements CommandManagerInterface, RestInterface
 
         $this->mediator->onCreate($dto, $user);
 
-        try {
-            $this->repository->save($user);
-        } catch (\Exception $e) {
-            throw new UserCannotBeCreatedException($e->getMessage());
+        $errors = $this->validator->validate($user);
+
+        if (count($errors) > 0) {
+
+            $errorsString = (string)$errors;
+
+            throw new UserInvalidException($errorsString);
         }
+
+        $this->repository->save($user);
 
         return $user;
     }
@@ -75,11 +82,16 @@ final class CommandManager implements CommandManagerInterface, RestInterface
 
         $this->mediator->onUpdate($dto, $user);
 
-        try {
-            $this->repository->save($user);
-        } catch (\Exception $e) {
-            throw new UserCannotBeSavedException($e->getMessage());
+        $errors = $this->validator->validate($user);
+
+        if (count($errors) > 0) {
+
+            $errorsString = (string)$errors;
+
+            throw new UserInvalidException($errorsString);
         }
+
+        $this->repository->save($user);
 
         return $user;
     }
