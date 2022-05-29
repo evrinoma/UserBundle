@@ -2,42 +2,38 @@
 
 namespace Evrinoma\UserBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\ORMInvalidArgumentException;
+use Doctrine\Persistence\ManagerRegistry;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
 use Evrinoma\UserBundle\Exception\UserNotFoundException;
 use Evrinoma\UserBundle\Exception\UserProxyException;
 use Evrinoma\UserBundle\Mediator\QueryMediatorInterface;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
-use Doctrine\ORM\ORMInvalidArgumentException;
-use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Evrinoma\UserBundle\Model\User\UserInterface;
 
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
 //region SECTION: Fields
-    private EntityManagerInterface $entityManager;
     private QueryMediatorInterface $mediator;
-    private UserManagerInterface   $userManager;
 //endregion Fields
 
 //region SECTION: Constructor
     /**
-     * @param UserManagerInterface $userManager
+     * @param ManagerRegistry        $registry
+     * @param string                 $entityClass
+     * @param QueryMediatorInterface $mediator
      */
-    public function __construct(EntityManagerInterface $entityManager, QueryMediatorInterface $mediator, UserManagerInterface $userManager)
+    public function __construct(ManagerRegistry $registry, string $entityClass, QueryMediatorInterface $mediator)
     {
-        $this->entityManager = $entityManager;
-        $this->userManager   = $userManager;
-        $this->mediator      = $mediator;
+        parent::__construct($registry, $entityClass);
+        $this->mediator = $mediator;
     }
 
 //endregion Constructor
-
-//region SECTION: Protected
-//endregion Protected
 
 //region SECTION: Public
     /**
@@ -79,7 +75,7 @@ class UserRepository implements UserRepositoryInterface
     {
         $em = $this->getEntityManager();
 
-        $user = $em->getReference($this->getUserManager()->getClass(), $id);
+        $user = $em->getReference($this->getEntityName(), $id);
 
         if (!$em->contains($user)) {
             throw new UserProxyException("Proxy doesn't exist with $id");
@@ -88,18 +84,6 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 //endregion Public
-
-//region SECTION: Private
-    private function getEntityManager(): EntityManagerInterface
-    {
-        return $this->entityManager;
-    }
-
-    private function getUserManager(): UserManagerInterface
-    {
-        return $this->userManager;
-    }
-//endregion Private
 
 //region SECTION: Find Filters Repository
     /**
@@ -114,7 +98,9 @@ class UserRepository implements UserRepositoryInterface
 
         $this->mediator->createQuery($dto, $criteria);
 
-        $users = $this->getEntityManager()->getRepository($this->getUserManager()->getClass())->matching($criteria)->toArray();
+        // $users = $this->getEntityManager()->getRepository($this->getUserManager()->getClass())->matching($criteria)->toArray();
+
+        $users = null;
 
         if (count($users) === 0) {
             throw new UserNotFoundException("Cannot find users by findByCriteria");
@@ -133,8 +119,8 @@ class UserRepository implements UserRepositoryInterface
      */
     public function find($id, $lockMode = null, $lockVersion = null): UserInterface
     {
-        /** @var UserInterface $user */
-        $user = $this->getEntityManager()->getRepository($this->getUserManager()->getClass())->find($id);
+        /** @var UserInterface $fcr */
+        $user = parent::find($id);
 
         if ($user === null) {
             throw new UserNotFoundException("Cannot find user with id $id");
