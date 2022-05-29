@@ -4,7 +4,8 @@
 namespace Evrinoma\UserBundle\Constraint\Property;
 
 use Evrinoma\UtilsBundle\Constraint\Property\ConstraintInterface;
-use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 final class Password implements ConstraintInterface
 {
@@ -12,7 +13,8 @@ final class Password implements ConstraintInterface
     public function getConstraints(): array
     {
         return [
-            new UserPassword(),
+            new NotNull(),
+            new NotBlank(),
         ];
     }
 
