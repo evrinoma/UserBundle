@@ -102,6 +102,18 @@ abstract class AbstractUser implements UserInterface
     }
 
     /**
+     * @param array $roles
+     *
+     * @return UserInterface
+     */
+    public function setRoles(array $roles): UserInterface
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
      * @param string $role
      *
      * @return bool

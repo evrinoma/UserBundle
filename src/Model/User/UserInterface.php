@@ -107,4 +107,11 @@ interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswo
      * @return UserInterface
      */
     public function setUsername(string $username): UserInterface;
+
+    /**
+     * @param array $roles
+     *
+     * @return UserInterface
+     */
+    public function setRoles(array $roles): UserInterface;
 }
