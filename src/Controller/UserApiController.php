@@ -2,15 +2,15 @@
 
 namespace Evrinoma\UserBundle\Controller;
 
-use Evrinoma\UserBundle\Dto\UserApiDto;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Evrinoma\DtoBundle\Factory\FactoryDtoInterface;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
 use Evrinoma\UserBundle\Exception\UserInvalidException;
 use Evrinoma\UserBundle\Exception\UserNotFoundException;
 use Evrinoma\UserBundle\Manager\CommandManagerInterface;
 use Evrinoma\UserBundle\Manager\QueryManagerInterface;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Evrinoma\DtoBundle\Factory\FactoryDtoInterface;
+use Evrinoma\UserBundle\PreValidator\DtoPreValidator;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
 use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
@@ -24,8 +24,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class UserApiController extends AbstractApiController implements ApiControllerInterface
 {
 //region SECTION: Fields
-    private string $dtoClass = UserApiDto::class;
-
+    private string $dtoClass;
     /**
      * @var FactoryDtoInterface
      */
@@ -43,16 +42,22 @@ final class UserApiController extends AbstractApiController implements ApiContro
      * @var QueryManagerInterface|RestInterface
      */
     private QueryManagerInterface $queryManager;
+    /**
+     * @var DtoPreValidator
+     */
+    private DtoPreValidator $preValidator;
 //endregion Fields
 
 //region SECTION: Constructor
-    public function __construct(SerializerInterface $serializer, RequestStack $requestStack, FactoryDtoInterface $factoryDto, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager)
+    public function __construct(SerializerInterface $serializer, RequestStack $requestStack, FactoryDtoInterface $factoryDto, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidator $preValidator, string $dtoClass)
     {
         parent::__construct($serializer);
         $this->request        = $requestStack->getCurrentRequest();
         $this->factoryDto     = $factoryDto;
         $this->commandManager = $commandManager;
         $this->queryManager   = $queryManager;
+        $this->dtoClass       = $dtoClass;
+        $this->preValidator   = $preValidator;
     }
 //endregion Constructor
 
@@ -69,7 +74,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *             @OA\Schema(
      *               example={
      *                  "class":"Evrinoma\UserBundle\Dto\UserApiDto",
-     *                  "username": "nikolns",
+     *                  "username":"nikolns",
      *                  "email":"nikolns@ite-ng.ru",
      *                  "password":"1234",
      *                  "active":"b",
@@ -104,6 +109,8 @@ final class UserApiController extends AbstractApiController implements ApiContro
 
         $this->commandManager->setRestCreated();
         try {
+            $this->preValidator->onPost($userApiDto);
+
             $json = [];
             $em   = $this->getDoctrine()->getManager();
 
@@ -168,18 +175,16 @@ final class UserApiController extends AbstractApiController implements ApiContro
         $commandManager = $this->commandManager;
 
         try {
-            if ($userApiDto->hasUsername()) {
-                $json = [];
-                $em   = $this->getDoctrine()->getManager();
+            $this->preValidator->onPut($userApiDto);
 
-                $em->transactional(
-                    function () use ($userApiDto, $commandManager, &$json) {
-                        $json = $commandManager->put($userApiDto);
-                    }
-                );
-            } else {
-                throw new UserInvalidException('The Dto has\'t ID or class invalid');
-            }
+            $json = [];
+            $em   = $this->getDoctrine()->getManager();
+
+            $em->transactional(
+                function () use ($userApiDto, $commandManager, &$json) {
+                    $json = $commandManager->put($userApiDto);
+                }
+            );
         } catch (\Exception $e) {
             $json = $this->setRestStatus($this->commandManager, $e);
         }
@@ -226,19 +231,17 @@ final class UserApiController extends AbstractApiController implements ApiContro
         $this->commandManager->setRestAccepted();
 
         try {
-            if ($userApiDto->hasId()) {
-                $json = [];
-                $em   = $this->getDoctrine()->getManager();
+            $this->preValidator->onDelete($userApiDto);
 
-                $em->transactional(
-                    function () use ($userApiDto, $commandManager, &$json) {
-                        $commandManager->delete($userApiDto);
-                        $json = ['OK'];
-                    }
-                );
-            } else {
-                throw new UserInvalidException('The Dto has\'t username or class invalid');
-            }
+            $json = [];
+            $em   = $this->getDoctrine()->getManager();
+
+            $em->transactional(
+                function () use ($userApiDto, $commandManager, &$json) {
+                    $commandManager->delete($userApiDto);
+                    $json = ['OK'];
+                }
+            );
         } catch (\Exception $e) {
             $json = $this->setRestStatus($this->commandManager, $e);
         }
@@ -305,6 +308,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
     }
 
 //region SECTION: Getters/Setters
+
     /**
      * @Rest\Get("/api/user", options={"expose"=true}, name="api_user")
      * @OA\Get(
@@ -370,6 +374,5 @@ final class UserApiController extends AbstractApiController implements ApiContro
 
         return ['errors' => $e->getMessage()];
     }
-//endregion Getters/Setters
 //endregion Getters/Setters
 }
