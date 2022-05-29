@@ -5,6 +5,9 @@ namespace Evrinoma\UserBundle\Tests\Functional\Action;
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
 use Evrinoma\UserBundle\Dto\UserApiDto;
 use Evrinoma\UserBundle\Tests\Functional\Helper\BaseUserTestTrait;
+use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Id;
+use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Name;
+use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Password;
 use Evrinoma\UtilsBundle\Model\ActiveModel;
 use PHPUnit\Framework\Assert;
 
@@ -29,16 +32,17 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     protected static function defaultData(): array
     {
         return [
-            "id"    => '1',
-            "class" => static::getDtoClass(),
-            "username"   => "nikolns",
-            "email"      => "nikolns@ite-ng.ru",
-            "password"   => "1234",
+            "id"         => Id::value(),
+            "class"      => static::getDtoClass(),
+            "username"   => "IIvanov",
+            "email"      => "IIvanov@ite-ng.ru",
+            "password"   => Password::value(),
             "active"     => "b",
-            "name"       => "Ivan",
+            "name"       => Name::value(),
             "surname"    => "Ivanov",
             "patronymic" => "Ivanovich",
             "expired_at" => "2021-12-30",
+            "roles"      => ["A", "B", "C"],
         ];
     }
 //endregion Protected
@@ -62,60 +66,86 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 
     public function actionDelete(): void
     {
-        $find = $this->assertGet(1);
+        $find = $this->assertGet(Id::value());
 
         Assert::assertEquals(ActiveModel::ACTIVE, $find['data']['active']);
 
-        $this->delete(1);
+        $this->delete(Id::value());
         $this->testResponseStatusAccepted();
 
-        $delete = $this->assertGet(1);
+        $delete = $this->assertGet(Id::value());
 
         Assert::assertEquals(ActiveModel::DELETED, $delete['data']['active']);
     }
 
     public function actionPut(): void
     {
+        $find = $this->assertGet(Id::value());
 
+        $updated = $this->put(static::getDefault());
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $updated);
+        Assert::assertNotEquals($updated['data'], $find['data']);
+
+        $criteria = $this->get(Id::value());
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $criteria);
+        Assert::assertEquals($updated['data'], $criteria['data']);
     }
 
     public function actionGet(): void
     {
-
+        $find = $this->assertGet(Id::value());
     }
 
     public function actionGetNotFound(): void
     {
-
+        $response = $this->get(Id::wrong());
+        Assert::assertArrayHasKey('data', $response);
+        $this->testResponseStatusNotFound();
     }
 
     public function actionDeleteNotFound(): void
     {
-
+        $response = $this->delete(Id::wrong());
+        Assert::assertArrayHasKey('data', $response);
+        $this->testResponseStatusNotFound();
     }
 
     public function actionDeleteUnprocessable(): void
     {
-
+        $this->delete(Id::empty());
+        $this->testResponseStatusUnprocessable();
     }
 
     public function actionPutNotFound(): void
     {
-
+        $updated = $this->put(static::getDefault(['id' => Id::wrong()]));
+        $this->testResponseStatusNotFound();
     }
 
     public function actionPutUnprocessable(): void
     {
-
+        $updated = $this->put(static::getDefault(['id' => Id::empty()]));
+        $this->testResponseStatusUnprocessable();
     }
 
     public function actionPostDuplicate(): void
     {
+        $this->createUser();
+        $this->testResponseStatusCreated();
 
+        $this->createUser();
+        $this->testResponseStatusConflict();
     }
 
     public function actionPostUnprocessable(): void
     {
+        $this->postWrong();
+        $this->testResponseStatusUnprocessable();
+
+        $this->post(static::getDefault(['password' => Password::wrong()]));
+        $this->testResponseStatusUnprocessable();
     }
 //endregion Public
 }
