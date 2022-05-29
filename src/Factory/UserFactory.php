@@ -32,29 +32,8 @@ class UserFactory implements UserFactoryInterface
     public function create(UserApiDtoInterface $dto): UserInterface
     {
         /** @var BaseUser $user */
-        $user = new self::$entityClass;
 
-        $user
-            ->setUsername($dto->getUsername())
-            ->setSurname($dto->getUsername())
-            ->setEmail($dto->getEmail())
-            ->addRole(RoleInterface::ROLE_DEFAULT)
-            ->setName($dto->getName())
-            ->setSurname($dto->getSurname())
-            ->setPatronymic($dto->getPatronymic())
-            ->setActiveToActive();
-
-        if ($dto->hasExpiredAt()) {
-            if ($dto->emptyExpiredAt()) {
-                $user->setExpiredAt(null);
-            } else {
-                $user->setExpiredAt(new \DateTimeImmutable($dto->getExpiredAt()));
-            }
-        } else {
-            throw new UserInvalidException();
-        }
-
-        return $user;
+        return new self::$entityClass;
     }
 //endregion Public
 }
