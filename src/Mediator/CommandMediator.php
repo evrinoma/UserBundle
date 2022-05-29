@@ -2,85 +2,106 @@
 
 namespace Evrinoma\UserBundle\Mediator;
 
-
-use App\Security\AccessControlSystem\AccessControl;
-use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
-use Evrinoma\UserBundle\Model\User\UserInterface;
-use Evrinoma\UserBundle\Voter\RoleInterface;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
-use Evrinoma\SecurityBundle\AccessControl\AccessControlInterface;
-use FOS\UserBundle\Model\FosUserInterface;
-use FOS\UserBundle\Model\UserManagerInterface;
+use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
+use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
+use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
+use Evrinoma\UserBundle\Model\User\UserInterface;
+use Evrinoma\UserBundle\RoleControl\RoleControlInterface;
+use Evrinoma\UserBundle\Voter\RoleInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 class CommandMediator implements CommandMediatorInterface
 {
-
-//region SECTION: Fields
-    private UserManagerInterface $userManager;
+    //region SECTION: Fields
     /**
-     * @var AccessControlInterface|AccessControl
+     * @var RoleControlInterface
      */
-    private AccessControlInterface $accessControl;
+    private RoleControlInterface $roleControl;
+    /**
+     * @var UserPasswordHasherInterface
+     */
+    private UserPasswordHasherInterface $passwordHasher;
 //endregion Fields
 
 //region SECTION: Constructor
-    public function __construct(UserManagerInterface $userManager, AccessControlInterface $accessControl)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, RoleControlInterface $roleControl)
     {
-        $this->userManager   = $userManager;
-        $this->accessControl = $accessControl;
+        $this->passwordHasher = $passwordHasher;
+        $this->roleControl    = $roleControl;
     }
 //endregion Constructor
 
 //region SECTION: Public
     public function onUpdate(DtoInterface $dto, $entity): UserInterface
     {
-        $this->accessControl->denyAccessUnlessGranted(RoleInterface::ROLE_USER_EDIT, $entity);
-
-        /** @var UserInterface $entity */
         /** @var UserApiDtoInterface $dto */
-//        $entity->setPlainPassword($dto->getPassword());
-//        $this->userManager->updateCanonicalFields($entity);
-//        $this->userManager->updatePassword($entity);
-//
-//        $entity->setEnabled($dto->isActive());
-//
-//        if ($dto->hasName() && $dto->hasSurname()) {
-//            $entity->setName(trim($dto->getName()));
-//            $entity->setSurname(trim($dto->getSurname()));
-//        } else {
-//            throw new UserCannotBeSavedException();
-//        }
-//
-//        $entity->setPatronymic(trim($dto->getPatronymic()));
-//
-//        if ($dto->hasExpiredAt()) {
-//            if ($dto->emptyExpiredAt()) {
-//                $entity->setExpiredAt(null);
-//            } else {
-//                $entity->setExpiredAt(new \DateTimeImmutable($dto->getExpiredAt()));
-//            }
-//        }
-//
-//        if ($dto->hasRoles()) {
-//            $rolesUnRevoke = $this->accessControl->revokePrivileges($entity->getRoles());
-//            $rolesGrant    = $this->accessControl->grantPrivileges($dto->getRoles());
-//
-//            $entity->setRoles(array_merge($rolesGrant, $rolesUnRevoke));
-//        }
+        $entity
+            ->setUsername($dto->getUsername())
+            ->setSurname($dto->getUsername())
+            ->setEmail($dto->getEmail())
+            ->setName($dto->getName())
+            ->setSurname($dto->getSurname())
+            ->setPatronymic($dto->getPatronymic())
+            ->setActive($dto->getActive());
+
+        if ($dto->hasExpiredAt()) {
+            if ($dto->emptyExpiredAt()) {
+                $entity->setExpiredAt(null);
+            } else {
+                $entity->setExpiredAt(new \DateTimeImmutable($dto->getExpiredAt()));
+            }
+        } else {
+            throw new UserCannotBeSavedException();
+        }
+
+        if ($dto->hasRoles()) {
+            $rolesUnRevoke = $this->roleControl->revokePrivileges($entity->getRoles());
+            $rolesGrant    = $this->roleControl->grantPrivileges($dto->getRoles());
+
+            $entity->setRoles(array_merge($rolesGrant, $rolesUnRevoke));
+        }
+
+        /** @var UserApiDtoInterface $dto */
+        if ($dto->hasPassword()) {
+            $entity->setPassword($this->passwordHasher->hashPassword($entity, $dto->getPassword()));
+        }
 
         return $entity;
     }
 
     public function onDelete(DtoInterface $dto, $entity): void
     {
-        $this->accessControl->denyAccessUnlessGranted(RoleInterface::ROLE_USER_EDIT, $entity);
-
-        /** @var FosUserInterface $entity */
-        $entity->setEnabled($dto->isActive());
+        $entity->setActiveToDelete();
     }
 
     public function onCreate(DtoInterface $dto, $entity): UserInterface
     {
-        $this->accessControl->denyAccessUnlessGranted(RoleInterface::ROLE_USER_CREATE, $entity);
+        /** @var UserApiDtoInterface $dto */
+        $entity
+            ->setUsername($dto->getUsername())
+            ->setSurname($dto->getUsername())
+            ->setEmail($dto->getEmail())
+            ->setName($dto->getName())
+            ->setSurname($dto->getSurname())
+            ->setPatronymic($dto->getPatronymic())
+            ->addRole(RoleInterface::ROLE_USER)
+            ->setActiveToActive();
+
+        if ($dto->hasExpiredAt()) {
+            if ($dto->emptyExpiredAt()) {
+                $entity->setExpiredAt(null);
+            } else {
+                $entity->setExpiredAt(new \DateTimeImmutable($dto->getExpiredAt()));
+            }
+        } else {
+            throw new UserCannotBeCreatedException();
+        }
+
+        /** @var UserApiDtoInterface $dto */
+        if ($dto->hasPassword()) {
+            $entity->setPassword($this->passwordHasher->hashPassword($entity, $dto->getPassword()));
+        }
 
         return $entity;
     }
