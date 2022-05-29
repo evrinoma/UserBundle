@@ -101,9 +101,10 @@ class EvrinomaUserExtension extends Extension
                 $config['decorates'],
                 [
                     '' => [
-                        'command'       => 'evrinoma.'.$this->getAlias().'.decorates.command',
-                        'query'         => 'evrinoma.'.$this->getAlias().'.decorates.query',
-                        'pre_validator' => 'evrinoma.'.$this->getAlias().'.decorates.pre.validator',
+                        'command'          => 'evrinoma.'.$this->getAlias().'.decorates.command',
+                        'query'            => 'evrinoma.'.$this->getAlias().'.decorates.query',
+                        'pre_validator'    => 'evrinoma.'.$this->getAlias().'.decorates.pre.validator',
+                        'pre_checker_post' => 'evrinoma.'.$this->getAlias().'.decorates.pre.checker.post',
                     ],
                 ]
             );

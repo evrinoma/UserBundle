@@ -38,6 +38,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('command')->defaultNull()->info('This option is used for command user decoration')->end()
             ->scalarNode('query')->defaultNull()->info('This option is used for query user decoration')->end()
             ->scalarNode('pre_validator')->defaultNull()->info('This option is used for pre_validator user decoration')->end()
+            ->scalarNode('pre_checker_post')->defaultNull()->info('This option is used for pre_checker_post user decoration')->end()
             ->end()
             ->end()->end();
 
