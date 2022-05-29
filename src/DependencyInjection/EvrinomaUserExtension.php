@@ -3,6 +3,7 @@
 namespace Evrinoma\UserBundle\DependencyInjection;
 
 
+use Evrinoma\UserBundle\RoleControl\BasicRoleControl;
 use Evrinoma\UserBundle\DependencyInjection\Compiler\Constraint\Property\UserPass;
 use Evrinoma\UserBundle\Dto\UserApiDto;
 use Evrinoma\UserBundle\EvrinomaUserBundle;
@@ -20,10 +21,11 @@ class EvrinomaUserExtension extends Extension
     use HelperTrait;
 
 //region SECTION: Fields
-    public const ENTITY              = 'Evrinoma\UserBundle\Entity';
-    public const ENTITY_FACTORY_USER = 'Evrinoma\UserBundle\Factory\UserFactory';
-    public const ENTITY_BASE_USER    = self::ENTITY.'\User\BaseUser';
-    public const DTO_BASE_USER       = UserApiDto::class;
+    public const ENTITY                 = 'Evrinoma\UserBundle\Entity';
+    public const ENTITY_FACTORY_USER    = 'Evrinoma\UserBundle\Factory\UserFactory';
+    public const ENTITY_BASE_USER       = self::ENTITY.'\User\BaseUser';
+    public const DTO_BASE_USER          = UserApiDto::class;
+    public const ROLE_CONTROL_BASE_USER = BasicRoleControl::class;
     /**
      * @var array
      */
@@ -95,6 +97,8 @@ class EvrinomaUserExtension extends Extension
 
         $this->wireConstraintTag($container);
 
+        $this->wireRoleControlSystem($container, $config['role_control']);
+
         if ($config['decorates']) {
             $this->remapParametersNamespaces(
                 $container,
@@ -113,6 +117,17 @@ class EvrinomaUserExtension extends Extension
 
 //endregion Public
 //region SECTION: Private
+    private function wireRoleControlSystem(ContainerBuilder $container, string $class): void
+    {
+        $definitionRoleControl = new Definition($class);
+        $alias                 = new Alias('evrinoma.'.$this->getAlias().'.role.control.system');
+        $container->addDefinitions(['evrinoma.'.$this->getAlias().'.role.control.system' => $definitionRoleControl]);
+        $container->addAliases([$class => $alias]);
+        $container->addAliases(["Evrinoma\UserBundle\RoleControl\RoleControlInterface" => $alias]);
+        $definitionCommandMediator = $container->getDefinition('evrinoma.'.$this->getAlias().'.command.mediator');
+        $definitionCommandMediator->setArgument(1, $definitionRoleControl);
+    }
+
     private function wireConstraintTag(ContainerBuilder $container): void
     {
         foreach ($container->getDefinitions() as $key => $definition) {
