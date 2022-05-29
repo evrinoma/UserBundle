@@ -66,3 +66,14 @@ services:
 
   Evrinoma\UserBundle\Mediator\CommandMediatorInterface:
     alias: evrinoma.user.command.mediator
+
+  evrinoma.user.pre.validator:
+    class: Evrinoma\UserBundle\PreValidator\DtoPreValidator
+    public: true
+    arguments:
+
+  Evrinoma\UserBundle\PreValidator\DtoPreValidator:
+    alias: evrinoma.user.pre.validator
+
+  Evrinoma\UserBundle\PreValidator\DtoPreValidatorInterface:
+    alias: evrinoma.user.pre.validator
