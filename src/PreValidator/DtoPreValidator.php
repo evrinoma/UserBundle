@@ -45,6 +45,14 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
         if (!$dto->hasUsername()) {
             throw new UserInvalidException('The Dto has\'t UserName');
         }
+
+        if ($dto->hasPassword()) {
+            try {
+                $this->postPreChecker->check($dto);
+            } catch (\Exception $e) {
+                throw new UserInvalidException($e->getMessage());
+            }
+        }
     }
 
     public function onDelete(DtoInterface $dto): void
