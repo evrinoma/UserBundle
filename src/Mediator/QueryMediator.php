@@ -2,28 +2,53 @@
 
 namespace Evrinoma\UserBundle\Mediator;
 
-use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\QueryBuilder;
+use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
+use Evrinoma\UserBundle\Repository\AliasInterface;
+use Evrinoma\UtilsBundle\Mediator\AbstractQueryMediator;
 
-class QueryMediator implements QueryMediatorInterface
+class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterface
 {
+//region SECTION: Fields
+    protected static string $alias = AliasInterface::USER;
+//endregion Fields
 //region SECTION: Public
+
     /**
-     * @param UserApiDtoInterface $dto
-     * @param Criteria            $criteria
+     * @param DtoInterface $dto
+     * @param QueryBuilder $builder
+     *
+     * @return mixed
      */
-    public function createQuery(UserApiDtoInterface $dto, Criteria $criteria): void
+    public function createQuery(DtoInterface $dto, QueryBuilder $builder): void
     {
+        $alias = $this->alias();
+
+        /** @var $dto UserApiDtoInterface */
         if ($dto->hasId()) {
-            $criteria->andWhere(Criteria::expr()->eq('id', $dto->getId()));
+            $builder
+                ->andWhere($alias.'.id = :id')
+                ->setParameter('id', $dto->getId());
         }
 
         if ($dto->hasUsername()) {
-            $criteria->andWhere(Criteria::expr()->contains('username', $dto->getUsername()));
+            $builder
+                ->andWhere($alias.'.username = :username')
+                ->setParameter('username', $dto->getUsername());
         }
 
         if ($dto->hasEmail()) {
-            $criteria->andWhere(Criteria::expr()->contains('email', $dto->getEmail()));
+            $builder
+                ->andWhere($alias.'.email = :email')
+                ->setParameter('email', $dto->getEmail());
+        }
+
+        if ($dto->hasActive()) {
+            $builder
+                ->andWhere($alias.'.active = :active')
+                ->setParameter('active', $dto->getActive());
         }
     }
 //endregion Public

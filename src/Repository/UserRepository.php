@@ -3,7 +3,6 @@
 namespace Evrinoma\UserBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\ORMInvalidArgumentException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -94,13 +93,11 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
      */
     public function findByCriteria(UserApiDtoInterface $dto): array
     {
-        $criteria = Criteria::create();
+        $builder = $this->createQueryBuilder($this->mediator->alias());
 
-        $this->mediator->createQuery($dto, $criteria);
+        $this->mediator->createQuery($dto, $builder);
 
-        // $users = $this->getEntityManager()->getRepository($this->getUserManager()->getClass())->matching($criteria)->toArray();
-
-        $users = null;
+        $users = $this->mediator->getResult($dto, $builder);
 
         if (count($users) === 0) {
             throw new UserNotFoundException("Cannot find users by findByCriteria");
