@@ -8,9 +8,10 @@ use Evrinoma\TestUtilsBundle\ValueObject\Common\AbstractName;
 class Name extends AbstractName
 {
 //region SECTION: Fields
-    protected static string $value = "Ivan";
-
+    protected static string $value   = "Ivan";
+    protected static string $default = "Ivan";
 //endregion Fields
+//region SECTION: Public
     public static function value(): string
     {
         return "Test ".parent::value();
@@ -20,4 +21,5 @@ class Name extends AbstractName
     {
         return static::$value.'00';
     }
+//endregion Public
 }

@@ -35,13 +35,13 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     protected static function defaultData(): array
     {
         return [
-            "id"         => Id::value(),
+            "id"         => Id::default(),
             "class"      => static::getDtoClass(),
             "username"   => "IIvanov",
-            "email"      => "IIvanov@ite-ng.ru",
-            "password"   => Password::value(),
-            "active"     => Active::block(),
-            "name"       => Name::value(),
+            "email"      => Email::default(),
+            "password"   => Password::default(),
+            "active"     => Active::default(),
+            "name"       => Name::default(),
             "surname"    => "Ivanov",
             "patronymic" => "Ivanovich",
             "expired_at" => "2021-12-30",
@@ -141,7 +141,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     {
         $find = $this->assertGet(Id::value());
 
-        $updated = $this->put(static::getDefault());
+        $updated = $this->put(static::getDefault(["id" => Id::value()]));
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $updated);
         Assert::assertNotEquals($updated['data'], $find['data']);

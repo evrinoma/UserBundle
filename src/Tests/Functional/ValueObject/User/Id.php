@@ -6,4 +6,5 @@ use Evrinoma\TestUtilsBundle\ValueObject\Common\AbstractId;
 
 class Id extends AbstractId
 {
+    protected static string $default = "2";
 }
