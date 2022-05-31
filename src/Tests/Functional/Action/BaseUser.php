@@ -5,9 +5,12 @@ namespace Evrinoma\UserBundle\Tests\Functional\Action;
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
 use Evrinoma\UserBundle\Dto\UserApiDto;
 use Evrinoma\UserBundle\Tests\Functional\Helper\BaseUserTestTrait;
+use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Active;
+use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Email;
 use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Id;
 use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Name;
 use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Password;
+use Evrinoma\UserBundle\Tests\Functional\ValueObject\User\Username;
 use Evrinoma\UtilsBundle\Model\ActiveModel;
 use PHPUnit\Framework\Assert;
 
@@ -37,7 +40,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
             "username"   => "IIvanov",
             "email"      => "IIvanov@ite-ng.ru",
             "password"   => Password::value(),
-            "active"     => "b",
+            "active"     => Active::block(),
             "name"       => Name::value(),
             "surname"    => "Ivanov",
             "patronymic" => "Ivanovich",
@@ -56,12 +59,68 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 
     public function actionCriteriaNotFound(): void
     {
+        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::value()]);
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $response);
+        Assert::assertCount(1, $response['data']);
+        $entity = $response['data'][0];
+        $this->checkUser($entity);
+        Assert::assertEquals(Username::value(), $entity['username']);
+        Assert::assertEquals(Email::value(), $entity['email']);
+        Assert::assertEquals(Id::value(), $entity['id']);
+        Assert::assertEquals(Active::value(), $entity['active']);
 
+        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::wrong()]);
+        $response = $this->criteria($query);
+        $this->testResponseStatusNotFound();
+        Assert::assertArrayHasKey('data', $response);
     }
 
     public function actionCriteria(): void
     {
+        $query    = static::getDefault(['id' => Id::empty(), 'username' => Username::value(), 'email' => Email::empty(), 'active' => Active::empty()]);
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $response);
+        Assert::assertCount(1, $response['data']);
+        $entity = $response['data'][0];
+        $this->checkUser($entity);
+        Assert::assertEquals(Username::value(), $entity['username']);
 
+        $query    = static::getDefault(['id' => Id::empty(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::empty()]);
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $response);
+        Assert::assertCount(1, $response['data']);
+        $entity = $response['data'][0];
+        $this->checkUser($entity);
+        Assert::assertEquals(Username::value(), $entity['username']);
+        Assert::assertEquals(Email::value(), $entity['email']);
+
+
+        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::empty()]);
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $response);
+        Assert::assertCount(1, $response['data']);
+        $entity = $response['data'][0];
+        $this->checkUser($entity);
+        Assert::assertEquals(Username::value(), $entity['username']);
+        Assert::assertEquals(Email::value(), $entity['email']);
+        Assert::assertEquals(Id::value(), $entity['id']);
+
+        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::value()]);
+        $response = $this->criteria($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $response);
+        Assert::assertCount(1, $response['data']);
+        $entity = $response['data'][0];
+        $this->checkUser($entity);
+        Assert::assertEquals(Username::value(), $entity['username']);
+        Assert::assertEquals(Email::value(), $entity['email']);
+        Assert::assertEquals(Id::value(), $entity['id']);
+        Assert::assertEquals(Active::value(), $entity['active']);
     }
 
     public function actionDelete(): void
