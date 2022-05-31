@@ -7,7 +7,7 @@ use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
 use Evrinoma\UserBundle\Model\User\UserInterface;
-use Evrinoma\UserBundle\RoleControl\RoleControlInterface;
+use Evrinoma\UserBundle\Role\RoleMediatorInterface;
 use Evrinoma\UserBundle\Voter\RoleInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -15,9 +15,9 @@ class CommandMediator implements CommandMediatorInterface
 {
     //region SECTION: Fields
     /**
-     * @var RoleControlInterface
+     * @var RoleMediatorInterface
      */
-    private RoleControlInterface $roleControl;
+    private RoleMediatorInterface $roleControl;
     /**
      * @var UserPasswordHasherInterface
      */
@@ -25,7 +25,7 @@ class CommandMediator implements CommandMediatorInterface
 //endregion Fields
 
 //region SECTION: Constructor
-    public function __construct(UserPasswordHasherInterface $passwordHasher, RoleControlInterface $roleControl)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, RoleMediatorInterface $roleControl)
     {
         $this->passwordHasher = $passwordHasher;
         $this->roleControl    = $roleControl;

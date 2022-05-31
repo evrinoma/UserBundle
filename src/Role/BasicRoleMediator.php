@@ -1,8 +1,8 @@
 <?php
 
-namespace Evrinoma\UserBundle\RoleControl;
+namespace Evrinoma\UserBundle\Role;
 
-final class BasicRoleControl implements RoleControlInterface
+final class BasicRoleMediator implements RoleMediatorInterface
 {
 //region SECTION: Public
     public function revokePrivileges(array $roles): array

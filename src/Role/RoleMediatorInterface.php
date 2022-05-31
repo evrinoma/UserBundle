@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Evrinoma\UserBundle\RoleControl;
+namespace Evrinoma\UserBundle\Role;
 
-interface RoleControlInterface
+interface RoleMediatorInterface
 {
 //region SECTION: Public
     public function revokePrivileges(array $roles): array;

@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('entity')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::ENTITY_BASE_USER)->end()
             ->scalarNode('constraints')->defaultTrue()->info('This option is used for enable/disable basic user constraints')->end()
             ->scalarNode('dto')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::DTO_BASE_USER)->info('This option is used for dto class override')->end()
-            ->scalarNode('role_control')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::ROLE_CONTROL_BASE_USER)->info('This option is used for role control system override')->end()
+            ->scalarNode('role_mediator')->cannotBeEmpty()->defaultValue(EvrinomaUserExtension::ROLE_MEDIATOR_BASE_USER)->info('This option is used for role mediator system override')->end()
             ->arrayNode('decorates')->addDefaultsIfNotSet()->children()
             ->scalarNode('command')->defaultNull()->info('This option is used for command user decoration')->end()
             ->scalarNode('query')->defaultNull()->info('This option is used for query user decoration')->end()
