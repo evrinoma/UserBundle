@@ -28,15 +28,20 @@ trait BaseUserTestTrait
     protected function checkResult($entity): void
     {
         Assert::assertArrayHasKey('data', $entity);
-        Assert::assertArrayHasKey('id', $entity['data']);
-        Assert::assertArrayHasKey('username', $entity['data']);
-        Assert::assertArrayHasKey('email', $entity['data']);
-        Assert::assertArrayHasKey('surname', $entity['data']);
-        Assert::assertArrayHasKey('patronymic', $entity['data']);
-        Assert::assertArrayHasKey('password', $entity['data']);
-        Assert::assertArrayHasKey('roles', $entity['data']);
-        Assert::assertArrayHasKey('name', $entity['data']);
-        Assert::assertArrayHasKey('active', $entity['data']);
+        $this->checkUser($entity['data']);
+    }
+
+    protected function checkUser($entity): void
+    {
+        Assert::assertArrayHasKey('id', $entity);
+        Assert::assertArrayHasKey('username', $entity);
+        Assert::assertArrayHasKey('email', $entity);
+        Assert::assertArrayHasKey('surname', $entity);
+        Assert::assertArrayHasKey('patronymic', $entity);
+        Assert::assertArrayHasKey('password', $entity);
+        Assert::assertArrayHasKey('roles', $entity);
+        Assert::assertArrayHasKey('name', $entity);
+        Assert::assertArrayHasKey('active', $entity);
     }
 //endregion Protected
 }
