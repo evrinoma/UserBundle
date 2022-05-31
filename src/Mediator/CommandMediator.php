@@ -13,11 +13,11 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CommandMediator implements CommandMediatorInterface
 {
-    //region SECTION: Fields
+//region SECTION: Fields
     /**
      * @var RoleMediatorInterface
      */
-    private RoleMediatorInterface $roleControl;
+    private RoleMediatorInterface $roleMediator;
     /**
      * @var UserPasswordHasherInterface
      */
@@ -25,10 +25,10 @@ class CommandMediator implements CommandMediatorInterface
 //endregion Fields
 
 //region SECTION: Constructor
-    public function __construct(UserPasswordHasherInterface $passwordHasher, RoleMediatorInterface $roleControl)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, RoleMediatorInterface $roleMediator)
     {
         $this->passwordHasher = $passwordHasher;
-        $this->roleControl    = $roleControl;
+        $this->roleMediator   = $roleMediator;
     }
 //endregion Constructor
 
@@ -56,8 +56,8 @@ class CommandMediator implements CommandMediatorInterface
         }
 
         if ($dto->hasRoles()) {
-            $rolesUnRevoke = $this->roleControl->revokePrivileges($entity->getRoles());
-            $rolesGrant    = $this->roleControl->grantPrivileges($dto->getRoles());
+            $rolesUnRevoke = $this->roleMediator->revokePrivileges($entity->getRoles());
+            $rolesGrant    = $this->roleMediator->grantPrivileges($dto->getRoles());
 
             $entity->setRoles(array_merge($rolesGrant, $rolesUnRevoke));
         }
