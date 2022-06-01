@@ -13,7 +13,7 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
 {
 //region SECTION: Fields
     protected static array $data = [
-        ['username' => 'test1', 'surname' => 'test1', 'email' => 'test1@test.ru', 'last_login' => '2008-10-23 06:21:51', 'password' => 'password1', 'patronymic' => 'test1', 'name' => 'test1', 'active' => 'a', 'expired_at' => null, 'roles' => [RoleInterface::ROLE_SUPER_ADMIN]],
+        ['username' => 'test1', 'surname' => 'test1', 'email' => 'test1@test.ru', 'last_login' => '2008-10-23 06:21:51', 'password' => 'password1', 'patronymic' => 'test1', 'name' => 'test1', 'active' => 'a', 'expired_at' => null, 'roles' => ['ROLE_ADMIN_USER']],
         ['username' => 'test2', 'surname' => 'test2', 'email' => 'test2@test.ru', 'last_login' => '2019-11-23 07:21:52', 'password' => 'password2', 'patronymic' => 'test2', 'name' => 'test2', 'active' => 'b', 'expired_at' => '2008-10-23 10:21:50'],
         ['username' => 'test3', 'surname' => 'test3', 'email' => 'test3@test.ru', 'last_login' => '2019-07-23 08:21:53', 'password' => 'password3', 'patronymic' => 'test3', 'name' => 'test3', 'active' => 'd', 'expired_at' => '2019-07-23 08:21:53'],
         ['username' => 'test4', 'surname' => 'test4', 'email' => 'test4@test.ru', 'last_login' => '2021-12-23 09:21:54', 'password' => 'password4', 'patronymic' => 'test4', 'name' => 'test4', 'active' => 'a', 'expired_at' => '2021-12-24 09:21:54'],
@@ -57,7 +57,7 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
                     ->setLastLogin(new \DateTimeImmutable($record['last_login']));
             }
 
-            $entity->addRole(RoleInterface::ROLE_USER);
+            $entity->addRole('ROLE_REGULAR_USER');
 
             if (isset($record['roles'])) {
                 foreach ($record['roles'] as $role) {

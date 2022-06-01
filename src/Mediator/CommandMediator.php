@@ -85,7 +85,6 @@ class CommandMediator implements CommandMediatorInterface
             ->setName($dto->getName())
             ->setSurname($dto->getSurname())
             ->setPatronymic($dto->getPatronymic())
-            ->addRole(RoleInterface::ROLE_USER)
             ->setActiveToActive();
 
         if ($dto->hasExpiredAt()) {
@@ -96,6 +95,13 @@ class CommandMediator implements CommandMediatorInterface
             }
         } else {
             throw new UserCannotBeCreatedException();
+        }
+
+        if ($dto->hasRoles()) {
+            $rolesUnRevoke = $this->roleMediator->revokePrivileges($entity->getRoles());
+            $rolesGrant    = $this->roleMediator->grantPrivileges($dto->getRoles());
+
+            $entity->setRoles(array_merge($rolesGrant, $rolesUnRevoke));
         }
 
         /** @var UserApiDtoInterface $dto */
