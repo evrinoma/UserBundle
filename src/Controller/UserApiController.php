@@ -93,7 +93,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *               @OA\Property(property="name",type="string"),
      *               @OA\Property(property="surname",type="string"),
      *               @OA\Property(property="patronymic",type="string"),
-     *               @OA\Property(property="expired_at",type="string")
+     *               @OA\Property(property="expired_at",type="string"),
      *               @OA\Property(property="roles",type="array", @OA\Items(type="string"))
      *            )
      *         )
