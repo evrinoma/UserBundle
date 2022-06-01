@@ -79,7 +79,7 @@ abstract class AbstractUser implements UserInterface
     /**
      * @var array
      *
-     * @ORM\Column(name="role", type="array", nullable=true)
+     * @ORM\Column(name="roles", type="array", nullable=true)
      */
     protected array $roles = [];
 //endregion Fields
