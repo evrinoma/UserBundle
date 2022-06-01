@@ -141,7 +141,41 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     {
         $find = $this->assertGet(Id::value());
 
-        $updated = $this->put(static::getDefault(["id" => Id::value()]));
+        $query = static::getDefault(["id" => Id::value()]);
+
+        $updated = $this->put($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $updated);
+        Assert::assertNotEquals($updated['data'], $find['data']);
+
+        $criteria = $this->get(Id::value());
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $criteria);
+        Assert::assertEquals($updated['data'], $criteria['data']);
+
+        unset($query["password"]);
+        $updated = $this->put($query);
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $updated);
+        Assert::assertNotEquals($updated['data'], $find['data']);
+
+        $criteria = $this->get(Id::value());
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $criteria);
+        Assert::assertEquals($updated['data'], $criteria['data']);
+
+
+        $updated = $this->put(static::getDefault(["id" => Id::value(), 'password' => Password::empty()]));
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $updated);
+        Assert::assertNotEquals($updated['data'], $find['data']);
+
+        $criteria = $this->get(Id::value());
+        $this->testResponseStatusOK();
+        Assert::assertArrayHasKey('data', $criteria);
+        Assert::assertEquals($updated['data'], $criteria['data']);
+
+        $updated = $this->put(static::getDefault(["id" => Id::value(), 'password' => Password::nullable()]));
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $updated);
         Assert::assertNotEquals($updated['data'], $find['data']);
