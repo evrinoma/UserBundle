@@ -55,6 +55,15 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     {
         $this->createUser();
         $this->testResponseStatusCreated();
+
+        $query = static::getDefault(['username' => "UsernameA", 'roles"' => []]);
+        $this->post($query);
+        $this->testResponseStatusCreated();
+
+        $query = static::getDefault(['username' => "UsernameB",]);
+        unset($query["roles"]);
+        $this->post($query);
+        $this->testResponseStatusCreated();
     }
 
     public function actionCriteriaNotFound(): void
