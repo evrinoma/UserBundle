@@ -81,7 +81,8 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *                  "name":"Ivan",
      *                  "surname":"Ivanov",
      *                  "patronymic":"Ivanovich",
-     *                  "expired_at":"2021-12-30"
+     *                  "expired_at":"2021-12-30",
+     *                  "roles": {"A","B","C"},
      *                  },
      *               type="object",
      *               @OA\Property(property="class",type="string",default="Evrinoma\UserBundle\Dto\UserApiDto"),
@@ -93,6 +94,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *               @OA\Property(property="surname",type="string"),
      *               @OA\Property(property="patronymic",type="string"),
      *               @OA\Property(property="expired_at",type="string")
+     *               @OA\Property(property="roles",type="array", @OA\Items(type="string"))
      *            )
      *         )
      *     )
