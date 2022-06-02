@@ -2,7 +2,6 @@
 
 namespace Evrinoma\UserBundle\Mediator;
 
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\QueryBuilder;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
@@ -35,14 +34,14 @@ class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterf
 
         if ($dto->hasUsername()) {
             $builder
-                ->andWhere($alias.'.username = :username')
-                ->setParameter('username', $dto->getUsername());
+                ->andWhere($alias.'.username like :username')
+                ->setParameter('username', '%'.$dto->getUsername().'%');
         }
 
         if ($dto->hasEmail()) {
             $builder
-                ->andWhere($alias.'.email = :email')
-                ->setParameter('email', $dto->getEmail());
+                ->andWhere($alias.'.email like :email')
+                ->setParameter('email', '%'.$dto->getEmail().'%');
         }
 
         if ($dto->hasActive()) {
