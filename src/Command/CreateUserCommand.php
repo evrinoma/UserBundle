@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class CreateUserCommand extends Command
+class CreateUserCommand extends Command implements CreateUserCommandInterface
 {
 //region SECTION: Fields
     protected static $defaultName = 'evrinoma:user:create';
@@ -35,42 +35,6 @@ class CreateUserCommand extends Command
             ->setHelp($this->configureHelp());
     }
 
-    protected function configureInputArguments(): array
-    {
-        return [
-            new InputArgument('username', InputArgument::REQUIRED, 'The username'),
-            new InputArgument('email', InputArgument::REQUIRED, 'The email'),
-            new InputArgument('password', InputArgument::REQUIRED, 'The password'),
-            new InputOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive'),
-        ];
-    }
-
-    protected function configureHelp(): string
-    {
-        return <<<'EOT'
-The <info>evrinoma:user:create</info> command creates a user:
-  <info>php %command.full_name% evrinoma</info>
-This interactive shell will ask you for an email and then a password.
-You can alternatively specify the email and password as the second and third arguments:
-  <info>php %command.full_name% evrinoma evrinoma@example.com mypassword</info>
-You can create an inactive user (will not be able to log in):
-  <info>php %command.full_name% thibault --inactive</info>
-EOT;
-    }
-
-    protected function action()
-    {
-
-    }
-
-    protected function getArguments(InputInterface $input)
-    {
-        $this->username = $input->getArgument('username');
-        $this->email    = $input->getArgument('email');
-        $this->password = $input->getArgument('password');
-        $this->inactive = $input->getOption('inactive');
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -85,7 +49,50 @@ EOT;
         return 0;
     }
 
-    protected function initQuestinarium(InputInterface $input): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        $this->initQuestinarium($input);
+
+        foreach ($this->questions as $name => $question) {
+            $answer = $this->getHelper('question')->ask($input, $output, $question);
+            $input->setArgument($name, $answer);
+        }
+    }
+//endregion Protected
+
+//region SECTION: Public
+    public function configureInputArguments(): array
+    {
+        return [
+            new InputArgument('username', InputArgument::REQUIRED, 'The username'),
+            new InputArgument('email', InputArgument::REQUIRED, 'The email'),
+            new InputArgument('password', InputArgument::REQUIRED, 'The password'),
+            new InputOption('inactive', null, InputOption::VALUE_NONE, 'Set the user as inactive'),
+        ];
+    }
+
+    public function configureHelp(): string
+    {
+        return <<<'EOT'
+The <info>evrinoma:user:create</info> command creates a user:
+  <info>php %command.full_name% evrinoma</info>
+This interactive shell will ask you for an email and then a password.
+You can alternatively specify the email and password as the second and third arguments:
+  <info>php %command.full_name% evrinoma evrinoma@example.com mypassword</info>
+You can create an inactive user (will not be able to log in):
+  <info>php %command.full_name% thibault --inactive</info>
+EOT;
+    }
+
+    public function action()
+    {
+
+    }
+
+    public function initQuestinarium(InputInterface $input): void
     {
         if (!$input->getArgument('username')) {
             $question = new Question('Please choose a username:');
@@ -124,18 +131,15 @@ EOT;
             $this->questions['password'] = $question;
         }
     }
+//endregion Public
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
+//region SECTION: Getters/Setters
+    public function getArguments(InputInterface $input)
     {
-        $this->initQuestinarium($input);
-
-        foreach ($this->questions as $name => $question) {
-            $answer = $this->getHelper('question')->ask($input, $output, $question);
-            $input->setArgument($name, $answer);
-        }
+        $this->username = $input->getArgument('username');
+        $this->email    = $input->getArgument('email');
+        $this->password = $input->getArgument('password');
+        $this->inactive = $input->getOption('inactive');
     }
-//endregion Protected
+//endregion Getters/Setters
 }
