@@ -89,3 +89,11 @@ services:
 
   Evrinoma\UserBundle\PreChecker\PostPreCheckerInterface:
     alias: evrinoma.user.post.pre.checker
+
+  evrinoma.user.command.create:
+    class: Evrinoma\UserBundle\Command\CreateUserCommand
+    tags: { - name: console.command }'
+
+  Evrinoma\UserBundle\Command\CreateUserCommand:
+    alias: evrinoma.user.command.create
+    public: true
