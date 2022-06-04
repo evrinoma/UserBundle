@@ -8,7 +8,6 @@ use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
 use Evrinoma\UserBundle\Model\User\UserInterface;
 use Evrinoma\UserBundle\Role\RoleMediatorInterface;
-use Evrinoma\UserBundle\Voter\RoleInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CommandMediator implements CommandMediatorInterface

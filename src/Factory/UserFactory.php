@@ -5,10 +5,7 @@ namespace Evrinoma\UserBundle\Factory;
 
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Entity\User\BaseUser;
-use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
-use Evrinoma\UserBundle\Exception\UserInvalidException;
 use Evrinoma\UserBundle\Model\User\UserInterface;
-use Evrinoma\UserBundle\Voter\RoleInterface;
 
 class UserFactory implements UserFactoryInterface
 {

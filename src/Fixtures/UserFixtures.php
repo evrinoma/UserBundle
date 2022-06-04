@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Evrinoma\TestUtilsBundle\Fixtures\AbstractFixture;
 use Evrinoma\UserBundle\Entity\User\BaseUser;
-use Evrinoma\UserBundle\Voter\RoleInterface;
 
 class UserFixtures extends AbstractFixture implements FixtureGroupInterface, OrderedFixtureInterface
 {
