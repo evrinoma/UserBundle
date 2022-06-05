@@ -3,10 +3,10 @@
 namespace Evrinoma\UserBundle\Command;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Evrinoma\UtilsBundle\Command\BridgeInterface;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
 use Evrinoma\UserBundle\Exception\UserInvalidException;
+use Evrinoma\UtilsBundle\Command\BridgeInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
