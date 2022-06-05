@@ -11,14 +11,14 @@ interface UsernameInterface
     /**
      * @return bool
      */
-    public function hasPassword(): bool;
+    public function hasUsername(): bool;
 //endregion Public
 
 //region SECTION: Getters/Setters
     /**
      * @return string
      */
-    public function getPassword(): string;
+    public function getUsername(): string;
 //endregion Getters/Setters
 
 }
