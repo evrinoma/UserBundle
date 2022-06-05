@@ -23,7 +23,7 @@ class UserCreateCommand extends Command
     public function __construct(BridgeInterface $bridge)
     {
         $this->bridge = $bridge;
-        parent::__construct();
+        parent::__construct(static::$defaultName);
     }
 //endregion Constructor
 
