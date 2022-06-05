@@ -1,70 +1,26 @@
 <?php
 
-namespace Evrinoma\UserBundle\Command;
+namespace Evrinoma\UserBundle\Command\Bridge;
 
-use Symfony\Component\Console\Command\Command;
+use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\UserBundle\Dto\UserApiDto;
+use Evrinoma\UtilsBundle\Command\BridgeInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-class CreateUserCommand extends Command implements CreateUserCommandInterface
+class UserCreateBridge implements BridgeInterface
 {
 //region SECTION: Fields
-    protected static $defaultName = 'evrinoma:user:create';
-
-    protected array $questions = [];
-
     protected string $username = '';
     protected string $email    = '';
     protected string $password = '';
     protected string $inactive = '';
 //endregion Fields
 
-//region SECTION: Protected
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        $this
-            ->setName(static::$defaultName)
-            ->setDescription('Create a user.')
-            ->setDefinition($this->configureInputArguments())
-            ->setHelp($this->configureHelp());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->getArguments($input);
-
-        $this->action();
-
-        $output->writeln(sprintf('Created user <comment>%s</comment>', $this->username));
-
-        return 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $this->initQuestinarium($input);
-
-        foreach ($this->questions as $name => $question) {
-            $answer = $this->getHelper('question')->ask($input, $output, $question);
-            $input->setArgument($name, $answer);
-        }
-    }
-//endregion Protected
-
 //region SECTION: Public
-    public function configureInputArguments(): array
+    public function argumentDefinition(): array
     {
         return [
             new InputArgument('username', InputArgument::REQUIRED, 'The username'),
@@ -74,7 +30,7 @@ class CreateUserCommand extends Command implements CreateUserCommandInterface
         ];
     }
 
-    public function configureHelp(): string
+    public function helpMessage(): string
     {
         return <<<'EOT'
 The <info>evrinoma:user:create</info> command creates a user:
@@ -87,13 +43,13 @@ You can create an inactive user (will not be able to log in):
 EOT;
     }
 
-    public function action()
+    public function action(DtoInterface $dto): void
     {
-
     }
 
-    public function initQuestinarium(InputInterface $input): void
+    public function questioners(InputInterface $input): array
     {
+        $questions = [];
         if (!$input->getArgument('username')) {
             $question = new Question('Please choose a username:');
             $question->setValidator(function ($username) {
@@ -103,7 +59,7 @@ EOT;
 
                 return $username;
             });
-            $this->questions['username'] = $question;
+            $questions['username'] = $question;
         }
 
         if (!$input->getArgument('email')) {
@@ -115,7 +71,7 @@ EOT;
 
                 return $email;
             });
-            $this->questions['email'] = $question;
+            $questions['email'] = $question;
         }
 
         if (!$input->getArgument('password')) {
@@ -128,18 +84,22 @@ EOT;
                 return $password;
             });
             $question->setHidden(true);
-            $this->questions['password'] = $question;
+            $questions['password'] = $question;
         }
+
+        return $questions;
     }
 //endregion Public
 
-//region SECTION: Getters/Setters
-    public function getArguments(InputInterface $input)
+//region SECTION: Dto
+    public function argumentToDto(InputInterface $input): DtoInterface
     {
         $this->username = $input->getArgument('username');
         $this->email    = $input->getArgument('email');
         $this->password = $input->getArgument('password');
         $this->inactive = $input->getOption('inactive');
+
+        return new UserApiDto();
     }
-//endregion Getters/Setters
+//endregion SECTION: Dto
 }
