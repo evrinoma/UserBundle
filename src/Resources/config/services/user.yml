@@ -105,4 +105,5 @@ services:
     arguments:
       - '@doctrine'
       - '@evrinoma.user.command.manager'
+      - '@evrinoma.user.pre.validator'
     autowire: true
