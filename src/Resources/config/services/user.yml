@@ -94,7 +94,7 @@ services:
     class: Evrinoma\UserBundle\Command\UserCreateCommand
     arguments:
       - '@evrinoma.user.bridge.create'
-    tags: { - name: console.command }'
+    tags: { - name: console.command }
 
   Evrinoma\UserBundle\Command\UserCreateCommand:
     alias: evrinoma.user.command.create
@@ -102,3 +102,7 @@ services:
 
   evrinoma.user.bridge.create:
     class: Evrinoma\UserBundle\Command\Bridge\UserCreateBridge
+    arguments:
+      - '@doctrine'
+      - '@evrinoma.user.command.manager'
+    autowire: true
