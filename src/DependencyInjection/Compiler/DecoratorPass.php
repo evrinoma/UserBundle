@@ -32,6 +32,9 @@ class DecoratorPass extends AbstractRecursivePass
             $preValidator  = $container->getDefinition($decoratorPreValidator);
             $apiController = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.api.controller');
             $apiController->setArgument(5, $preValidator);
+
+            $command = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.bridge.create');
+            $command->setArgument(3, $preValidator);
         }
         $decoratorPreCheckerPost = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.pre.checker.post');
         if ($decoratorPreCheckerPost) {

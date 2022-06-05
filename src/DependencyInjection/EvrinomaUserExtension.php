@@ -3,10 +3,12 @@
 namespace Evrinoma\UserBundle\DependencyInjection;
 
 
-use Evrinoma\UserBundle\Role\BasicRoleMediator;
+use Evrinoma\UserBundle\Command\Bridge\UserCreateBridge;
+use Evrinoma\UserBundle\Command\Dto\Preserve\PreserveUserApiDto;
 use Evrinoma\UserBundle\DependencyInjection\Compiler\Constraint\Property\UserPass;
 use Evrinoma\UserBundle\Dto\UserApiDto;
 use Evrinoma\UserBundle\EvrinomaUserBundle;
+use Evrinoma\UserBundle\Role\BasicRoleMediator;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
@@ -25,6 +27,7 @@ class EvrinomaUserExtension extends Extension
     public const ENTITY_FACTORY_USER     = 'Evrinoma\UserBundle\Factory\UserFactory';
     public const ENTITY_BASE_USER        = self::ENTITY.'\User\BaseUser';
     public const DTO_BASE_USER           = UserApiDto::class;
+    public const DTO_PRESERVE_BASE_USER  = PreserveUserApiDto::class;
     public const ROLE_MEDIATOR_BASE_USER = BasicRoleMediator::class;
     /**
      * @var array
@@ -99,6 +102,8 @@ class EvrinomaUserExtension extends Extension
 
         $this->wireRoleMediator($container, $config['role_mediator']);
 
+        $this->wireBridge($container, $config['preserve_dto']);
+
         if ($config['decorates']) {
             $this->remapParametersNamespaces(
                 $container,
@@ -117,6 +122,12 @@ class EvrinomaUserExtension extends Extension
 
 //endregion Public
 //region SECTION: Private
+    private function wireBridge(ContainerBuilder $container, string $class): void
+    {
+        $definitionBridge = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
+        $definitionBridge->setArgument(3, $class);
+    }
+
     private function wireRoleMediator(ContainerBuilder $container, string $class): void
     {
         $definitionRoleMediator = new Definition($class);
