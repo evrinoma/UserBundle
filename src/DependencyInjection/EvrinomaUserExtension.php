@@ -99,8 +99,6 @@ class EvrinomaUserExtension extends Extension
 
         $this->wireConstraintTag($container);
 
-        $this->wireRoleMediator($container, $config['role_mediator']);
-
         $this->wireBridge($container, $config['preserve_dto']);
 
         if ($config['decorates']) {
@@ -117,6 +115,17 @@ class EvrinomaUserExtension extends Extension
                 ]
             );
         }
+
+        if ($config['role_mediator'] === self::ROLE_MEDIATOR_BASE_USER) {
+            $this->wireRoleMediator($container, $config['role_mediator']);
+        } else {
+            $this->remapParametersNamespaces(
+                $container,
+                ['role_mediator' => [$config['role_mediator']]],
+                ['role_mediator' => 'evrinoma.'.$this->getAlias().'.role.mediator',]
+            );
+        }
+
     }
 
 //endregion Public
