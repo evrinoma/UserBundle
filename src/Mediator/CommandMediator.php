@@ -58,7 +58,7 @@ class CommandMediator implements CommandMediatorInterface
             $rolesUnRevoke = $this->roleMediator->revokePrivileges($entity->getRoles());
             $rolesGrant    = $this->roleMediator->grantPrivileges($dto->getRoles());
 
-            $entity->setRoles(array_merge($rolesGrant, $rolesUnRevoke));
+            $entity->setRoles(array_unique(array_merge($rolesGrant, $rolesUnRevoke), SORT_REGULAR));
         }
 
         /** @var UserApiDtoInterface $dto */
