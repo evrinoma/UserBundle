@@ -5,20 +5,20 @@ namespace Evrinoma\UserBundle\PreValidator;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserInvalidException;
-use Evrinoma\UserBundle\PreChecker\PostPreCheckerInterface;
+use Evrinoma\UserBundle\PreChecker\PasswordPreCheckerInterface;
 use Evrinoma\UtilsBundle\PreValidator\AbstractPreValidator;
 
 class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInterface
 {
 
 //region SECTION: Fields
-    private PostPreCheckerInterface $postPreChecker;
+    private PasswordPreCheckerInterface $passwordPreChecker;
 //endregion Fields
 
 //region SECTION: Constructor
-    public function __construct(PostPreCheckerInterface $postPreChecker)
+    public function __construct(PasswordPreCheckerInterface $postPreChecker)
     {
-        $this->postPreChecker = $postPreChecker;
+        $this->passwordPreChecker = $postPreChecker;
     }
 //endregion Constructor
 
@@ -31,7 +31,7 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
         }
 
         try {
-            $this->postPreChecker->check($dto);
+            $this->passwordPreChecker->check($dto);
         } catch (\Exception $e) {
             throw new UserInvalidException($e->getMessage());
         }
@@ -48,7 +48,7 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
 
         if ($dto->hasPassword()) {
             try {
-                $this->postPreChecker->check($dto);
+                $this->passwordPreChecker->check($dto);
             } catch (\Exception $e) {
                 throw new UserInvalidException($e->getMessage());
             }

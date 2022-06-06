@@ -6,7 +6,7 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 use Evrinoma\UserBundle\Exception\UserInvalidException;
 use Evrinoma\UtilsBundle\PreChecker\AbstractPreChecker;
 
-class PostPreChecker extends AbstractPreChecker implements PostPreCheckerInterface
+class PasswordPreChecker extends AbstractPreChecker implements PasswordPreCheckerInterface
 {
 //region SECTION: Public
     public function check(DtoInterface $dto): bool

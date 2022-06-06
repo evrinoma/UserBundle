@@ -3,7 +3,6 @@
 namespace Evrinoma\UserBundle\DependencyInjection;
 
 
-use Evrinoma\UserBundle\Command\Bridge\UserCreateBridge;
 use Evrinoma\UserBundle\Command\Dto\Preserve\PreserveUserApiDto;
 use Evrinoma\UserBundle\DependencyInjection\Compiler\Constraint\Property\UserPass;
 use Evrinoma\UserBundle\Dto\UserApiDto;
@@ -110,10 +109,10 @@ class EvrinomaUserExtension extends Extension
                 $config['decorates'],
                 [
                     '' => [
-                        'command'          => 'evrinoma.'.$this->getAlias().'.decorates.command',
-                        'query'            => 'evrinoma.'.$this->getAlias().'.decorates.query',
-                        'pre_validator'    => 'evrinoma.'.$this->getAlias().'.decorates.pre.validator',
-                        'pre_checker_post' => 'evrinoma.'.$this->getAlias().'.decorates.pre.checker.post',
+                        'command'              => 'evrinoma.'.$this->getAlias().'.decorates.command',
+                        'query'                => 'evrinoma.'.$this->getAlias().'.decorates.query',
+                        'pre_validator'        => 'evrinoma.'.$this->getAlias().'.decorates.pre.validator',
+                        'pre_checker_password' => 'evrinoma.'.$this->getAlias().'.decorates.pre.checker.password',
                     ],
                 ]
             );

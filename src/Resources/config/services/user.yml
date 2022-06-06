@@ -71,7 +71,7 @@ services:
     class: Evrinoma\UserBundle\PreValidator\DtoPreValidator
     public: true
     arguments:
-      - '@evrinoma.user.post.pre.checker'
+      - '@evrinoma.user.pre.checker.password'
 
   Evrinoma\UserBundle\PreValidator\DtoPreValidator:
     alias: evrinoma.user.pre.validator
@@ -79,16 +79,16 @@ services:
   Evrinoma\UserBundle\PreValidator\DtoPreValidatorInterface:
     alias: evrinoma.user.pre.validator
 
-  evrinoma.user.post.pre.checker:
-    class: Evrinoma\UserBundle\PreChecker\PostPreChecker
+  evrinoma.user.pre.checker.password:
+    class: Evrinoma\UserBundle\PreChecker\PasswordPreChecker
     public: true
     arguments:
 
-  Evrinoma\UserBundle\PreChecker\PostPreChecker:
-    alias: evrinoma.user.post.pre.checker
+  Evrinoma\UserBundle\PreChecker\PasswordPreChecker:
+    alias: evrinoma.user.pre.checker.password
 
-  Evrinoma\UserBundle\PreChecker\PostPreCheckerInterface:
-    alias: evrinoma.user.post.pre.checker
+  Evrinoma\UserBundle\PreChecker\PasswordPreCheckerInterface:
+    alias: evrinoma.user.pre.checker.password
 
   evrinoma.user.command.create:
     class: Evrinoma\UserBundle\Command\UserCreateCommand

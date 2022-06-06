@@ -5,7 +5,7 @@ namespace Evrinoma\UserBundle\PreChecker;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserInvalidException;
 
-interface PostPreCheckerInterface
+interface PasswordPreCheckerInterface
 {
     /**
      * @param UserApiDtoInterface $dto
