@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Tests\Functional\Action;
 
 use Evrinoma\TestUtilsBundle\Action\AbstractServiceTest;
@@ -18,13 +29,11 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 {
     use BaseUserTestTrait;
 
-
     public const API_GET      = 'evrinoma/api/user';
     public const API_CRITERIA = 'evrinoma/api/user/criteria';
     public const API_DELETE   = 'evrinoma/api/user/delete';
     public const API_PUT      = 'evrinoma/api/user/save';
     public const API_POST     = 'evrinoma/api/user/create';
-
 
     protected static function getDtoClass(): string
     {
@@ -34,32 +43,31 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     protected static function defaultData(): array
     {
         return [
-            "id"         => Id::default(),
-            "class"      => static::getDtoClass(),
-            "username"   => "IIvanov",
-            "email"      => Email::default(),
-            "password"   => Password::default(),
-            "active"     => Active::default(),
-            "name"       => Name::default(),
-            "surname"    => "Ivanov",
-            "patronymic" => "Ivanovich",
-            "expired_at" => "2021-12-30",
-            "roles"      => ["A", "B", "C"],
+            'id'         => Id::default(),
+            'class'      => static::getDtoClass(),
+            'username'   => 'IIvanov',
+            'email'      => Email::default(),
+            'password'   => Password::default(),
+            'active'     => Active::default(),
+            'name'       => Name::default(),
+            'surname'    => 'Ivanov',
+            'patronymic' => 'Ivanovich',
+            'expired_at' => '2021-12-30',
+            'roles'      => ['A', 'B', 'C'],
         ];
     }
-
 
     public function actionPost(): void
     {
         $this->createUser();
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault(['username' => "UsernameA", 'roles"' => []]);
+        $query = static::getDefault(['username' => 'UsernameA', 'roles"' => []]);
         $this->post($query);
         $this->testResponseStatusCreated();
 
-        $query = static::getDefault(['username' => "UsernameB",]);
-        unset($query["roles"]);
+        $query = static::getDefault(['username' => 'UsernameB']);
+        unset($query['roles']);
         $this->post($query);
         $this->testResponseStatusCreated();
     }
@@ -105,7 +113,6 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         Assert::assertEquals(Username::value(), $entity['username']);
         Assert::assertEquals(Email::value(), $entity['email']);
 
-
         $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::empty()]);
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
@@ -148,7 +155,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     {
         $find = $this->assertGet(Id::value());
 
-        $query = static::getDefault(["id" => Id::value()]);
+        $query = static::getDefault(['id' => Id::value()]);
 
         $updated = $this->put($query);
         $this->testResponseStatusOK();
@@ -160,7 +167,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         Assert::assertArrayHasKey('data', $criteria);
         Assert::assertEquals($updated['data'], $criteria['data']);
 
-        unset($query["password"]);
+        unset($query['password']);
         $updated = $this->put($query);
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $updated);
@@ -171,8 +178,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         Assert::assertArrayHasKey('data', $criteria);
         Assert::assertEquals($updated['data'], $criteria['data']);
 
-
-        $updated = $this->put(static::getDefault(["id" => Id::value(), 'password' => Password::empty()]));
+        $updated = $this->put(static::getDefault(['id' => Id::value(), 'password' => Password::empty()]));
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $updated);
         Assert::assertNotEquals($updated['data'], $find['data']);
@@ -182,7 +188,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         Assert::assertArrayHasKey('data', $criteria);
         Assert::assertEquals($updated['data'], $criteria['data']);
 
-        $updated = $this->put(static::getDefault(["id" => Id::value(), 'password' => Password::nullable()]));
+        $updated = $this->put(static::getDefault(['id' => Id::value(), 'password' => Password::nullable()]));
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $updated);
         Assert::assertNotEquals($updated['data'], $find['data']);
@@ -247,5 +253,4 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         $this->post(static::getDefault(['password' => Password::wrong()]));
         $this->testResponseStatusUnprocessable();
     }
-
 }

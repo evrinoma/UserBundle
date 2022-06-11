@@ -1,14 +1,23 @@
 <?php
 
-namespace Evrinoma\UserBundle\Tests\Functional\Helper;
+declare(strict_types=1);
 
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Evrinoma\UserBundle\Tests\Functional\Helper;
 
 use PHPUnit\Framework\Assert;
 
 trait BaseUserTestTrait
 {
-
-    protected function assertGet(int $id): array
+    protected function assertGet(string $id): array
     {
         $find = $this->get($id);
         $this->testResponseStatusOK();
@@ -43,5 +52,4 @@ trait BaseUserTestTrait
         Assert::assertArrayHasKey('name', $entity);
         Assert::assertArrayHasKey('active', $entity);
     }
-
 }
