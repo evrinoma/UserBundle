@@ -27,7 +27,7 @@ trait PatronymicTrait
      */
     protected function setPatronymic(string $patronymic): DtoInterface
     {
-        $this->patronymic = $patronymic;
+        $this->patronymic = trim($patronymic);
 
         return $this;
     }

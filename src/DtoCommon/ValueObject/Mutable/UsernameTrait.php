@@ -27,7 +27,7 @@ trait UsernameTrait
      */
     protected function setUsername(string $username): DtoInterface
     {
-        $this->username = $username;
+        $this->username = trim($username);
 
         return $this;
     }

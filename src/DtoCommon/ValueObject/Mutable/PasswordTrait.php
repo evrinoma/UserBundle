@@ -27,7 +27,7 @@ trait PasswordTrait
      */
     protected function setPassword(string $password): DtoInterface
     {
-        $this->password = $password;
+        $this->password = trim($password);
 
         return $this;
     }

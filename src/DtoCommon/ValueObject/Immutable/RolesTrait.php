@@ -39,7 +39,7 @@ trait RolesTrait
      */
     public function hasRoles(): bool
     {
-        return \count($this->roles)!==0;
+        return 0 !== \count($this->roles);
     }
 
     /**

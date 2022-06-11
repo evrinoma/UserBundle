@@ -27,7 +27,7 @@ trait ExpiredAtTrait
      */
     protected function setExpiredAt(string $expiredAt): DtoInterface
     {
-        $this->expiredAt = $expiredAt;
+        $this->expiredAt = trim($expiredAt);
 
         return $this;
     }

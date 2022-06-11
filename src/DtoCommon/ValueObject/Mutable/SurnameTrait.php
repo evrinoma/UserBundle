@@ -27,7 +27,7 @@ trait SurnameTrait
      */
     protected function setSurname(string $surname): DtoInterface
     {
-        $this->surname = $surname;
+        $this->surname = trim($surname);
 
         return $this;
     }

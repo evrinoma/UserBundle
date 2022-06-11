@@ -27,7 +27,7 @@ trait EmailTrait
      */
     protected function setEmail(string $email): DtoInterface
     {
-        $this->email = $email;
+        $this->email = trim($email);
 
         return $this;
     }
