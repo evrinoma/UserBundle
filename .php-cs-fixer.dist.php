@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the package ITE product.
+ * This file is part of the package.
  *
- * Developer list:
  * (c) Nikolay Nikolaev <evrinoma@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -17,9 +16,8 @@ if (!file_exists(__DIR__.'/src')) {
 }
 
 $fileHeaderComment = <<<'EOF'
-This file is part of the package ITE product.
+This file is part of the package.
 
-Developer list:
 (c) Nikolay Nikolaev <evrinoma@gmail.com>
 
 For the full copyright and license information, please view the LICENSE
@@ -46,11 +44,9 @@ return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setFinder(
         (new PhpCsFixer\Finder())
-            //->in(__DIR__.'/src')
-            ->in(__DIR__.'/tests')
+            ->in(__DIR__.'/src')
             ->append([__FILE__])
             ->notPath('#/Fixtures/#')
             ->exclude([])
-            ->notPath('Functional/Helper/AuthorizationTrait.php')
     )
     ->setCacheFile('.php-cs-fixer.cache');
