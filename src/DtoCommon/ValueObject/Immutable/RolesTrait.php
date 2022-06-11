@@ -1,13 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable;
 
 trait RolesTrait
 {
-
-    private array $roles        = [];
-    private ?bool  $grant  = null;
-
+    private array $roles = [];
+    private ?bool  $grant = null;
 
     /**
      * @return bool
@@ -22,7 +31,7 @@ trait RolesTrait
      */
     public function hasGranted(): bool
     {
-        return $this->grant !== null;
+        return null !== $this->grant;
     }
 
     /**
@@ -30,9 +39,8 @@ trait RolesTrait
      */
     public function hasRoles(): bool
     {
-        return count($this->roles);
+        return \count($this->roles)!==0;
     }
-
 
     /**
      * @return array
@@ -41,5 +49,4 @@ trait RolesTrait
     {
         return $this->roles;
     }
-
 }
