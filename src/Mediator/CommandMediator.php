@@ -37,7 +37,6 @@ class CommandMediator implements CommandMediatorInterface
         /** @var UserApiDtoInterface $dto */
         $entity
             ->setUsername($dto->getUsername())
-            ->setSurname($dto->getUsername())
             ->setEmail($dto->getEmail())
             ->setName($dto->getName())
             ->setSurname($dto->getSurname())
@@ -55,10 +54,21 @@ class CommandMediator implements CommandMediatorInterface
         }
 
         if ($dto->hasRoles()) {
-            $rolesUnRevoke = $this->roleMediator->revokePrivileges($entity->getRoles());
-            $rolesGrant    = $this->roleMediator->grantPrivileges($dto->getRoles());
-
-            $entity->setRoles(array_unique(array_merge($rolesGrant, $rolesUnRevoke), SORT_REGULAR));
+            if ($dto->hasGranted()) {
+                if ($dto->isGranted()) {
+                    foreach ($dto->getRoles() as $role) {
+                        $entity->addRole($role);
+                    }
+                } else {
+                    foreach ($dto->getRoles() as $role) {
+                        $entity->rmRole($role);
+                    }
+                }
+            } else {
+                $rolesUnRevoke = $this->roleMediator->revokePrivileges($entity->getRoles());
+                $rolesGrant    = $this->roleMediator->grantPrivileges($dto->getRoles());
+                $entity->setRoles(array_unique(array_merge($rolesGrant, $rolesUnRevoke), SORT_REGULAR));
+            }
         }
 
         /** @var UserApiDtoInterface $dto */

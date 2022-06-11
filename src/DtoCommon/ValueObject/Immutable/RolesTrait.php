@@ -5,10 +5,27 @@ namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable;
 trait RolesTrait
 {
 //region SECTION: Fields
-    private array $roles = [];
+    private array $roles        = [];
+    private ?bool  $grant  = null;
 //endregion Fields
 
 //region SECTION: Public
+    /**
+     * @return bool
+     */
+    public function isGranted(): bool
+    {
+        return $this->grant;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasGranted(): bool
+    {
+        return $this->grant !== null;
+    }
+
     /**
      * @return bool
      */

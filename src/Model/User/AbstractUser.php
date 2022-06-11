@@ -102,6 +102,25 @@ abstract class AbstractUser implements UserInterface
     }
 
     /**
+     * @param string $role
+     *
+     * @return UserInterface
+     */
+    public function rmRole(string $role): UserInterface
+    {
+        $role = strtoupper($role);
+
+        $key = array_search($role, $this->roles);
+        if ($key !== false) {
+
+            unset($this->roles[$key]);
+        }
+
+        return $this;
+    }
+
+
+    /**
      * @param array $roles
      *
      * @return UserInterface
@@ -224,6 +243,11 @@ abstract class AbstractUser implements UserInterface
     public function getExpiredAt(): ?DateTimeImmutable
     {
         return $this->expiredAt;
+    }
+
+    public function hasExpiredAt(): bool
+    {
+        return $this->expiredAt !== null;
     }
 
     /**

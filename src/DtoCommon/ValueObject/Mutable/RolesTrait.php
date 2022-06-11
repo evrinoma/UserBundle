@@ -22,5 +22,25 @@ trait RolesTrait
 
         return $this;
     }
+
+    /**
+     * @return DtoInterface
+     */
+    protected function setGrant(): DtoInterface
+    {
+        $this->grant = true;
+
+        return $this;
+    }
+
+    /**
+     * @return DtoInterface
+     */
+    protected function resetGrant(): DtoInterface
+    {
+        $this->grant = false;
+
+        return $this;
+    }
 //endregion Getters/Setters
 }

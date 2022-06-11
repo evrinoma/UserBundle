@@ -107,3 +107,24 @@ services:
       - '@evrinoma.user.command.manager'
       - '@evrinoma.user.pre.validator'
     autowire: true
+
+  evrinoma.user.command.roles:
+    class: Evrinoma\UserBundle\Command\UserRolesCommand
+    arguments:
+      - '@evrinoma.user.bridge.roles'
+    tags: { - name: console.command }
+
+  Evrinoma\UserBundle\Command\UserRolesCommand:
+    alias: evrinoma.user.command.roles
+    public: true
+
+
+  evrinoma.user.bridge.roles:
+    class: Evrinoma\UserBundle\Command\Bridge\UserRolesBridge
+    arguments:
+      - '@doctrine'
+      - '@security.token_storage'
+      - '@evrinoma.user.command.manager'
+      - '@evrinoma.user.query.manager'
+      - '@evrinoma.user.pre.validator'
+    autowire: true

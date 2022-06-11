@@ -34,16 +34,17 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
         $class = $request->get(DtoInterface::DTO_CLASS);
 
         if ($class === $this->getClass()) {
-            $active     = $request->get(UserApiDtoInterface::ACTIVE);
-            $id         = $request->get(UserApiDtoInterface::ID);
-            $email      = $request->get(UserApiDtoInterface::EMAIL);
-            $username   = $request->get(UserApiDtoInterface::USERNAME);
-            $password   = $request->get(UserApiDtoInterface::PASSWORD);
-            $roles      = $request->get(UserApiDtoInterface::ROLES, []);
-            $name       = $request->get(UserApiDtoInterface::NAME);
-            $surname    = $request->get(UserApiDtoInterface::SURNAME);
-            $patronymic = $request->get(UserApiDtoInterface::PATRONYMIC);
-            $expiredAt  = $request->get(UserApiDtoInterface::EXPIRED_AT);
+            $active       = $request->get(UserApiDtoInterface::ACTIVE);
+            $id           = $request->get(UserApiDtoInterface::ID);
+            $email        = $request->get(UserApiDtoInterface::EMAIL);
+            $username     = $request->get(UserApiDtoInterface::USERNAME);
+            $password     = $request->get(UserApiDtoInterface::PASSWORD);
+            $granRoles    = $request->get(UserApiDtoInterface::GRANT_ROLES);
+            $roles        = $request->get(UserApiDtoInterface::ROLES, []);
+            $name         = $request->get(UserApiDtoInterface::NAME);
+            $surname      = $request->get(UserApiDtoInterface::SURNAME);
+            $patronymic   = $request->get(UserApiDtoInterface::PATRONYMIC);
+            $expiredAt    = $request->get(UserApiDtoInterface::EXPIRED_AT);
 
             if ($active) {
                 $this->setActive($active);
@@ -71,6 +72,13 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
             }
             if ($roles) {
                 $this->setRoles($roles);
+            }
+            if ($granRoles) {
+                if ($granRoles==='true')  {
+                    $this->setGrant();
+                } else {
+                    $this->resetGrant();
+                }
             }
             if ($expiredAt !== null) {
                 $this->setExpiredAt(trim($expiredAt));

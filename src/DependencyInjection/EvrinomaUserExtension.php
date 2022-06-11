@@ -132,8 +132,10 @@ class EvrinomaUserExtension extends Extension
 //region SECTION: Private
     private function wireBridge(ContainerBuilder $container, string $class): void
     {
-        $definitionBridge = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
-        $definitionBridge->setArgument(3, $class);
+        $definitionBridgeCreate = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
+        $definitionBridgeCreate->setArgument(3, $class);
+        $definitionBridgeRoles = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.roles');
+        $definitionBridgeRoles->setArgument(5, $class);
     }
 
     private function wireRoleMediator(ContainerBuilder $container, string $class): void

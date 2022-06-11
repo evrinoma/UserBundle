@@ -26,6 +26,11 @@ interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswo
      * @return bool
      */
     public function hasRole(string $role): bool;
+
+    /**
+     * @return bool
+     */
+    public function hasExpiredAt(): bool;
 //endregion Public
 
 //region SECTION: Getters/Setters

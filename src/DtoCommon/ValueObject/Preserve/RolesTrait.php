@@ -16,5 +16,22 @@ trait RolesTrait
     {
         return parent::setRoles($roles);
     }
+
+
+    /**
+     * @return DtoInterface
+     */
+    public function setGrant(): DtoInterface
+    {
+        return parent::setGrant();
+    }
+
+    /**
+     * @return DtoInterface
+     */
+    public function resetGrant(): DtoInterface
+    {
+        return parent::resetGrant();
+    }
 //endregion Getters/Setters
 }
