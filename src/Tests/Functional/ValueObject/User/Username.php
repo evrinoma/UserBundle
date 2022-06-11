@@ -7,12 +7,12 @@ use Evrinoma\TestUtilsBundle\ValueObject\ValueObjectTest;
 
 class Username extends AbstractValueObject implements ValueObjectTest
 {
-//region SECTION: Fields
+
     protected static string $value   = "test1";
     protected static string $wrong   = "test";
     protected static string $default = "IIvanov";
-//endregion Fields
-//region SECTION: Public
+
+
     public static function value(): string
     {
         return static::$value ?? '';
@@ -27,5 +27,5 @@ class Username extends AbstractValueObject implements ValueObjectTest
     {
         return static::$default ?? '';
     }
-//endregion Public
+
 }

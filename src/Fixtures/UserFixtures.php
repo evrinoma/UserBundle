@@ -10,7 +10,7 @@ use Evrinoma\UserBundle\Entity\User\BaseUser;
 
 class UserFixtures extends AbstractFixture implements FixtureGroupInterface, OrderedFixtureInterface
 {
-//region SECTION: Fields
+
     protected static array $data = [
         ['username' => 'test1', 'surname' => 'test1', 'email' => 'test1@test.ru', 'last_login' => '2008-10-23 06:21:51', 'password' => 'password1', 'patronymic' => 'test1', 'name' => 'test1', 'active' => 'a', 'expired_at' => null, 'roles' => ['ROLE_ADMIN_USER']],
         ['username' => 'test2', 'surname' => 'test2', 'email' => 'test2@test.ru', 'last_login' => '2019-11-23 07:21:52', 'password' => 'password2', 'patronymic' => 'test2', 'name' => 'test2', 'active' => 'b', 'expired_at' => '2008-10-23 10:21:50'],
@@ -22,9 +22,8 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
     ];
 
     protected static string $class = BaseUser::class;
-//endregion Fields
 
-//region SECTION: Protected
+
     /**
      * @param ObjectManager $manager
      *
@@ -71,9 +70,8 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
 
         return $this;
     }
-//endregion Protected
 
-//region SECTION: Getters/Setters
+
     public static function getGroups(): array
     {
         return [

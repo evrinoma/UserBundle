@@ -4,11 +4,10 @@ namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable;
 
 trait EmailTrait
 {
-//region SECTION: Fields
-    private string $email = '';
-//endregion Fields
 
-//region SECTION: Public
+    private string $email = '';
+
+
     /**
      * @return bool
      */
@@ -16,9 +15,8 @@ trait EmailTrait
     {
         return $this->email !== '';
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @return string
      */
@@ -26,5 +24,5 @@ trait EmailTrait
     {
         return $this->email;
     }
-//endregion Getters/Setters
+
 }

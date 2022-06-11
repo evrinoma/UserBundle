@@ -4,11 +4,10 @@ namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable;
 
 trait SurnameTrait
 {
-//region SECTION: Fields
-    private string $surname = '';
-//endregion Fields
 
-//region SECTION: Public
+    private string $surname = '';
+
+
     /**
      * @return bool
      */
@@ -16,9 +15,8 @@ trait SurnameTrait
     {
         return $this->surname !== '';
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @return string
      */
@@ -26,5 +24,5 @@ trait SurnameTrait
     {
         return $this->surname;
     }
-//endregion Getters/Setters
+
 }

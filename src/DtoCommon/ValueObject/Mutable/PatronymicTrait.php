@@ -9,7 +9,6 @@ trait PatronymicTrait
 {
     use PatronymicImmutableTrait;
 
-//region SECTION: Getters/Setters
 
     /**
      * @param string $patronymic
@@ -22,5 +21,5 @@ trait PatronymicTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

@@ -9,7 +9,6 @@ trait ExpiredAtTrait
 {
     use ExpiredAtImmutableTrait;
 
-//region SECTION: Getters/Setters
 
     /**
      * @param string $expiredAt
@@ -22,5 +21,5 @@ trait ExpiredAtTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

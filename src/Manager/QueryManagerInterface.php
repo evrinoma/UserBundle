@@ -16,9 +16,8 @@ interface QueryManagerInterface
      * @throws UserNotFoundException
      */
     public function criteria(UserApiDtoInterface $dto): array;
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @param UserApiDtoInterface $dto
      *

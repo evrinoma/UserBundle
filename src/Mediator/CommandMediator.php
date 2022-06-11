@@ -12,7 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CommandMediator implements CommandMediatorInterface
 {
-//region SECTION: Fields
+
     /**
      * @var RoleMediatorInterface
      */
@@ -21,17 +21,15 @@ class CommandMediator implements CommandMediatorInterface
      * @var UserPasswordHasherInterface
      */
     private UserPasswordHasherInterface $passwordHasher;
-//endregion Fields
 
-//region SECTION: Constructor
+
     public function __construct(UserPasswordHasherInterface $passwordHasher, RoleMediatorInterface $roleMediator)
     {
         $this->passwordHasher = $passwordHasher;
         $this->roleMediator   = $roleMediator;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
     public function onUpdate(DtoInterface $dto, $entity): UserInterface
     {
         /** @var UserApiDtoInterface $dto */
@@ -120,5 +118,5 @@ class CommandMediator implements CommandMediatorInterface
 
         return $entity;
     }
-//endregion Public
+
 }

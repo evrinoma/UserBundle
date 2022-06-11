@@ -12,21 +12,19 @@ use Psr\Container\ContainerInterface;
  */
 final class ApiControllerTest extends AbstractFunctionalTest
 {
-//region SECTION: Fields
-    protected string $actionServiceName = 'evrinoma.user.test.functional.action.user';
-//endregion Fields
 
-//region SECTION: Protected
+    protected string $actionServiceName = 'evrinoma.user.test.functional.action.user';
+
+
     protected function getActionService(ContainerInterface $container): ActionTestInterface
     {
         return $container->get($this->actionServiceName);
     }
-//endregion Protected
 
-//region SECTION: Getters/Setters
+
     public static function getFixtures(): array
     {
         return [FixtureInterface::USER_FIXTURES];
     }
-//endregion Getters/Setters
+
 }

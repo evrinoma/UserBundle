@@ -9,18 +9,16 @@ use Evrinoma\UserBundle\Model\User\UserInterface;
 
 class UserFactory implements UserFactoryInterface
 {
-//region SECTION: Fields
-    private static string $entityClass = BaseUser::class;
-//endregion Fields
 
-//region SECTION: Constructor
+    private static string $entityClass = BaseUser::class;
+
+
     public function __construct(string $entityClass)
     {
         self::$entityClass = $entityClass;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
     /**
      * @param UserApiDtoInterface $dto
      *
@@ -32,5 +30,5 @@ class UserFactory implements UserFactoryInterface
 
         return new self::$entityClass;
     }
-//endregion Public
+
 }

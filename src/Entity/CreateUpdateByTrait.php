@@ -8,7 +8,7 @@ use Evrinoma\UserBundle\Model\User\UserInterface;
 
 trait CreateUpdateByTrait
 {
-//region SECTION: Fields
+
     /**
      * @var UserInterface
      * @ORM\ManyToOne(targetEntity="Evrinoma\UserBundle\Model\User\UserInterface")
@@ -20,9 +20,8 @@ trait CreateUpdateByTrait
      * @ORM\ManyToOne(targetEntity="Evrinoma\UserBundle\Model\User\UserInterface")
      */
     private UserInterface $updatedBy;
-//endregion Fields
 
-//region SECTION: Getters/Setters
+
     /**
      * Returns createdBy.
      *
@@ -70,5 +69,5 @@ trait CreateUpdateByTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

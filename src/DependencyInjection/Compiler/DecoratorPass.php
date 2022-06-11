@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class DecoratorPass extends AbstractRecursivePass
 {
-//region SECTION: Public
+
     /**
      * @inheritDoc
      */

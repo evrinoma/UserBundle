@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints\Email as IsEmail;
 
 final class Email implements ConstraintInterface
 {
-//region SECTION: Getters/Setters
+
     public function getConstraints(): array
     {
         return [
@@ -24,5 +24,5 @@ final class Email implements ConstraintInterface
     {
         return 'email';
     }
-//endregion Getters/Setters
+
 }

@@ -19,7 +19,7 @@ abstract class AbstractUser implements UserInterface
 {
     use IdTrait, ActiveTrait, NameTrait;
 
-//region SECTION: Fields
+
     /**
      * @var string
      *
@@ -82,9 +82,8 @@ abstract class AbstractUser implements UserInterface
      * @ORM\Column(name="roles", type="array", nullable=true)
      */
     protected array $roles = [];
-//endregion Fields
 
-//region SECTION: Public
+
     /**
      * @param string $role
      *
@@ -149,9 +148,8 @@ abstract class AbstractUser implements UserInterface
     {
         return $this;
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @return DateTimeImmutable|null
      */
@@ -333,5 +331,5 @@ abstract class AbstractUser implements UserInterface
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

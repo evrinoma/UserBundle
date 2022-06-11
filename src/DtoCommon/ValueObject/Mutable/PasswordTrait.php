@@ -9,7 +9,6 @@ trait PasswordTrait
 {
     use PasswordImmutableTrait;
 
-//region SECTION: Getters/Setters
 
     /**
      * @param string $password
@@ -22,5 +21,5 @@ trait PasswordTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

@@ -19,9 +19,8 @@ interface QueryMediatorInterface
      * @return mixed
      */
     public function createQuery(UserApiDtoInterface $dto, QueryBuilder $builder): void;
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @param UserApiDtoInterface $dto
      * @param QueryBuilder        $builder

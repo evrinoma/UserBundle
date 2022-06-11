@@ -9,7 +9,6 @@ trait EmailTrait
 {
     use EmailImmutableTrait;
 
-//region SECTION: Getters/Setters
 
     /**
      * @param string $email
@@ -22,5 +21,5 @@ trait EmailTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

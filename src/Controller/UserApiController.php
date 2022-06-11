@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class UserApiController extends AbstractApiController implements ApiControllerInterface
 {
-//region SECTION: Fields
+
     private string $dtoClass;
     /**
      * @var FactoryDtoInterface
@@ -46,9 +46,8 @@ final class UserApiController extends AbstractApiController implements ApiContro
      * @var DtoPreValidator
      */
     private DtoPreValidator $preValidator;
-//endregion Fields
 
-//region SECTION: Constructor
+
     public function __construct(SerializerInterface $serializer, RequestStack $requestStack, FactoryDtoInterface $factoryDto, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidator $preValidator, string $dtoClass)
     {
         parent::__construct($serializer);
@@ -59,10 +58,8 @@ final class UserApiController extends AbstractApiController implements ApiContro
         $this->dtoClass       = $dtoClass;
         $this->preValidator   = $preValidator;
     }
-//endregion Constructor
 
 
-//region SECTION: Public
     /**
      * @Rest\Post("/api/user/create", options={"expose"=true}, name="api_user_create")
      * @OA\Post(
@@ -309,7 +306,6 @@ final class UserApiController extends AbstractApiController implements ApiContro
         return $this->setSerializeGroup('api_get_user')->json(['message' => 'Get user', 'data' => $json], $this->queryManager->getRestStatus());
     }
 
-//region SECTION: Getters/Setters
 
     /**
      * @Rest\Get("/api/user", options={"expose"=true}, name="api_user")
@@ -376,5 +372,5 @@ final class UserApiController extends AbstractApiController implements ApiContro
 
         return ['errors' => $e->getMessage()];
     }
-//endregion Getters/Setters
+
 }

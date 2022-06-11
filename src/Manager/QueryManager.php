@@ -14,18 +14,16 @@ final class QueryManager implements QueryManagerInterface, RestInterface
 {
     use RestTrait;
 
-//region SECTION: Fields
-    private UserQueryRepositoryInterface $repository;
-//endregion Fields
 
-//region SECTION: Constructor
+    private UserQueryRepositoryInterface $repository;
+
+
     public function __construct(UserQueryRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
     /**
      * @param UserApiDtoInterface $dto
      *
@@ -59,9 +57,8 @@ final class QueryManager implements QueryManagerInterface, RestInterface
 
         return $user;
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     public function getRestStatus(): int
     {
         return $this->status;
@@ -83,5 +80,5 @@ final class QueryManager implements QueryManagerInterface, RestInterface
 
         return $user;
     }
-//endregion Getters/Setters
+
 }

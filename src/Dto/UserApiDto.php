@@ -21,14 +21,13 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
 {
     use ActiveTrait, IdTrait, NameTrait, PasswordTrait, UsernameTrait, EmailTrait, RolesTrait, SurnameTrait, PatronymicTrait, ExpiredAtTrait;
 
-//region SECTION: Public
+
     public function isActive(): bool
     {
         return $this->active == ActiveModel::ACTIVE;
     }
-//endregion Public
 
-//region SECTION: Dto
+
     public function toDto(Request $request): DtoInterface
     {
         $class = $request->get(DtoInterface::DTO_CLASS);
@@ -87,5 +86,5 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
 
         return $this;
     }
-//endregion SECTION: Dto
+
 }

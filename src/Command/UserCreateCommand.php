@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UserCreateCommand extends AbstractCommand
 {
-//region SECTION: Fields
+
     protected static $defaultName        = 'evrinoma:user:create';
     protected static $defaultDescription = 'Create a user.';
 

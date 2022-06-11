@@ -15,7 +15,7 @@ use Symfony\Component\Console\Question\Question;
 
 class UserCreateBridge implements BridgeInterface
 {
-//region SECTION: Fields
+
     private static string $dtoClass;
     protected string      $username = '';
     protected string      $email    = '';
@@ -33,9 +33,8 @@ class UserCreateBridge implements BridgeInterface
      * @var ManagerRegistry
      */
     private ManagerRegistry $managerRegistry;
-//endregion Fields
 
-//region SECTION: Constructor
+
     /**
      * @param ManagerRegistry $managerRegistry
      * @param CommandManagerInterface $commandManager
@@ -49,9 +48,8 @@ class UserCreateBridge implements BridgeInterface
         $this->preValidator    = $preValidator;
         static::$dtoClass      = $dtoClass;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
     public function argumentDefinition(): array
     {
         return [
@@ -173,9 +171,8 @@ EOT;
     {
         return [];
     }
-//endregion Public
 
-//region SECTION: Dto
+
     public function argumentToDto(InputInterface $input): DtoInterface
     {
         /** @var PreserveUserApiDtoInterface $dto */
@@ -192,5 +189,5 @@ EOT;
 
         return $dto;
     }
-//endregion SECTION: Dto
+
 }

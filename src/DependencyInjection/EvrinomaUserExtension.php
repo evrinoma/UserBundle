@@ -21,7 +21,7 @@ class EvrinomaUserExtension extends Extension
 {
     use HelperTrait;
 
-//region SECTION: Fields
+
     public const ENTITY                  = 'Evrinoma\UserBundle\Entity';
     public const ENTITY_FACTORY_USER     = 'Evrinoma\UserBundle\Factory\UserFactory';
     public const ENTITY_BASE_USER        = self::ENTITY.'\User\BaseUser';
@@ -37,9 +37,8 @@ class EvrinomaUserExtension extends Extension
             'tag'      => 'doctrine.event_subscriber',
         ),
     );
-//endregion Fields
 
-//region SECTION: Public
+
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -128,8 +127,7 @@ class EvrinomaUserExtension extends Extension
 
     }
 
-//endregion Public
-//region SECTION: Private
+
     private function wireBridge(ContainerBuilder $container, string $class): void
     {
         $definitionBridgeCreate = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
@@ -192,12 +190,11 @@ class EvrinomaUserExtension extends Extension
         $definitionApiController->setArgument(0, new Reference('validator'));
         $definitionApiController->setArgument(1, $class);
     }
-//endregion Private
 
-//region SECTION: Getters/Setters
+
     public function getAlias()
     {
         return EvrinomaUserBundle::USER_BUNDLE;
     }
-//endregion Getters/Setters
+
 }

@@ -8,7 +8,7 @@ use Evrinoma\UtilsBundle\PreChecker\AbstractPreChecker;
 
 class PasswordPreChecker extends AbstractPreChecker implements PasswordPreCheckerInterface
 {
-//region SECTION: Public
+
     public function check(DtoInterface $dto): bool
     {
         $password = $dto->getPassword();
@@ -28,5 +28,5 @@ class PasswordPreChecker extends AbstractPreChecker implements PasswordPreChecke
 
         return true;
     }
-//endregion Public
+
 }

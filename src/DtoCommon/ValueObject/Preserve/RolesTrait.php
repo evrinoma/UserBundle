@@ -6,7 +6,7 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 
 trait RolesTrait
 {
-//region SECTION: Getters/Setters
+
     /**
      * @param array $roles
      *
@@ -33,5 +33,5 @@ trait RolesTrait
     {
         return parent::resetGrant();
     }
-//endregion Getters/Setters
+
 }

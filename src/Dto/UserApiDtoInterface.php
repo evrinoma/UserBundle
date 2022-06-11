@@ -16,10 +16,10 @@ use Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable\UsernameInterface;
 
 interface UserApiDtoInterface extends DtoInterface, IdInterface, ActiveInterface, NameInterface, PasswordInterface, UsernameInterface, EmailInterface, RolesInterface, SurnameInterface, PatronymicInterface, ExpiredAtInterface
 {
-//region SECTION: Public
+
     /**
      * @return bool
      */
     public function isActive(): bool;
-//endregion Public
+
 }

@@ -9,7 +9,6 @@ trait RolesTrait
 {
     use RolesImmutableTrait;
 
-//region SECTION: Getters/Setters
 
     /**
      * @param array $roles
@@ -42,5 +41,5 @@ trait RolesTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

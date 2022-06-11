@@ -6,7 +6,7 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 
 trait PasswordTrait
 {
-//region SECTION: Getters/Setters
+
     /**
      * @param string $password
      *
@@ -16,5 +16,5 @@ trait PasswordTrait
     {
         return parent::setPassword($password);
     }
-//endregion Getters/Setters
+
 }

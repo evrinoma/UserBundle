@@ -9,19 +9,17 @@ use Evrinoma\TestUtilsBundle\Kernel\AbstractApiKernel;
  */
 class Kernel extends AbstractApiKernel
 {
-//region SECTION: Fields
+
     protected string $bundlePrefix = 'UserBundle';
     protected string $rootDir      = __DIR__;
-//endregion Fields
 
-//region SECTION: Protected
+
     protected function getBundleConfig(): array
     {
         return ['framework.yaml', 'jms_serializer.yaml'];
     }
-//endregion Protected
 
-//region SECTION: Public
+
     /**
      * {@inheritdoc}
      */

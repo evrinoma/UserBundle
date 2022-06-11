@@ -10,10 +10,9 @@ use Evrinoma\UtilsBundle\Mediator\AbstractQueryMediator;
 
 class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterface
 {
-//region SECTION: Fields
+
     protected static string $alias = AliasInterface::USER;
-//endregion Fields
-//region SECTION: Public
+
 
     /**
      * @param DtoInterface $dto
@@ -50,5 +49,5 @@ class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterf
                 ->setParameter('active', $dto->getActive());
         }
     }
-//endregion Public
+
 }

@@ -9,7 +9,6 @@ trait UsernameTrait
 {
     use UsernameImmutableTrait;
 
-//region SECTION: Getters/Setters
 
     /**
      * @param string $username
@@ -22,5 +21,5 @@ trait UsernameTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

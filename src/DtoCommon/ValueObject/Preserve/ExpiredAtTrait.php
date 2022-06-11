@@ -6,7 +6,7 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 
 trait ExpiredAtTrait
 {
-//region SECTION: Getters/Setters
+
     /**
      * @param string $expiredAt
      *
@@ -16,5 +16,5 @@ trait ExpiredAtTrait
     {
         return parent::setExpiredAt($expiredAt);
     }
-//endregion Getters/Setters
+
 }

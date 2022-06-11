@@ -10,7 +10,7 @@ use Evrinoma\UserBundle\Model\User\UserInterface;
 
 interface CommandMediatorInterface
 {
-//region SECTION: Public
+
     /**
      * @param UserApiDtoInterface $dto
      * @param UserInterface       $entity
@@ -37,5 +37,5 @@ interface CommandMediatorInterface
      * @throws UserCannotBeCreatedException
      */
     public function onCreate(UserApiDtoInterface $dto, UserInterface $entity): UserInterface;
-//endregion Public
+
 }

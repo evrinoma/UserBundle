@@ -18,15 +18,14 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 {
     use BaseUserTestTrait;
 
-//region SECTION: Fields
+
     public const API_GET      = 'evrinoma/api/user';
     public const API_CRITERIA = 'evrinoma/api/user/criteria';
     public const API_DELETE   = 'evrinoma/api/user/delete';
     public const API_PUT      = 'evrinoma/api/user/save';
     public const API_POST     = 'evrinoma/api/user/create';
-//endregion Fields
 
-//region SECTION: Protected
+
     protected static function getDtoClass(): string
     {
         return UserApiDto::class;
@@ -48,9 +47,8 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
             "roles"      => ["A", "B", "C"],
         ];
     }
-//endregion Protected
 
-//region SECTION: Public
+
     public function actionPost(): void
     {
         $this->createUser();
@@ -249,5 +247,5 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         $this->post(static::getDefault(['password' => Password::wrong()]));
         $this->testResponseStatusUnprocessable();
     }
-//endregion Public
+
 }

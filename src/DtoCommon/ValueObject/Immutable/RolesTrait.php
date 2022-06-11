@@ -4,12 +4,11 @@ namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable;
 
 trait RolesTrait
 {
-//region SECTION: Fields
+
     private array $roles        = [];
     private ?bool  $grant  = null;
-//endregion Fields
 
-//region SECTION: Public
+
     /**
      * @return bool
      */
@@ -33,9 +32,8 @@ trait RolesTrait
     {
         return count($this->roles);
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @return array
      */
@@ -43,5 +41,5 @@ trait RolesTrait
     {
         return $this->roles;
     }
-//endregion Getters/Setters
+
 }

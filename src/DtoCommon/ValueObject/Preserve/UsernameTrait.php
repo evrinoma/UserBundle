@@ -6,7 +6,7 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 
 trait UsernameTrait
 {
-//region SECTION: Getters/Setters
+
     /**
      * @param string $username
      *
@@ -16,5 +16,5 @@ trait UsernameTrait
     {
         return parent::setUsername($username);
     }
-//endregion Getters/Setters
+
 }

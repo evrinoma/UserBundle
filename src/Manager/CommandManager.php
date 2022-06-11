@@ -20,14 +20,13 @@ final class CommandManager implements CommandManagerInterface, RestInterface
 {
     use RestTrait;
 
-//region SECTION: Fields
+
     private UserCommandRepositoryInterface $repository;
     private ValidatorInterface             $validator;
     private UserFactoryInterface           $factory;
     private CommandMediatorInterface       $mediator;
-//endregion Fields
 
-//region SECTION: Constructor
+
     public function __construct(ValidatorInterface $validator, UserCommandRepositoryInterface $repository, UserFactoryInterface $factory, CommandMediatorInterface $mediator)
     {
         $this->validator  = $validator;
@@ -35,9 +34,8 @@ final class CommandManager implements CommandManagerInterface, RestInterface
         $this->factory    = $factory;
         $this->mediator   = $mediator;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
     /**
      * @param UserApiDtoInterface $dto
      *
@@ -118,12 +116,11 @@ final class CommandManager implements CommandManagerInterface, RestInterface
             throw $e;
         }
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     public function getRestStatus(): int
     {
         return $this->status;
     }
-//endregion Getters/Setters
+
 }

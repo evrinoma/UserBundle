@@ -4,11 +4,10 @@ namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable;
 
 trait ExpiredAtTrait
 {
-//region SECTION: Fields
-    private ?string $expiredAt = null;
-//endregion Fields
 
-//region SECTION: Public
+    private ?string $expiredAt = null;
+
+
     /**
      * @return bool
      */
@@ -24,9 +23,8 @@ trait ExpiredAtTrait
     {
         return $this->expiredAt === '';
     }
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @return string
      */
@@ -34,5 +32,5 @@ trait ExpiredAtTrait
     {
         return $this->expiredAt;
     }
-//endregion Getters/Setters
+
 }

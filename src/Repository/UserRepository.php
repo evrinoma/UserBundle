@@ -16,11 +16,10 @@ use Evrinoma\UserBundle\Model\User\UserInterface;
 
 class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
-//region SECTION: Fields
-    private QueryMediatorInterface $mediator;
-//endregion Fields
 
-//region SECTION: Constructor
+    private QueryMediatorInterface $mediator;
+
+
     /**
      * @param ManagerRegistry        $registry
      * @param string                 $entityClass
@@ -32,9 +31,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $this->mediator = $mediator;
     }
 
-//endregion Constructor
 
-//region SECTION: Public
     /**
      * @param UserInterface $user
      *
@@ -82,9 +79,8 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
         return $user;
     }
-//endregion Public
 
-//region SECTION: Find Filters Repository
+
     /**
      * @param UserApiDtoInterface $dto
      *
@@ -125,5 +121,5 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
         return $user;
     }
-//endregion Find Filters Repository
+
 }

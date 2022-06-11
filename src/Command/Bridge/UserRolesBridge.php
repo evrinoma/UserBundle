@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserRolesBridge implements BridgeInterface
 {
-//region SECTION: Fields
+
     private const ADMIN_USERNAME = 'admin_username';
     private const ADMIN_PASSWORD = 'admin_password';
     private static string $dtoClass;
@@ -50,9 +50,8 @@ class UserRolesBridge implements BridgeInterface
      * @var TokenStorageInterface
      */
     private TokenStorageInterface $tokenStorage;
-//endregion Fields
 
-//region SECTION: Constructor
+
     /**
      * @param ManagerRegistry         $managerRegistry
      * @param TokenStorageInterface   $tokenStorage
@@ -70,9 +69,8 @@ class UserRolesBridge implements BridgeInterface
         $this->preValidator    = $preValidator;
         static::$dtoClass      = $dtoClass;
     }
-//endregion Constructor
 
-//region SECTION: Public
+
     public function argumentDefinition(): array
     {
         return [
@@ -184,9 +182,7 @@ EOT;
 
         return $questions;
     }
-//endregion Public
 
-//region SECTION: Dto
 
     public function argumentToDto(InputInterface $input): DtoInterface
     {
@@ -245,5 +241,5 @@ EOT;
 
         $this->tokenStorage->setToken($token);
     }
-//endregion SECTION: Dto
+
 }

@@ -4,7 +4,7 @@ namespace Evrinoma\UserBundle\Role;
 
 final class BasicRoleMediator implements RoleMediatorInterface
 {
-//region SECTION: Public
+
     public function revokePrivileges(array $roles): array
     {
         return [];
@@ -14,5 +14,5 @@ final class BasicRoleMediator implements RoleMediatorInterface
     {
         return $roles;
     }
-//endregion Public
+
 }

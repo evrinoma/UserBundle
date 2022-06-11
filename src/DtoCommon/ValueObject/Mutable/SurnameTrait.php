@@ -9,7 +9,6 @@ trait SurnameTrait
 {
     use SurnameImmutableTrait;
 
-//region SECTION: Getters/Setters
 
     /**
      * @param string $surname
@@ -22,5 +21,5 @@ trait SurnameTrait
 
         return $this;
     }
-//endregion Getters/Setters
+
 }

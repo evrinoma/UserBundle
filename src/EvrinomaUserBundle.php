@@ -11,9 +11,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EvrinomaUserBundle extends Bundle
 {
-//region SECTION: Fields
+
     public const USER_BUNDLE = 'user';
-//endregion Fields
+
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
@@ -22,7 +22,7 @@ class EvrinomaUserBundle extends Bundle
             ->addCompilerPass(new DecoratorPass())
             ->addCompilerPass(new UserPass());
     }
-//region SECTION: Getters/Setters
+
     public function getContainerExtension()
     {
         if (null === $this->extension) {
@@ -31,5 +31,5 @@ class EvrinomaUserBundle extends Bundle
 
         return $this->extension;
     }
-//endregion Getters/Setters
+
 }

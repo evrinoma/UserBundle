@@ -6,7 +6,7 @@ use Evrinoma\DtoBundle\Dto\DtoInterface;
 
 interface RolesInterface
 {
-//region SECTION: Getters/Setters
+
     /**
      * @return DtoInterface
      */
@@ -23,5 +23,5 @@ interface RolesInterface
      * @return DtoInterface
      */
     public function setRoles(array $roles): DtoInterface;
-//endregion Getters/Setters
+
 }

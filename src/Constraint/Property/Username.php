@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 final class Username implements ConstraintInterface
 {
-//region SECTION: Getters/Setters
+
     public function getConstraints(): array
     {
         return [
@@ -22,5 +22,5 @@ final class Username implements ConstraintInterface
     {
         return 'username';
     }
-//endregion Getters/Setters
+
 }

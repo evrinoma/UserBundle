@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswordAuthenticatedUserInterface, BaseUserInterface, ActiveInterface, IdInterface, NameInterface
 {
-//region SECTION: Public
+
     /**
      * @param string $role
      *
@@ -31,9 +31,8 @@ interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswo
      * @return bool
      */
     public function hasExpiredAt(): bool;
-//endregion Public
 
-//region SECTION: Getters/Setters
+
     /**
      * @return DateTimeImmutable|null
      */
