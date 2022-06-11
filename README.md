@@ -65,6 +65,22 @@ Actions в контроллере разбиты на две группы соз
         class: App\User\Constraint\Property\Custom
         tags: [ 'evrinoma.usr.constraint.property' ]
 
+## Description
+
+## Notice
+
+показать проблемы кода
+
+```bash
+vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --verbose --diff --dry-run
+```
+
+применить исправления
+
+```bash
+vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php
+```
+
 # Тесты:
 
     composer install --dev
@@ -77,3 +93,10 @@ Actions в контроллере разбиты на две группы соз
 
     /usr/bin/php vendor/phpunit/phpunit/phpunit --bootstrap src/Tests/bootstrap.php --configuration phpunit.xml.dist src/Tests/Functional/Controller/ApiControllerTest.php --filter "/::testPost( .*)?$/" 
 
+## Thanks
+
+## Done
+
+## License
+
+    MIT
