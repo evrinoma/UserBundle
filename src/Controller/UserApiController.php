@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -23,7 +34,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class UserApiController extends AbstractApiController implements ApiControllerInterface
 {
-
     private string $dtoClass;
     /**
      * @var FactoryDtoInterface
@@ -47,21 +57,19 @@ final class UserApiController extends AbstractApiController implements ApiContro
      */
     private DtoPreValidator $preValidator;
 
-
     public function __construct(SerializerInterface $serializer, RequestStack $requestStack, FactoryDtoInterface $factoryDto, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidator $preValidator, string $dtoClass)
     {
         parent::__construct($serializer);
-        $this->request        = $requestStack->getCurrentRequest();
-        $this->factoryDto     = $factoryDto;
+        $this->request = $requestStack->getCurrentRequest();
+        $this->factoryDto = $factoryDto;
         $this->commandManager = $commandManager;
-        $this->queryManager   = $queryManager;
-        $this->dtoClass       = $dtoClass;
-        $this->preValidator   = $preValidator;
+        $this->queryManager = $queryManager;
+        $this->dtoClass = $dtoClass;
+        $this->preValidator = $preValidator;
     }
 
-
     /**
-     * @Rest\Post("/api/user/create", options={"expose"=true}, name="api_user_create")
+     * @Rest\Post("/api/user/create", options={"expose": true}, name="api_user_create")
      * @OA\Post(
      *     tags={"user"},
      *     description="the method perform create user",
@@ -69,41 +77,41 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *               example={
-     *                  "class":"Evrinoma\UserBundle\Dto\UserApiDto",
-     *                  "username":"nikolns",
-     *                  "email":"nikolns@ite-ng.ru",
-     *                  "password":"1234",
-     *                  "active":"b",
-     *                  "name":"Ivan",
-     *                  "surname":"Ivanov",
-     *                  "patronymic":"Ivanovich",
-     *                  "expired_at":"2021-12-30",
-     *                  "roles": {"A","B","C"},
-     *                  },
-     *               type="object",
-     *               @OA\Property(property="class",type="string",default="Evrinoma\UserBundle\Dto\UserApiDto"),
-     *               @OA\Property(property="username",type="string"),
-     *               @OA\Property(property="email",type="string"),
-     *               @OA\Property(property="password",type="string"),
-     *               @OA\Property(property="active",type="string"),
-     *               @OA\Property(property="name",type="string"),
-     *               @OA\Property(property="surname",type="string"),
-     *               @OA\Property(property="patronymic",type="string"),
-     *               @OA\Property(property="expired_at",type="string"),
-     *               @OA\Property(property="roles",type="array", @OA\Items(type="string"))
-     *            )
+     *                 example={
+     *                     "class": "Evrinoma\UserBundle\Dto\UserApiDto",
+     *                     "username": "nikolns",
+     *                     "email": "nikolns@ite-ng.ru",
+     *                     "password": "1234",
+     *                     "active": "b",
+     *                     "name": "Ivan",
+     *                     "surname": "Ivanov",
+     *                     "patronymic": "Ivanovich",
+     *                     "expired_at": "2021-12-30",
+     *                     "roles": {"A", "B", "C"},
+     *                 },
+     *                 type="object",
+     *                 @OA\Property(property="class", type="string", default="Evrinoma\UserBundle\Dto\UserApiDto"),
+     *                 @OA\Property(property="username", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="password", type="string"),
+     *                 @OA\Property(property="active", type="string"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="surname", type="string"),
+     *                 @OA\Property(property="patronymic", type="string"),
+     *                 @OA\Property(property="expired_at", type="string"),
+     *                 @OA\Property(property="roles", type="array", @OA\Items(type="string"))
+     *             )
      *         )
      *     )
      * )
-     * @OA\Response(response=200,description="Create user")
+     * @OA\Response(response=200, description="Create user")
      *
      * @return JsonResponse
      */
     public function postAction(): JsonResponse
     {
         /** @var UserApiDtoInterface $userApiDto */
-        $userApiDto     = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
+        $userApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
         $commandManager = $this->commandManager;
 
         $this->commandManager->setRestCreated();
@@ -111,7 +119,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
             $this->preValidator->onPost($userApiDto);
 
             $json = [];
-            $em   = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
             $em->transactional(
                 function () use ($userApiDto, $commandManager, &$json) {
@@ -126,7 +134,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
     }
 
     /**
-     * @Rest\Put("/api/user/save", options={"expose"=true}, name="api_user_save")
+     * @Rest\Put("/api/user/save", options={"expose": true}, name="api_user_save")
      * @OA\Put(
      *     tags={"user"},
      *     description="the method perform save user for current entity",
@@ -134,50 +142,50 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *               example={
-     *                  "class":"Evrinoma\UserBundle\Dto\UserApiDto",
-     *                  "id": "1",
-     *                  "username": "nikolns",
-     *                  "email":"nikolns@ite-ng.ru",
-     *                  "password":"1234",
-     *                  "active":"b",
-     *                  "name":"Ivan",
-     *                  "surname":"Ivanov",
-     *                  "patronymic":"Ivanovich",
-     *                  "expired_at":"2021-12-30",
-     *                  "roles": {"A","B","C"},
-     *                  },
-     *               type="object",
-     *               @OA\Property(property="class",type="string",default="Evrinoma\UserBundle\Dto\UserApiDto"),
-     *               @OA\Property(property="id",type="string"),
-     *               @OA\Property(property="username",type="string"),
-     *               @OA\Property(property="email",type="string"),
-     *               @OA\Property(property="password",type="string"),
-     *               @OA\Property(property="active",type="string"),
-     *               @OA\Property(property="name",type="string"),
-     *               @OA\Property(property="surname",type="string"),
-     *               @OA\Property(property="patronymic",type="string"),
-     *               @OA\Property(property="expired_at",type="string"),
-     *               @OA\Property(property="roles",type="array", @OA\Items(type="string"))
-     *            )
+     *                 example={
+     *                     "class": "Evrinoma\UserBundle\Dto\UserApiDto",
+     *                     "id": "1",
+     *                     "username": "nikolns",
+     *                     "email": "nikolns@ite-ng.ru",
+     *                     "password": "1234",
+     *                     "active": "b",
+     *                     "name": "Ivan",
+     *                     "surname": "Ivanov",
+     *                     "patronymic": "Ivanovich",
+     *                     "expired_at": "2021-12-30",
+     *                     "roles": {"A", "B", "C"},
+     *                 },
+     *                 type="object",
+     *                 @OA\Property(property="class", type="string", default="Evrinoma\UserBundle\Dto\UserApiDto"),
+     *                 @OA\Property(property="id", type="string"),
+     *                 @OA\Property(property="username", type="string"),
+     *                 @OA\Property(property="email", type="string"),
+     *                 @OA\Property(property="password", type="string"),
+     *                 @OA\Property(property="active", type="string"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="surname", type="string"),
+     *                 @OA\Property(property="patronymic", type="string"),
+     *                 @OA\Property(property="expired_at", type="string"),
+     *                 @OA\Property(property="roles", type="array", @OA\Items(type="string"))
+     *             )
      *         )
      *     )
      * )
-     * @OA\Response(response=200,description="Save code")
+     * @OA\Response(response=200, description="Save code")
      *
      * @return JsonResponse
      */
     public function putAction(): JsonResponse
     {
         /** @var UserApiDtoInterface $userApiDto */
-        $userApiDto     = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
+        $userApiDto = $this->factoryDto->setRequest($this->request)->createDto($this->dtoClass);
         $commandManager = $this->commandManager;
 
         try {
             $this->preValidator->onPut($userApiDto);
 
             $json = [];
-            $em   = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
             $em->transactional(
                 function () use ($userApiDto, $commandManager, &$json) {
@@ -192,7 +200,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
     }
 
     /**
-     * @Rest\Delete("/api/user/delete", options={"expose"=true}, name="api_user_delete")
+     * @Rest\Delete("/api/user/delete", options={"expose": true}, name="api_user_delete")
      * @OA\Delete(
      *     tags={"user"},
      *     @OA\Parameter(
@@ -201,23 +209,23 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *         name="class",
      *         required=true,
      *         @OA\Schema(
-     *           type="string",
-     *           default="Evrinoma\UserBundle\Dto\UserApiDto",
-     *           readOnly=true
+     *             type="string",
+     *             default="Evrinoma\UserBundle\Dto\UserApiDto",
+     *             readOnly=true
      *         )
      *     ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
      *         description="id Entity",
      *         in="query",
      *         name="id",
      *         required=true,
      *         @OA\Schema(
-     *           type="string",
-     *           default="1",
+     *             type="string",
+     *             default="1",
      *         )
      *     )
      * )
-     * @OA\Response(response=200,description="Delete user")
+     * @OA\Response(response=200, description="Delete user")
      *
      * @return JsonResponse
      */
@@ -233,7 +241,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
             $this->preValidator->onDelete($userApiDto);
 
             $json = [];
-            $em   = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
             $em->transactional(
                 function () use ($userApiDto, $commandManager, &$json) {
@@ -249,7 +257,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
     }
 
     /**
-     * @Rest\Get("/api/user/criteria", options={"expose"=true}, name="api_user_criteria")
+     * @Rest\Get("/api/user/criteria", options={"expose": true}, name="api_user_criteria")
      * @OA\Get(
      *     tags={"user"},
      *     @OA\Parameter(
@@ -258,37 +266,37 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *         name="class",
      *         required=true,
      *         @OA\Schema(
-     *           type="string",
-     *           default="Evrinoma\UserBundle\Dto\UserApiDto",
-     *           readOnly=true
+     *             type="string",
+     *             default="Evrinoma\UserBundle\Dto\UserApiDto",
+     *             readOnly=true
      *         )
      *     ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
      *         description="id Entity",
      *         in="query",
      *         name="id",
      *         @OA\Schema(
-     *           type="string",
+     *             type="string",
      *         )
      *     ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
      *         description="username",
      *         in="query",
      *         name="username",
      *         @OA\Schema(
-     *           type="string",
+     *             type="string",
      *         )
      *     ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
      *         description="email",
      *         in="query",
      *         name="email",
      *         @OA\Schema(
-     *           type="string",
+     *             type="string",
      *         )
      *     )
      * )
-     * @OA\Response(response=200,description="Return user")
+     * @OA\Response(response=200, description="Return user")
      *
      * @return JsonResponse
      */
@@ -306,9 +314,8 @@ final class UserApiController extends AbstractApiController implements ApiContro
         return $this->setSerializeGroup('api_get_user')->json(['message' => 'Get user', 'data' => $json], $this->queryManager->getRestStatus());
     }
 
-
     /**
-     * @Rest\Get("/api/user", options={"expose"=true}, name="api_user")
+     * @Rest\Get("/api/user", options={"expose": true}, name="api_user")
      * @OA\Get(
      *     tags={"user"},
      *     @OA\Parameter(
@@ -317,23 +324,23 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *         name="class",
      *         required=true,
      *         @OA\Schema(
-     *           type="string",
-     *           default="Evrinoma\UserBundle\Dto\UserApiDto",
-     *           readOnly=true
+     *             type="string",
+     *             default="Evrinoma\UserBundle\Dto\UserApiDto",
+     *             readOnly=true
      *         )
      *     ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
      *         description="id Entity",
      *         in="query",
      *         name="id",
      *         required=true,
      *         @OA\Schema(
-     *           type="string",
-     *           default="1",
+     *             type="string",
+     *             default="1",
      *         )
      *     )
      * )
-     * @OA\Response(response=200,description="Return user")
+     * @OA\Response(response=200, description="Return user")
      *
      * @return JsonResponse
      */
@@ -372,5 +379,4 @@ final class UserApiController extends AbstractApiController implements ApiContro
 
         return ['errors' => $e->getMessage()];
     }
-
 }
