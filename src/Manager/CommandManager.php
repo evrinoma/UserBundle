@@ -1,7 +1,17 @@
 <?php
 
-namespace Evrinoma\UserBundle\Manager;
+declare(strict_types=1);
 
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Evrinoma\UserBundle\Manager;
 
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
@@ -20,26 +30,24 @@ final class CommandManager implements CommandManagerInterface, RestInterface
 {
     use RestTrait;
 
-
     private UserCommandRepositoryInterface $repository;
     private ValidatorInterface             $validator;
     private UserFactoryInterface           $factory;
     private CommandMediatorInterface       $mediator;
 
-
     public function __construct(ValidatorInterface $validator, UserCommandRepositoryInterface $repository, UserFactoryInterface $factory, CommandMediatorInterface $mediator)
     {
-        $this->validator  = $validator;
+        $this->validator = $validator;
         $this->repository = $repository;
-        $this->factory    = $factory;
-        $this->mediator   = $mediator;
+        $this->factory = $factory;
+        $this->mediator = $mediator;
     }
-
 
     /**
      * @param UserApiDtoInterface $dto
      *
      * @return UserInterface
+     *
      * @throws UserInvalidException
      * @throws UserCannotBeCreatedException
      */
@@ -51,9 +59,8 @@ final class CommandManager implements CommandManagerInterface, RestInterface
 
         $errors = $this->validator->validate($user);
 
-        if (count($errors) > 0) {
-
-            $errorsString = (string)$errors;
+        if (\count($errors) > 0) {
+            $errorsString = (string) $errors;
 
             throw new UserInvalidException($errorsString);
         }
@@ -67,6 +74,7 @@ final class CommandManager implements CommandManagerInterface, RestInterface
      * @param UserApiDtoInterface $dto
      *
      * @return UserInterface
+     *
      * @throws UserInvalidException
      * @throws UserNotFoundException
      */
@@ -82,9 +90,8 @@ final class CommandManager implements CommandManagerInterface, RestInterface
 
         $errors = $this->validator->validate($user);
 
-        if (count($errors) > 0) {
-
-            $errorsString = (string)$errors;
+        if (\count($errors) > 0) {
+            $errorsString = (string) $errors;
 
             throw new UserInvalidException($errorsString);
         }
@@ -117,10 +124,8 @@ final class CommandManager implements CommandManagerInterface, RestInterface
         }
     }
 
-
     public function getRestStatus(): int
     {
         return $this->status;
     }
-
 }

@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Mediator;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
@@ -12,7 +23,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CommandMediator implements CommandMediatorInterface
 {
-
     /**
      * @var RoleMediatorInterface
      */
@@ -22,17 +32,15 @@ class CommandMediator implements CommandMediatorInterface
      */
     private UserPasswordHasherInterface $passwordHasher;
 
-
     public function __construct(UserPasswordHasherInterface $passwordHasher, RoleMediatorInterface $roleMediator)
     {
         $this->passwordHasher = $passwordHasher;
-        $this->roleMediator   = $roleMediator;
+        $this->roleMediator = $roleMediator;
     }
-
 
     public function onUpdate(DtoInterface $dto, $entity): UserInterface
     {
-        /** @var UserApiDtoInterface $dto */
+        /* @var UserApiDtoInterface $dto */
         $entity
             ->setUsername($dto->getUsername())
             ->setEmail($dto->getEmail())
@@ -64,8 +72,8 @@ class CommandMediator implements CommandMediatorInterface
                 }
             } else {
                 $rolesUnRevoke = $this->roleMediator->revokePrivileges($entity->getRoles());
-                $rolesGrant    = $this->roleMediator->grantPrivileges($dto->getRoles());
-                $entity->setRoles(array_unique(array_merge($rolesGrant, $rolesUnRevoke), SORT_REGULAR));
+                $rolesGrant = $this->roleMediator->grantPrivileges($dto->getRoles());
+                $entity->setRoles(array_unique(array_merge($rolesGrant, $rolesUnRevoke), \SORT_REGULAR));
             }
         }
 
@@ -84,7 +92,7 @@ class CommandMediator implements CommandMediatorInterface
 
     public function onCreate(DtoInterface $dto, $entity): UserInterface
     {
-        /** @var UserApiDtoInterface $dto */
+        /* @var UserApiDtoInterface $dto */
         $entity
             ->setUsername($dto->getUsername())
             ->setSurname($dto->getUsername())
@@ -106,7 +114,7 @@ class CommandMediator implements CommandMediatorInterface
 
         if ($dto->hasRoles()) {
             $rolesUnRevoke = $this->roleMediator->revokePrivileges($entity->getRoles());
-            $rolesGrant    = $this->roleMediator->grantPrivileges($dto->getRoles());
+            $rolesGrant = $this->roleMediator->grantPrivileges($dto->getRoles());
 
             $entity->setRoles(array_merge($rolesGrant, $rolesUnRevoke));
         }
@@ -118,5 +126,4 @@ class CommandMediator implements CommandMediatorInterface
 
         return $entity;
     }
-
 }

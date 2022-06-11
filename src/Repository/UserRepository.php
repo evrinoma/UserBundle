@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -13,12 +24,9 @@ use Evrinoma\UserBundle\Exception\UserProxyException;
 use Evrinoma\UserBundle\Mediator\QueryMediatorInterface;
 use Evrinoma\UserBundle\Model\User\UserInterface;
 
-
 class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
-
     private QueryMediatorInterface $mediator;
-
 
     /**
      * @param ManagerRegistry        $registry
@@ -31,11 +39,11 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         $this->mediator = $mediator;
     }
 
-
     /**
      * @param UserInterface $user
      *
      * @return bool
+     *
      * @throws UserCannotBeSavedException
      * @throws ORMException
      */
@@ -64,6 +72,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
      * @param string $id
      *
      * @return UserInterface
+     *
      * @throws UserProxyException
      * @throws ORMException
      */
@@ -80,11 +89,11 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         return $user;
     }
 
-
     /**
      * @param UserApiDtoInterface $dto
      *
      * @return array
+     *
      * @throws UserNotFoundException
      */
     public function findByCriteria(UserApiDtoInterface $dto): array
@@ -95,8 +104,8 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 
         $users = $this->mediator->getResult($dto, $builder);
 
-        if (count($users) === 0) {
-            throw new UserNotFoundException("Cannot find users by findByCriteria");
+        if (0 === \count($users)) {
+            throw new UserNotFoundException('Cannot find users by findByCriteria');
         }
 
         return $users;
@@ -108,6 +117,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
      * @param null $lockVersion
      *
      * @return mixed
+     *
      * @throws UserNotFoundException
      */
     public function find($id, $lockMode = null, $lockVersion = null): UserInterface
@@ -115,11 +125,10 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         /** @var UserInterface $fcr */
         $user = parent::find($id);
 
-        if ($user === null) {
+        if (null === $user) {
             throw new UserNotFoundException("Cannot find user with id $id");
         }
 
         return $user;
     }
-
 }

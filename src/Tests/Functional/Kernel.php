@@ -21,7 +21,7 @@ use Evrinoma\TestUtilsBundle\Kernel\AbstractApiKernel;
 class Kernel extends AbstractApiKernel
 {
     protected string $bundlePrefix = 'UserBundle';
-    protected string $rootDir      = __DIR__;
+    protected string $rootDir = __DIR__;
 
     protected function getBundleConfig(): array
     {

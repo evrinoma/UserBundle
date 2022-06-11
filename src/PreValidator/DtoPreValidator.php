@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\PreValidator;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
@@ -10,16 +21,12 @@ use Evrinoma\UtilsBundle\PreValidator\AbstractPreValidator;
 
 class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInterface
 {
-
-
     private PasswordPreCheckerInterface $passwordPreChecker;
-
 
     public function __construct(PasswordPreCheckerInterface $postPreChecker)
     {
         $this->passwordPreChecker = $postPreChecker;
     }
-
 
     public function onPost(DtoInterface $dto): void
     {
@@ -58,7 +65,6 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
         $this->check($dto);
     }
 
-
     private function check(DtoInterface $dto): void
     {
         /** @var UserApiDtoInterface $dto */
@@ -66,5 +72,4 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
             throw new UserInvalidException('The Dto has\'t ID or class invalid');
         }
     }
-
 }

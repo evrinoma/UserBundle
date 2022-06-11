@@ -18,8 +18,8 @@ use Evrinoma\TestUtilsBundle\ValueObject\ValueObjectTest;
 
 class Password extends AbstractValueObject implements ValueObjectTest
 {
-    protected static string $value   = '1Qw.';
-    protected static string $wrong   = 'password';
+    protected static string $value = '1Qw.';
+    protected static string $wrong = 'password';
     protected static string $default = '2We,';
 
     public static function value(): string

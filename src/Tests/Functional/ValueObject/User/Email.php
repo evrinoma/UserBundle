@@ -18,8 +18,8 @@ use Evrinoma\TestUtilsBundle\ValueObject\ValueObjectTest;
 
 class Email extends AbstractValueObject implements ValueObjectTest
 {
-    protected static string $value   = 'test1@test.ru';
-    protected static string $wrong   = 'test@test';
+    protected static string $value = 'test1@test.ru';
+    protected static string $wrong = 'test@test';
     protected static string $default = 'IIvanov@ite-ng.ru';
 
     public static function value(): string

@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Command;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -12,8 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UserCreateCommand extends AbstractCommand
 {
-
-    protected static $defaultName        = 'evrinoma:user:create';
+    protected static $defaultName = 'evrinoma:user:create';
     protected static $defaultDescription = 'Create a user.';
 
     /**
@@ -35,10 +45,10 @@ class UserCreateCommand extends AbstractCommand
                     $output->writeln(sprintf('User <comment>%s</comment> already exists', $dto->getUsername()));
                     break;
                 case $e instanceof UserInvalidException:
-                    $output->writeln(sprintf('User doesn\'t have required params'));
+                    $output->writeln('User doesn\'t have required params');
                     break;
                 default:
-                    $output->writeln(sprintf('Something went wrong with user'));
+                    $output->writeln('Something went wrong with user');
             }
 
             return 1;

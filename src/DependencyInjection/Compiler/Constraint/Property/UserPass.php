@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\DependencyInjection\Compiler\Constraint\Property;
 
 use Evrinoma\UserBundle\Validator\UserValidator;
@@ -8,11 +19,9 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
 class UserPass extends AbstractConstraint implements CompilerPassInterface
 {
-
     public const USER_CONSTRAINT = 'evrinoma.user.constraint.property';
 
-    protected static string $alias      = self::USER_CONSTRAINT;
-    protected static string $class      = UserValidator::class;
+    protected static string $alias = self::USER_CONSTRAINT;
+    protected static string $class = UserValidator::class;
     protected static string $methodCall = 'addPropertyConstraint';
-
 }

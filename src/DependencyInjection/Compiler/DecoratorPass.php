@@ -1,7 +1,17 @@
 <?php
 
-namespace Evrinoma\UserBundle\DependencyInjection\Compiler;
+declare(strict_types=1);
 
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Evrinoma\UserBundle\DependencyInjection\Compiler;
 
 use Evrinoma\UserBundle\EvrinomaUserBundle;
 use Symfony\Component\DependencyInjection\Compiler\AbstractRecursivePass;
@@ -9,22 +19,21 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class DecoratorPass extends AbstractRecursivePass
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function process(ContainerBuilder $container)
     {
         $decoratorQuery = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.query');
         if ($decoratorQuery) {
             $queryMediator = $container->getDefinition($decoratorQuery);
-            $repository    = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.repository');
+            $repository = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.repository');
             $repository->setArgument(2, $queryMediator);
         }
         $decoratorCommand = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.command');
         if ($decoratorCommand) {
             $commandMediator = $container->getDefinition($decoratorCommand);
-            $commandManager  = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.manager');
+            $commandManager = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.manager');
             $commandManager->setArgument(3, $commandMediator);
         }
 
@@ -32,13 +41,13 @@ class DecoratorPass extends AbstractRecursivePass
         if ($decoratorRole) {
             $decoratorRole = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.role.mediator');
             $decoratorRoleMediator = $container->getDefinition($decoratorRole);
-            $apiController         = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.mediator');
+            $apiController = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.mediator');
             $apiController->setArgument(1, $decoratorRoleMediator);
         }
 
         $decoratorPreValidator = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.pre.validator');
         if ($decoratorPreValidator) {
-            $preValidator  = $container->getDefinition($decoratorPreValidator);
+            $preValidator = $container->getDefinition($decoratorPreValidator);
             $apiController = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.api.controller');
             $apiController->setArgument(5, $preValidator);
 

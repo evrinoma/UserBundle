@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Fixtures;
 
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -10,7 +21,6 @@ use Evrinoma\UserBundle\Entity\User\BaseUser;
 
 class UserFixtures extends AbstractFixture implements FixtureGroupInterface, OrderedFixtureInterface
 {
-
     protected static array $data = [
         ['username' => 'test1', 'surname' => 'test1', 'email' => 'test1@test.ru', 'last_login' => '2008-10-23 06:21:51', 'password' => 'password1', 'patronymic' => 'test1', 'name' => 'test1', 'active' => 'a', 'expired_at' => null, 'roles' => ['ROLE_ADMIN_USER']],
         ['username' => 'test2', 'surname' => 'test2', 'email' => 'test2@test.ru', 'last_login' => '2019-11-23 07:21:52', 'password' => 'password2', 'patronymic' => 'test2', 'name' => 'test2', 'active' => 'b', 'expired_at' => '2008-10-23 10:21:50'],
@@ -23,17 +33,17 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
 
     protected static string $class = BaseUser::class;
 
-
     /**
      * @param ObjectManager $manager
      *
      * @return $this
+     *
      * @throws \Exception
      */
     protected function create(ObjectManager $manager): self
     {
         $short = self::getReferenceName();
-        $i     = 0;
+        $i = 0;
 
         foreach (static::$data as $record) {
             $entity = new BaseUser();
@@ -65,12 +75,11 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
 
             $this->addReference($short.$i, $entity);
             $manager->persist($entity);
-            $i++;
+            ++$i;
         }
 
         return $this;
     }
-
 
     public static function getGroups(): array
     {

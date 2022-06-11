@@ -29,11 +29,11 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 {
     use BaseUserTestTrait;
 
-    public const API_GET      = 'evrinoma/api/user';
+    public const API_GET = 'evrinoma/api/user';
     public const API_CRITERIA = 'evrinoma/api/user/criteria';
-    public const API_DELETE   = 'evrinoma/api/user/delete';
-    public const API_PUT      = 'evrinoma/api/user/save';
-    public const API_POST     = 'evrinoma/api/user/create';
+    public const API_DELETE = 'evrinoma/api/user/delete';
+    public const API_PUT = 'evrinoma/api/user/save';
+    public const API_POST = 'evrinoma/api/user/create';
 
     protected static function getDtoClass(): string
     {
@@ -43,17 +43,17 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
     protected static function defaultData(): array
     {
         return [
-            'id'         => Id::default(),
-            'class'      => static::getDtoClass(),
-            'username'   => 'IIvanov',
-            'email'      => Email::default(),
-            'password'   => Password::default(),
-            'active'     => Active::default(),
-            'name'       => Name::default(),
-            'surname'    => 'Ivanov',
+            'id' => Id::default(),
+            'class' => static::getDtoClass(),
+            'username' => 'IIvanov',
+            'email' => Email::default(),
+            'password' => Password::default(),
+            'active' => Active::default(),
+            'name' => Name::default(),
+            'surname' => 'Ivanov',
             'patronymic' => 'Ivanovich',
             'expired_at' => '2021-12-30',
-            'roles'      => ['A', 'B', 'C'],
+            'roles' => ['A', 'B', 'C'],
         ];
     }
 
@@ -74,7 +74,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 
     public function actionCriteriaNotFound(): void
     {
-        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::value()]);
+        $query = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::value()]);
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $response);
@@ -86,7 +86,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         Assert::assertEquals(Id::value(), $entity['id']);
         Assert::assertEquals(Active::value(), $entity['active']);
 
-        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::wrong()]);
+        $query = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::wrong()]);
         $response = $this->criteria($query);
         $this->testResponseStatusNotFound();
         Assert::assertArrayHasKey('data', $response);
@@ -94,7 +94,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
 
     public function actionCriteria(): void
     {
-        $query    = static::getDefault(['id' => Id::empty(), 'username' => Username::value(), 'email' => Email::empty(), 'active' => Active::empty()]);
+        $query = static::getDefault(['id' => Id::empty(), 'username' => Username::value(), 'email' => Email::empty(), 'active' => Active::empty()]);
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $response);
@@ -103,7 +103,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         $this->checkUser($entity);
         Assert::assertEquals(Username::value(), $entity['username']);
 
-        $query    = static::getDefault(['id' => Id::empty(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::empty()]);
+        $query = static::getDefault(['id' => Id::empty(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::empty()]);
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $response);
@@ -113,7 +113,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         Assert::assertEquals(Username::value(), $entity['username']);
         Assert::assertEquals(Email::value(), $entity['email']);
 
-        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::empty()]);
+        $query = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::empty()]);
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $response);
@@ -124,7 +124,7 @@ class BaseUser extends AbstractServiceTest implements BaseUserTestInterface
         Assert::assertEquals(Email::value(), $entity['email']);
         Assert::assertEquals(Id::value(), $entity['id']);
 
-        $query    = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::value()]);
+        $query = static::getDefault(['id' => Id::value(), 'username' => Username::value(), 'email' => Email::value(), 'active' => Active::value()]);
         $response = $this->criteria($query);
         $this->testResponseStatusOK();
         Assert::assertArrayHasKey('data', $response);

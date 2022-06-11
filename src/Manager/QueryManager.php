@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Manager;
 
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
@@ -14,20 +25,18 @@ final class QueryManager implements QueryManagerInterface, RestInterface
 {
     use RestTrait;
 
-
     private UserQueryRepositoryInterface $repository;
-
 
     public function __construct(UserQueryRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
-
     /**
      * @param UserApiDtoInterface $dto
      *
      * @return array
+     *
      * @throws UserNotFoundException
      */
     public function criteria(UserApiDtoInterface $dto): array
@@ -45,6 +54,7 @@ final class QueryManager implements QueryManagerInterface, RestInterface
      * @param UserApiDtoInterface $dto
      *
      * @return UserInterface
+     *
      * @throws UserProxyException
      */
     public function proxy(UserApiDtoInterface $dto): UserInterface
@@ -58,7 +68,6 @@ final class QueryManager implements QueryManagerInterface, RestInterface
         return $user;
     }
 
-
     public function getRestStatus(): int
     {
         return $this->status;
@@ -68,6 +77,7 @@ final class QueryManager implements QueryManagerInterface, RestInterface
      * @param UserApiDtoInterface $dto
      *
      * @return UserInterface
+     *
      * @throws UserNotFoundException
      */
     public function get(UserApiDtoInterface $dto): UserInterface
@@ -80,5 +90,4 @@ final class QueryManager implements QueryManagerInterface, RestInterface
 
         return $user;
     }
-
 }

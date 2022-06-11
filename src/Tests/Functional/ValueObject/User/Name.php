@@ -17,7 +17,7 @@ use Evrinoma\TestUtilsBundle\ValueObject\Common\AbstractName;
 
 class Name extends AbstractName
 {
-    protected static string $value   = 'Ivan';
+    protected static string $value = 'Ivan';
     protected static string $default = 'Ivan';
 
     public static function value(): string

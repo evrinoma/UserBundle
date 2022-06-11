@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Model\User;
 
 use DateTimeImmutable;
@@ -12,7 +23,6 @@ use Symfony\Component\Security\Core\User\UserInterface as BaseUserInterface;
 
 interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswordAuthenticatedUserInterface, BaseUserInterface, ActiveInterface, IdInterface, NameInterface
 {
-
     /**
      * @param string $role
      *
@@ -31,7 +41,6 @@ interface UserInterface extends PasswordAuthenticatedUserInterface, LegacyPasswo
      * @return bool
      */
     public function hasExpiredAt(): bool;
-
 
     /**
      * @return DateTimeImmutable|null

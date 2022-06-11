@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Command\Bridge;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,10 +26,9 @@ use Symfony\Component\Console\Question\Question;
 
 class UserCreateBridge implements BridgeInterface
 {
-
     private static string $dtoClass;
     protected string      $username = '';
-    protected string      $email    = '';
+    protected string      $email = '';
     protected string      $password = '';
     protected string      $inactive = '';
     /**
@@ -34,21 +44,19 @@ class UserCreateBridge implements BridgeInterface
      */
     private ManagerRegistry $managerRegistry;
 
-
     /**
-     * @param ManagerRegistry $managerRegistry
+     * @param ManagerRegistry         $managerRegistry
      * @param CommandManagerInterface $commandManager
-     * @param DtoPreValidator $preValidator
-     * @param string $dtoClass
+     * @param DtoPreValidator         $preValidator
+     * @param string                  $dtoClass
      */
     public function __construct(ManagerRegistry $managerRegistry, CommandManagerInterface $commandManager, DtoPreValidator $preValidator, string $dtoClass)
     {
         $this->managerRegistry = $managerRegistry;
-        $this->commandManager  = $commandManager;
-        $this->preValidator    = $preValidator;
-        static::$dtoClass      = $dtoClass;
+        $this->commandManager = $commandManager;
+        $this->preValidator = $preValidator;
+        static::$dtoClass = $dtoClass;
     }
-
 
     public function argumentDefinition(): array
     {
@@ -172,7 +180,6 @@ EOT;
         return [];
     }
 
-
     public function argumentToDto(InputInterface $input): DtoInterface
     {
         /** @var PreserveUserApiDtoInterface $dto */
@@ -189,5 +196,4 @@ EOT;
 
         return $dto;
     }
-
 }

@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Model\User;
 
 use DateTimeImmutable;
@@ -12,13 +23,14 @@ use Evrinoma\UtilsBundle\Entity\NameTrait;
  * @ORM\MappedSuperclass
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="idx_username", columns={"username"})
- *     }
+ * }
  * )
  */
 abstract class AbstractUser implements UserInterface
 {
-    use IdTrait, ActiveTrait, NameTrait;
-
+    use ActiveTrait;
+    use IdTrait;
+    use NameTrait;
 
     /**
      * @var string
@@ -83,7 +95,6 @@ abstract class AbstractUser implements UserInterface
      */
     protected array $roles = [];
 
-
     /**
      * @param string $role
      *
@@ -93,7 +104,7 @@ abstract class AbstractUser implements UserInterface
     {
         $role = strtoupper($role);
 
-        if (!in_array($role, $this->roles, true)) {
+        if (!\in_array($role, $this->roles, true)) {
             $this->roles[] = $role;
         }
 
@@ -110,14 +121,12 @@ abstract class AbstractUser implements UserInterface
         $role = strtoupper($role);
 
         $key = array_search($role, $this->roles);
-        if ($key !== false) {
-
+        if (false !== $key) {
             unset($this->roles[$key]);
         }
 
         return $this;
     }
-
 
     /**
      * @param array $roles
@@ -138,7 +147,7 @@ abstract class AbstractUser implements UserInterface
      */
     public function hasRole(string $role): bool
     {
-        return in_array(strtoupper($role), $this->getRoles(), true);
+        return \in_array(strtoupper($role), $this->getRoles(), true);
     }
 
     /**
@@ -148,7 +157,6 @@ abstract class AbstractUser implements UserInterface
     {
         return $this;
     }
-
 
     /**
      * @return DateTimeImmutable|null
@@ -163,8 +171,8 @@ abstract class AbstractUser implements UserInterface
      */
     public function getFio(): string
     {
-        $fi = ($this->surname !== '' && $this->name !== '') ? $this->surname.' '.mb_substr($this->name, 0, 1, 'utf-8').'.' : '';
-        if ($fi !== '' && $this->patronymic !== '') {
+        $fi = ('' !== $this->surname && '' !== $this->name) ? $this->surname.' '.mb_substr($this->name, 0, 1, 'utf-8').'.' : '';
+        if ('' !== $fi && '' !== $this->patronymic) {
             $fi = $fi.mb_substr($this->patronymic, 0, 1, 'utf-8').'.';
         }
 
@@ -245,7 +253,7 @@ abstract class AbstractUser implements UserInterface
 
     public function hasExpiredAt(): bool
     {
-        return $this->expiredAt !== null;
+        return null !== $this->expiredAt;
     }
 
     /**
@@ -331,5 +339,4 @@ abstract class AbstractUser implements UserInterface
 
         return $this;
     }
-
 }

@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the package.
+ *
+ * (c) Nikolay Nikolaev <evrinoma@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Evrinoma\UserBundle\Command\Bridge;
 
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,12 +33,11 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserRolesBridge implements BridgeInterface
 {
-
     private const ADMIN_USERNAME = 'admin_username';
     private const ADMIN_PASSWORD = 'admin_password';
     private static string $dtoClass;
     protected string      $username = '';
-    protected string      $email    = '';
+    protected string      $email = '';
     protected string      $password = '';
     protected string      $inactive = '';
     /**
@@ -51,7 +61,6 @@ class UserRolesBridge implements BridgeInterface
      */
     private TokenStorageInterface $tokenStorage;
 
-
     /**
      * @param ManagerRegistry         $managerRegistry
      * @param TokenStorageInterface   $tokenStorage
@@ -63,13 +72,12 @@ class UserRolesBridge implements BridgeInterface
     public function __construct(ManagerRegistry $managerRegistry, TokenStorageInterface $tokenStorage, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidator $preValidator, string $dtoClass)
     {
         $this->managerRegistry = $managerRegistry;
-        $this->tokenStorage    = $tokenStorage;
-        $this->commandManager  = $commandManager;
-        $this->queryManager    = $queryManager;
-        $this->preValidator    = $preValidator;
-        static::$dtoClass      = $dtoClass;
+        $this->tokenStorage = $tokenStorage;
+        $this->commandManager = $commandManager;
+        $this->queryManager = $queryManager;
+        $this->preValidator = $preValidator;
+        static::$dtoClass = $dtoClass;
     }
-
 
     public function argumentDefinition(): array
     {
@@ -150,12 +158,12 @@ EOT;
         if (!$input->getArgument(UserApiDtoInterface::ROLES)) {
             $question = new Question('Please add an role:');
             $question->setValidator(function ($roles) {
-                $roles  = explode(" ", $roles);
+                $roles = explode(' ', $roles);
                 $result = array_filter($roles, function ($v) {
                     return trim($v);
                 });
-                $roles  = array_slice($result, 0);
-                if (count($roles) === 0) {
+                $roles = \array_slice($result, 0);
+                if (0 === \count($roles)) {
                     throw new \Exception('Role can not be empty');
                 }
 
@@ -179,10 +187,8 @@ EOT;
             $questions[UserApiDtoInterface::GRANT_ROLES] = $question;
         }
 
-
         return $questions;
     }
-
 
     public function argumentToDto(InputInterface $input): DtoInterface
     {
@@ -192,8 +198,8 @@ EOT;
         $dto->setUsername($input->getArgument(self::ADMIN_USERNAME));
 
         $users = $this->queryManager->criteria($dto);
-        if (count($users) != 1) {
-            throw  new UserNotFoundException();
+        if (1 != \count($users)) {
+            throw new UserNotFoundException();
         }
         foreach ($users as $user) {
             $this->login($user, $input->getArgument(self::ADMIN_PASSWORD));
@@ -202,8 +208,8 @@ EOT;
         $dto->setUsername($input->getArgument(UserApiDtoInterface::USERNAME));
 
         $users = $this->queryManager->criteria($dto);
-        if (count($users) != 1) {
-            throw  new UserNotFoundException();
+        if (1 != \count($users)) {
+            throw new UserNotFoundException();
         }
         foreach ($users as $user) {
             $dto->setId($user->getId())
@@ -217,7 +223,7 @@ EOT;
         }
 
         $roles = $input->getArgument(UserApiDtoInterface::ROLES);
-        if (count($roles) > 0) {
+        if (\count($roles) > 0) {
             $dto->setRoles($roles);
         }
         $grandRoles = $input->getOption(UserApiDtoInterface::GRANT_ROLES);
@@ -241,5 +247,4 @@ EOT;
 
         $this->tokenStorage->setToken($token);
     }
-
 }
