@@ -90,7 +90,7 @@ EOT;
         );
     }
 
-    public function questioners(InputInterface $input): array
+    public function argumentQuestioners(InputInterface $input): array
     {
         $questions = [];
         if (!$input->getArgument(UserApiDtoInterface::USERNAME)) {
@@ -167,6 +167,11 @@ EOT;
         }
 
         return $questions;
+    }
+
+    public function optionQuestioners(InputInterface $input): array
+    {
+        return [];
     }
 //endregion Public
 

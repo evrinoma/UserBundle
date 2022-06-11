@@ -6,39 +6,15 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
 use Evrinoma\UserBundle\Exception\UserInvalidException;
-use Evrinoma\UtilsBundle\Command\BridgeInterface;
-use Symfony\Component\Console\Command\Command;
+use Evrinoma\UtilsBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserCreateCommand extends Command
+class UserCreateCommand extends AbstractCommand
 {
 //region SECTION: Fields
-    protected static $defaultName = 'evrinoma:user:create';
-
-    private BridgeInterface $bridge;
-//endregion Fields
-
-//region SECTION: Constructor
-    public function __construct(BridgeInterface $bridge)
-    {
-        $this->bridge = $bridge;
-        parent::__construct(static::$defaultName);
-    }
-//endregion Constructor
-
-//region SECTION: Protected
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
-    {
-        $this
-            ->setName(static::$defaultName)
-            ->setDescription('Create a user.')
-            ->setDefinition($this->bridge->argumentDefinition())
-            ->setHelp($this->bridge->helpMessage());
-    }
+    protected static $defaultName        = 'evrinoma:user:create';
+    protected static $defaultDescription = 'Create a user.';
 
     /**
      * {@inheritdoc}
@@ -70,16 +46,4 @@ class UserCreateCommand extends Command
 
         return 0;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        foreach ($this->bridge->questioners($input) as $name => $question) {
-            $answer = $this->getHelper('question')->ask($input, $output, $question);
-            $input->setArgument($name, $answer);
-        }
-    }
-//endregion Protected
 }
