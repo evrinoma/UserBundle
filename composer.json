@@ -16,7 +16,8 @@
         "php": "^7.4 || ^8.0",
         "evrinoma/dto-bundle": "dev-master",
         "evrinoma/dto-common": "dev-master",
-        "evrinoma/utils-bundle": "dev-master"
+        "evrinoma/utils-bundle": "dev-master",
+        "friendsofphp/php-cs-fixer": "^3.8"
     },
     "autoload": {
         "psr-4": {
