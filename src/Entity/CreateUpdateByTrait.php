@@ -25,14 +25,12 @@ trait CreateUpdateByTrait
     private UserInterface $createdBy;
 
     /**
-     * @var UserInterface
+     * @var UserInterface|null
      * @ORM\ManyToOne(targetEntity="Evrinoma\UserBundle\Model\User\UserInterface")
      */
-    private UserInterface $updatedBy;
+    private ?UserInterface $updatedBy = null;
 
     /**
-     * Returns createdBy.
-     *
      * @return UserInterface
      */
     public function getCreatedBy(): UserInterface
@@ -41,8 +39,6 @@ trait CreateUpdateByTrait
     }
 
     /**
-     * Returns updatedBy.
-     *
      * @return UserInterface
      */
     public function getUpdatedBy(): ?UserInterface
@@ -51,8 +47,6 @@ trait CreateUpdateByTrait
     }
 
     /**
-     * Sets createdBy.
-     *
      * @param $createdBy
      *
      * @return $this
@@ -65,8 +59,6 @@ trait CreateUpdateByTrait
     }
 
     /**
-     * Sets updatedBy.
-     *
      * @param $updatedBy
      *
      * @return $this

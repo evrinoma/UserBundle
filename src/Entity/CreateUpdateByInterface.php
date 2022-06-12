@@ -17,7 +17,27 @@ use Evrinoma\UserBundle\Model\User\UserInterface;
 
 interface CreateUpdateByInterface
 {
+    /**
+     * @return UserInterface
+     */
     public function getCreatedBy(): UserInterface;
 
+    /**
+     * @return UserInterface|null
+     */
     public function getUpdatedBy(): ?UserInterface;
+
+    /**
+     * @param $createdBy
+     *
+     * @return $this
+     */
+    public function setCreatedBy($createdBy): self;
+
+    /**
+     * @param $updatedBy
+     *
+     * @return $this
+     */
+    public function setUpdatedBy($updatedBy): self;
 }
