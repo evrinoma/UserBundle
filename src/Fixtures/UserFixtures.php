@@ -68,8 +68,12 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
             $entity->addRole('ROLE_REGULAR_USER');
 
             if (isset($record['roles'])) {
-                foreach ($record['roles'] as $role) {
-                    $entity->addRole($role);
+                if (\is_array($record['roles'])) {
+                    foreach ($record['roles'] as $role) {
+                        $entity->addRole($role);
+                    }
+                } else {
+                    $entity->setRoles(unserialize($record['roles']));
                 }
             }
 
