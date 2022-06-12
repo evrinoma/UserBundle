@@ -175,8 +175,8 @@ class EvrinomaUserExtension extends Extension
         $definitionRepository->setArgument(0, $doctrineRegistry);
         $definitionRepository->setArgument(1, $class);
         $definitionRepository->setArgument(2, $definitionQueryMediator);
-        $container->addAliases([ UserCommandRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
-        $container->addAliases([ UserQueryRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
+        $container->addAliases([UserCommandRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
+        $container->addAliases([UserQueryRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
     }
 
     private function wireFactory(ContainerBuilder $container, string $class, string $paramClass): void
