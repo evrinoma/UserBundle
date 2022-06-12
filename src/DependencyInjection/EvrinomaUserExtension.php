@@ -17,7 +17,10 @@ use Evrinoma\UserBundle\Command\Dto\Preserve\PreserveUserApiDto;
 use Evrinoma\UserBundle\DependencyInjection\Compiler\Constraint\Property\UserPass;
 use Evrinoma\UserBundle\Dto\UserApiDto;
 use Evrinoma\UserBundle\EvrinomaUserBundle;
+use Evrinoma\UserBundle\Repository\UserCommandRepositoryInterface;
+use Evrinoma\UserBundle\Repository\UserQueryRepositoryInterface;
 use Evrinoma\UserBundle\Role\BasicRoleMediator;
+use Evrinoma\UserBundle\Role\RoleMediatorInterface;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
@@ -148,7 +151,7 @@ class EvrinomaUserExtension extends Extension
         $alias = new Alias('evrinoma.'.$this->getAlias().'.role.mediator');
         $container->addDefinitions(['evrinoma.'.$this->getAlias().'.role.mediator' => $definitionRoleMediator]);
         $container->addAliases([$class => $alias]);
-        $container->addAliases(["Evrinoma\UserBundle\Role\RoleMediatorInterface" => $alias]);
+        $container->addAliases([RoleMediatorInterface::class => $alias]);
         $definitionCommandMediator = $container->getDefinition('evrinoma.'.$this->getAlias().'.command.mediator');
         $definitionCommandMediator->setArgument(1, $definitionRoleMediator);
     }
@@ -172,6 +175,8 @@ class EvrinomaUserExtension extends Extension
         $definitionRepository->setArgument(0, $doctrineRegistry);
         $definitionRepository->setArgument(1, $class);
         $definitionRepository->setArgument(2, $definitionQueryMediator);
+        $container->addAliases([ UserCommandRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
+        $container->addAliases([ UserQueryRepositoryInterface::class => 'evrinoma.'.$this->getAlias().'.repository']);
     }
 
     private function wireFactory(ContainerBuilder $container, string $class, string $paramClass): void
