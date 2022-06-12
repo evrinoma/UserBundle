@@ -45,8 +45,8 @@ class UserFixtures extends AbstractFixture implements FixtureGroupInterface, Ord
         $short = self::getReferenceName();
         $i = 0;
 
-        foreach (static::$data as $record) {
-            $entity = new BaseUser();
+        foreach ($this->getData() as $record) {
+            $entity = $this->getEntity();
             $entity
                 ->setUsername($record['username'])
                 ->setSurname($record['surname'])
