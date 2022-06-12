@@ -67,7 +67,7 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
                 $this->setActive($active);
             }
             if ($id) {
-                $this->setId((int)$id);
+                $this->setId((int) $id);
             }
             if ($name) {
                 $this->setName(trim($name));
