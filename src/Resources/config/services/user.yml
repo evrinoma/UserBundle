@@ -118,7 +118,6 @@ services:
     alias: evrinoma.user.command.roles
     public: true
 
-
   evrinoma.user.bridge.roles:
     class: Evrinoma\UserBundle\Command\Bridge\UserRolesBridge
     arguments:
