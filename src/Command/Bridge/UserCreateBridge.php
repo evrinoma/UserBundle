@@ -67,6 +67,7 @@ class UserCreateBridge implements BridgeInterface
             new InputArgument(UserApiDtoInterface::NAME, InputArgument::REQUIRED, 'The name'),
             new InputArgument(UserApiDtoInterface::SURNAME, InputArgument::REQUIRED, 'The surname'),
             new InputArgument(UserApiDtoInterface::PATRONYMIC, InputArgument::REQUIRED, 'The patronymic'),
+            new InputArgument(UserApiDtoInterface::ROLES, InputArgument::IS_ARRAY, 'The roles'),
         ];
     }
 
@@ -77,7 +78,7 @@ The <info>evrinoma:user:create</info> command creates a user:
   <info>php %command.full_name% evrinoma</info>
 This interactive shell will ask you for an email and then a password.
 You can alternatively specify the email and password as the second and third arguments:
-  <info>php %command.full_name% evrinoma example@example.example mypassword name surname patronymic</info>
+  <info>php %command.full_name% evrinoma example@example.example mypassword name surname patronymic ROLE_CUSTOM</info>
 EOT;
     }
 
@@ -172,6 +173,23 @@ EOT;
             $questions[UserApiDtoInterface::PATRONYMIC] = $question;
         }
 
+        if (!$input->getArgument(UserApiDtoInterface::ROLES)) {
+            $question = new Question('Please add an role:');
+            $question->setValidator(function ($roles) {
+                $roles = explode(' ', $roles);
+                $result = array_filter($roles, function ($v) {
+                    return trim($v);
+                });
+                $roles = \array_slice($result, 0);
+                if (0 === \count($roles)) {
+                    throw new \Exception('Role can not be empty');
+                }
+
+                return $roles;
+            });
+            $questions[UserApiDtoInterface::ROLES] = $question;
+        }
+
         return $questions;
     }
 
@@ -193,6 +211,11 @@ EOT;
             ->setName($input->getArgument(UserApiDtoInterface::NAME))
             ->setSurname($input->getArgument(UserApiDtoInterface::SURNAME))
             ->setPatronymic($input->getArgument(UserApiDtoInterface::PATRONYMIC));
+
+        $roles = $input->getArgument(UserApiDtoInterface::ROLES);
+        if (\count($roles) > 0) {
+            $dto->setRoles($roles);
+        }
 
         return $dto;
     }
