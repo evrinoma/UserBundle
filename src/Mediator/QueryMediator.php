@@ -42,8 +42,8 @@ class QueryMediator extends AbstractQueryMediator implements QueryMediatorInterf
 
         if ($dto->hasUsername()) {
             $builder
-                ->andWhere($alias.'.username like :username')
-                ->setParameter('username', '%'.$dto->getUsername().'%');
+                ->andWhere($alias.'.username = :username')
+                ->setParameter('username', $dto->getUsername());
         }
 
         if ($dto->hasEmail()) {
