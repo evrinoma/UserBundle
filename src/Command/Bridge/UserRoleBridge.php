@@ -34,19 +34,19 @@ class UserRoleBridge implements BridgeInterface
     /**
      * @var DtoPreValidator
      */
-    private DtoPreValidator $preValidator;
+    protected DtoPreValidator $preValidator;
     /**
      * @var CommandManagerInterface
      */
-    private CommandManagerInterface $commandManager;
+    protected CommandManagerInterface $commandManager;
     /**
      * @var QueryManagerInterface
      */
-    private QueryManagerInterface $queryManager;
+    protected QueryManagerInterface $queryManager;
     /**
      * @var ManagerRegistry
      */
-    private ManagerRegistry $managerRegistry;
+    protected ManagerRegistry $managerRegistry;
 
     /**
      * @param ManagerRegistry         $managerRegistry
@@ -137,7 +137,7 @@ EOT;
         $questions = [];
 
         if (!$input->getOption(UserApiDtoInterface::GRANT_ROLES)) {
-            $question = new ConfirmationQuestion('Would you like to set grand?[y/n]', false);
+            $question = new ConfirmationQuestion('Would you like to set grant?[y/n]', false);
             $question->setValidator(function ($grand) {
                 return '--'.($grand ? '' : 'no-').UserApiDtoInterface::GRANT_ROLES;
             });

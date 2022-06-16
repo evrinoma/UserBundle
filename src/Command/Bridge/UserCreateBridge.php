@@ -31,15 +31,15 @@ class UserCreateBridge implements BridgeInterface
     /**
      * @var DtoPreValidator
      */
-    private DtoPreValidator $preValidator;
+    protected DtoPreValidator $preValidator;
     /**
      * @var CommandManagerInterface
      */
-    private CommandManagerInterface $commandManager;
+    protected CommandManagerInterface $commandManager;
     /**
      * @var ManagerRegistry
      */
-    private ManagerRegistry $managerRegistry;
+    protected ManagerRegistry $managerRegistry;
 
     /**
      * @param ManagerRegistry         $managerRegistry
