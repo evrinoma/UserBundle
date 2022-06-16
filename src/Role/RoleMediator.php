@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Evrinoma\UserBundle\Role;
 
-final class BasicRoleMediator implements RoleMediatorInterface
+final class RoleMediator implements RoleMediatorInterface
 {
     public function revokePrivileges(array $roles): array
     {
