@@ -123,7 +123,6 @@ services:
     class: Evrinoma\UserBundle\Command\Bridge\UserRoleBridge
     arguments:
       - '@doctrine'
-      - '@security.token_storage'
       - '@evrinoma.user.command.manager'
       - '@evrinoma.user.query.manager'
       - '@evrinoma.user.pre.validator'

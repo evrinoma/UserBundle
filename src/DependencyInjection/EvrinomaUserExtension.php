@@ -171,7 +171,7 @@ class EvrinomaUserExtension extends Extension
         $definitionBridgeCreate = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
         $definitionBridgeCreate->setArgument(3, $class);
         $definitionBridgeRoles = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.role');
-        $definitionBridgeRoles->setArgument(5, $class);
+        $definitionBridgeRoles->setArgument(4, $class);
     }
 
     private function wireConstraintTag(ContainerBuilder $container): void

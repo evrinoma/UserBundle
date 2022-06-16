@@ -31,8 +31,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class UserRoleBridge implements BridgeInterface
 {
-    private const ADMIN_USERNAME = 'admin_username';
-    private const ADMIN_PASSWORD = 'admin_password';
     private static string $dtoClass;
     protected string      $username = '';
     protected string      $email = '';
@@ -54,23 +52,17 @@ class UserRoleBridge implements BridgeInterface
      * @var ManagerRegistry
      */
     private ManagerRegistry $managerRegistry;
-    /**
-     * @var TokenStorageInterface
-     */
-    private TokenStorageInterface $tokenStorage;
 
     /**
      * @param ManagerRegistry         $managerRegistry
-     * @param TokenStorageInterface   $tokenStorage
      * @param CommandManagerInterface $commandManager
      * @param QueryManagerInterface   $queryManager
      * @param DtoPreValidator         $preValidator
      * @param string                  $dtoClass
      */
-    public function __construct(ManagerRegistry $managerRegistry, TokenStorageInterface $tokenStorage, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidator $preValidator, string $dtoClass)
+    public function __construct(ManagerRegistry $managerRegistry, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidator $preValidator, string $dtoClass)
     {
         $this->managerRegistry = $managerRegistry;
-        $this->tokenStorage = $tokenStorage;
         $this->commandManager = $commandManager;
         $this->queryManager = $queryManager;
         $this->preValidator = $preValidator;
