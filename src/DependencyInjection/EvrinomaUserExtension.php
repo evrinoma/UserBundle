@@ -151,7 +151,7 @@ class EvrinomaUserExtension extends Extension
                         case 'create_bridge':
                             $remap['create_bridge'] = 'evrinoma.'.$this->getAlias().'.services.bridge.create';
                             break;
-                        case 'roles_bridge':
+                        case 'role_bridge':
                             $remap['role_bridge'] = 'evrinoma.'.$this->getAlias().'.services.bridge.role';
                             break;
                     }

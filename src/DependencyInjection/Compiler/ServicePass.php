@@ -59,7 +59,7 @@ class ServicePass extends AbstractRecursivePass
             $serviceBridgeCreate = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.bridge.create');
             $bridgeCreate = $container->getDefinition($serviceBridgeCreate);
             $commandCreate = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.create');
-            $commandCreate->setArgument(1, $bridgeCreate);
+            $commandCreate->setArgument(0, $bridgeCreate);
         }
 
         $serviceBridgeRole = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.bridge.role');
@@ -67,7 +67,7 @@ class ServicePass extends AbstractRecursivePass
             $serviceBridgeRole = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.bridge.role');
             $bridgeRole = $container->getDefinition($serviceBridgeRole);
             $commandRole = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.role');
-            $commandRole->setArgument(1, $bridgeRole);
+            $commandRole->setArgument(0, $bridgeRole);
         }
     }
 }
