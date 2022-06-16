@@ -60,6 +60,7 @@ services:
     public: true
     arguments:
       - '@security.user_password_hasher'
+      - '@evrinoma.user.role.mediator'
 
   Evrinoma\UserBundle\Mediator\CommandMediator:
     alias: evrinoma.user.command.mediator
@@ -108,18 +109,18 @@ services:
       - '@evrinoma.user.pre.validator'
     autowire: true
 
-  evrinoma.user.command.roles:
-    class: Evrinoma\UserBundle\Command\UserRolesCommand
+  evrinoma.user.command.role:
+    class: Evrinoma\UserBundle\Command\UserRoleCommand
     arguments:
-      - '@evrinoma.user.bridge.roles'
+      - '@evrinoma.user.bridge.role'
     tags: { - name: console.command }
 
-  Evrinoma\UserBundle\Command\UserRolesCommand:
-    alias: evrinoma.user.command.roles
+  Evrinoma\UserBundle\Command\UserRoleCommand:
+    alias: evrinoma.user.command.role
     public: true
 
-  evrinoma.user.bridge.roles:
-    class: Evrinoma\UserBundle\Command\Bridge\UserRolesBridge
+  evrinoma.user.bridge.role:
+    class: Evrinoma\UserBundle\Command\Bridge\UserRoleBridge
     arguments:
       - '@doctrine'
       - '@security.token_storage'
@@ -127,3 +128,12 @@ services:
       - '@evrinoma.user.query.manager'
       - '@evrinoma.user.pre.validator'
     autowire: true
+
+  evrinoma.user.role.mediator:
+    class: Evrinoma\UserBundle\Role\RoleMediator
+
+  Evrinoma\UserBundle\Role\RoleMediator:
+    alias: evrinoma.user.role.mediator
+
+  Evrinoma\UserBundle\Role\RoleMediatorInterface:
+    alias: evrinoma.user.role.mediator

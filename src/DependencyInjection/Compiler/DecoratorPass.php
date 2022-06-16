@@ -24,45 +24,19 @@ class DecoratorPass extends AbstractRecursivePass
      */
     public function process(ContainerBuilder $container)
     {
-        $decoratorQuery = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.query');
+        $decoratorQuery = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.query');
         if ($decoratorQuery) {
+            $decoratorQuery = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.query');
             $queryMediator = $container->getDefinition($decoratorQuery);
             $repository = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.repository');
             $repository->setArgument(2, $queryMediator);
         }
-        $decoratorCommand = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.command');
+        $decoratorCommand = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.command');
         if ($decoratorCommand) {
+            $decoratorCommand = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.command');
             $commandMediator = $container->getDefinition($decoratorCommand);
             $commandManager = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.manager');
             $commandManager->setArgument(3, $commandMediator);
-        }
-
-        $decoratorRole = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.role.mediator');
-        if ($decoratorRole) {
-            $decoratorRole = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.role.mediator');
-            $decoratorRoleMediator = $container->getDefinition($decoratorRole);
-            $apiController = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.mediator');
-            $apiController->setArgument(1, $decoratorRoleMediator);
-        }
-
-        $decoratorPreValidator = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.pre.validator');
-        if ($decoratorPreValidator) {
-            $preValidator = $container->getDefinition($decoratorPreValidator);
-            $apiController = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.api.controller');
-            $apiController->setArgument(5, $preValidator);
-
-            $command = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.bridge.create');
-            $command->setArgument(3, $preValidator);
-        }
-        $decoratorPreCheckerPassword = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.pre.checker.password');
-        if ($decoratorPreCheckerPassword) {
-            $preCheckerPost = $container->getDefinition($decoratorPreCheckerPassword);
-            if ($container->hasDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.pre.validator')) {
-                $preValidator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.pre.validator');
-            } else {
-                $preValidator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.pre.validator');
-            }
-            $preValidator->setArgument(0, $preCheckerPost);
         }
     }
 }

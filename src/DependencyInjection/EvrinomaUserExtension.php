@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Evrinoma\UserBundle\DependencyInjection;
 
-use Evrinoma\UserBundle\Command\Dto\Preserve\PreserveUserApiDto;
+use Evrinoma\UserBundle\Command\Bridge\UserCreateBridge;
+use Evrinoma\UserBundle\Command\Bridge\UserRolesBridge;
 use Evrinoma\UserBundle\DependencyInjection\Compiler\Constraint\Property\UserPass;
+use Evrinoma\UserBundle\Dto\Preserve\UserApiDto as PreserveUserApiDto;
 use Evrinoma\UserBundle\Dto\UserApiDto;
 use Evrinoma\UserBundle\EvrinomaUserBundle;
 use Evrinoma\UserBundle\Repository\UserCommandRepositoryInterface;
 use Evrinoma\UserBundle\Repository\UserQueryRepositoryInterface;
-use Evrinoma\UserBundle\Role\BasicRoleMediator;
-use Evrinoma\UserBundle\Role\RoleMediatorInterface;
 use Evrinoma\UtilsBundle\DependencyInjection\HelperTrait;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
@@ -39,7 +39,8 @@ class EvrinomaUserExtension extends Extension
     public const ENTITY_BASE_USER = self::ENTITY.'\User\BaseUser';
     public const DTO_BASE_USER = UserApiDto::class;
     public const DTO_PRESERVE_BASE_USER = PreserveUserApiDto::class;
-    public const ROLE_MEDIATOR_BASE_USER = BasicRoleMediator::class;
+    public const BRIDGE_CREATE_USER = UserCreateBridge::class;
+    public const BRIDGE_ROLES_USER = UserRolesBridge::class;
     /**
      * @var array
      */
@@ -112,27 +113,55 @@ class EvrinomaUserExtension extends Extension
         $this->wireBridge($container, $config['preserve_dto']);
 
         if ($config['decorates']) {
+            $remap = [];
+            foreach ($config['decorates'] as $key => $service) {
+                if (null !== $service) {
+                    switch ($key) {
+                        case 'command':
+                            $remap['command'] = 'evrinoma.'.$this->getAlias().'.decorates.command';
+                            break;
+                        case 'query':
+                            $remap['query'] = 'evrinoma.'.$this->getAlias().'.decorates.query';
+                            break;
+                    }
+                }
+            }
+
             $this->remapParametersNamespaces(
                 $container,
                 $config['decorates'],
-                [
-                    '' => [
-                        'command' => 'evrinoma.'.$this->getAlias().'.decorates.command',
-                        'query' => 'evrinoma.'.$this->getAlias().'.decorates.query',
-                        'pre_validator' => 'evrinoma.'.$this->getAlias().'.decorates.pre.validator',
-                        'pre_checker_password' => 'evrinoma.'.$this->getAlias().'.decorates.pre.checker.password',
-                    ],
-                ]
+                ['' => $remap]
             );
         }
 
-        if (self::ROLE_MEDIATOR_BASE_USER === $config['role_mediator']) {
-            $this->wireRoleMediator($container, $config['role_mediator']);
-        } else {
+        if ($config['services']) {
+            $remap = [];
+            foreach ($config['services'] as $key => $service) {
+                if (null !== $service) {
+                    switch ($key) {
+                        case 'pre_validator':
+                            $remap['pre_validator'] = 'evrinoma.'.$this->getAlias().'.services.pre.validator';
+                            break;
+                        case 'password_pre_checker':
+                            $remap['password_pre_checker'] = 'evrinoma.'.$this->getAlias().'.services.pre.checker.password';
+                            break;
+                        case 'role_mediator':
+                            $remap['role_mediator'] = 'evrinoma.'.$this->getAlias().'.services.role.mediator';
+                            break;
+                        case 'create_bridge':
+                            $remap['create_bridge'] = 'evrinoma.'.$this->getAlias().'.services.bridge.create';
+                            break;
+                        case 'roles_bridge':
+                            $remap['role_bridge'] = 'evrinoma.'.$this->getAlias().'.services.bridge.role';
+                            break;
+                    }
+                }
+            }
+
             $this->remapParametersNamespaces(
                 $container,
-                ['role_mediator' => [$config['role_mediator']]],
-                ['role_mediator' => 'evrinoma.'.$this->getAlias().'.role.mediator']
+                $config['services'],
+                ['' => $remap]
             );
         }
     }
@@ -141,19 +170,8 @@ class EvrinomaUserExtension extends Extension
     {
         $definitionBridgeCreate = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.create');
         $definitionBridgeCreate->setArgument(3, $class);
-        $definitionBridgeRoles = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.roles');
+        $definitionBridgeRoles = $container->getDefinition('evrinoma.'.$this->getAlias().'.bridge.role');
         $definitionBridgeRoles->setArgument(5, $class);
-    }
-
-    private function wireRoleMediator(ContainerBuilder $container, string $class): void
-    {
-        $definitionRoleMediator = new Definition($class);
-        $alias = new Alias('evrinoma.'.$this->getAlias().'.role.mediator');
-        $container->addDefinitions(['evrinoma.'.$this->getAlias().'.role.mediator' => $definitionRoleMediator]);
-        $container->addAliases([$class => $alias]);
-        $container->addAliases([RoleMediatorInterface::class => $alias]);
-        $definitionCommandMediator = $container->getDefinition('evrinoma.'.$this->getAlias().'.command.mediator');
-        $definitionCommandMediator->setArgument(1, $definitionRoleMediator);
     }
 
     private function wireConstraintTag(ContainerBuilder $container): void
