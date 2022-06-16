@@ -31,10 +31,16 @@ services:
       - '@evrinoma.user.factory'
       - '@evrinoma.user.command.mediator'
 
+  Evrinoma\UserBundle\Manager\CommandManagerInterface:
+    alias: evrinoma.user.command.manager
+
   evrinoma.user.query.manager:
     class: Evrinoma\UserBundle\Manager\QueryManager
     arguments:
       - '@evrinoma.user.repository'
+
+  Evrinoma\UserBundle\Manager\QueryManagerInterface:
+    alias: evrinoma.user.query.manager
 
   evrinoma.user.validator:
     class: Evrinoma\UserBundle\Validator\UserValidator
