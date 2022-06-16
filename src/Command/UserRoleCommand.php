@@ -22,9 +22,9 @@ use Evrinoma\UtilsBundle\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UserRolesCommand extends AbstractCommand
+class UserRoleCommand extends AbstractCommand
 {
-    protected static $defaultName = 'evrinoma:user:roles';
+    protected static $defaultName = 'evrinoma:user:role';
     protected static $defaultDescription = 'User role.';
 
     /**

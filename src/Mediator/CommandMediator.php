@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Evrinoma\UserBundle\Mediator;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\UserBundle\Dto\Preserve\UserApiDtoInterface as PreserveUserApiDtoInterface;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserCannotBeCreatedException;
 use Evrinoma\UserBundle\Exception\UserCannotBeSavedException;
@@ -60,7 +61,7 @@ class CommandMediator implements CommandMediatorInterface
         }
 
         if ($dto->hasRoles()) {
-            if ($dto->hasGranted()) {
+            if ($dto instanceof PreserveUserApiDtoInterface) {
                 if ($dto->isGranted()) {
                     foreach ($dto->getRoles() as $role) {
                         $entity->addRole($role);

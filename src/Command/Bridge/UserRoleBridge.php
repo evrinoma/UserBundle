@@ -15,7 +15,7 @@ namespace Evrinoma\UserBundle\Command\Bridge;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
-use Evrinoma\UserBundle\Command\Dto\Preserve\PreserveUserApiDtoInterface;
+use Evrinoma\UserBundle\Dto\Preserve\UserApiDtoInterface as PreserveUserApiDtoInterface;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Exception\UserNotFoundException;
 use Evrinoma\UserBundle\Manager\CommandManagerInterface;
@@ -27,11 +27,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\Authentication\Token\AnonymousToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
-class UserRolesBridge implements BridgeInterface
+class UserRoleBridge implements BridgeInterface
 {
     private const ADMIN_USERNAME = 'admin_username';
     private const ADMIN_PASSWORD = 'admin_password';
@@ -82,8 +80,6 @@ class UserRolesBridge implements BridgeInterface
     public function argumentDefinition(): array
     {
         return [
-            new InputArgument(self::ADMIN_USERNAME, InputArgument::REQUIRED, 'The admin username'),
-            new InputArgument(self::ADMIN_PASSWORD, InputArgument::REQUIRED, 'The admin username'),
             new InputArgument(UserApiDtoInterface::USERNAME, InputArgument::REQUIRED, 'The username'),
             new InputArgument(UserApiDtoInterface::ROLES, InputArgument::IS_ARRAY, 'The roles'),
             new InputOption(UserApiDtoInterface::GRANT_ROLES, null, InputOption::VALUE_NEGATABLE, 'Set or Unset roles'),
@@ -94,9 +90,7 @@ class UserRolesBridge implements BridgeInterface
     {
         return <<<'EOT'
 The <info>evrinoma:user:role</info> command demotes or promotes a user by removing or adding a role
-  <info>php %command.full_name% nikolns ROLE_CUSTOM</info>
-  <info>php %command.full_name% --demote</info>
-  <info>php %command.full_name% --promote</info>
+  <info>php %command.full_name% nikolns ROLE_CUSTOM_A ROLE_CUSTOM_B  --no-grand (--grand)</info>
 EOT;
     }
 
@@ -118,30 +112,6 @@ EOT;
     public function argumentQuestioners(InputInterface $input): array
     {
         $questions = [];
-        if (!$input->getArgument(self::ADMIN_USERNAME)) {
-            $question = new Question('Please choose admin username:');
-            $question->setValidator(function ($adminUsername) {
-                if (empty($adminUsername)) {
-                    throw new \Exception('Admin username can not be empty');
-                }
-
-                return $adminUsername;
-            });
-            $questions[self::ADMIN_USERNAME] = $question;
-        }
-
-        if (!$input->getArgument(self::ADMIN_PASSWORD)) {
-            $question = new Question('Please choose admin password:');
-            $question->setHidden(true);
-            $question->setValidator(function ($adminPassword) {
-                if (empty($adminPassword)) {
-                    throw new \Exception('Admin password can not be empty');
-                }
-
-                return $adminPassword;
-            });
-            $questions[self::ADMIN_PASSWORD] = $question;
-        }
 
         if (!$input->getArgument(UserApiDtoInterface::USERNAME)) {
             $question = new Question('Please choose a username:');
@@ -180,7 +150,7 @@ EOT;
         $questions = [];
 
         if (!$input->getOption(UserApiDtoInterface::GRANT_ROLES)) {
-            $question = new ConfirmationQuestion('Would you like to set grand?[y]', false);
+            $question = new ConfirmationQuestion('Would you like to set grand?[y/n]', false);
             $question->setValidator(function ($grand) {
                 return '--'.($grand ? '' : 'no-').UserApiDtoInterface::GRANT_ROLES;
             });
@@ -194,16 +164,6 @@ EOT;
     {
         /** @var PreserveUserApiDtoInterface $dto */
         $dto = new static::$dtoClass();
-
-        $dto->setUsername($input->getArgument(self::ADMIN_USERNAME));
-
-        $users = $this->queryManager->criteria($dto);
-        if (1 != \count($users)) {
-            throw new UserNotFoundException();
-        }
-        foreach ($users as $user) {
-            $this->login($user, $input->getArgument(self::ADMIN_PASSWORD));
-        }
 
         $dto->setUsername($input->getArgument(UserApiDtoInterface::USERNAME));
 
@@ -235,16 +195,5 @@ EOT;
         }
 
         return $dto;
-    }
-
-    private function login($user, $secret): void
-    {
-        $token = new UsernamePasswordToken(
-            $user,
-            new AnonymousToken($secret, $user),
-            'main'
-        );
-
-        $this->tokenStorage->setToken($token);
     }
 }
