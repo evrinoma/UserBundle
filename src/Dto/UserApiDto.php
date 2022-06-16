@@ -20,12 +20,12 @@ use Evrinoma\DtoCommon\ValueObject\Mutable\IdTrait;
 use Evrinoma\DtoCommon\ValueObject\Mutable\NameTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\EmailTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\ExpiredAtTrait;
+use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\GrantTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\PasswordTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\PatronymicTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\RolesTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\SurnameTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\UsernameTrait;
-use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\GrantTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserApiDto extends AbstractDto implements UserApiDtoInterface

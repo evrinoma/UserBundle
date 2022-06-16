@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Evrinoma\UserBundle\Dto\Preserve;
 
-
 use Evrinoma\UserBundle\Dto\UserApiDto as BaseUserApiDto;
 
 class UserApiDto extends BaseUserApiDto implements UserApiDtoInterface
