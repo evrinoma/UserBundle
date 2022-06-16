@@ -36,7 +36,7 @@ class UserRoleCommand extends AbstractCommand
             /** @var UserApiDtoInterface $dto */
             $dto = $this->bridge->argumentToDto($input);
             $this->bridge->action($dto);
-            $output->writeln(sprintf('User roles update <comment>%s</comment>', $dto->getUsername()));
+            $output->writeln(sprintf('Updated roles <comment>%s</comment>', $dto->getUsername()));
         } catch (\Exception $e) {
             switch (true) {
                 case $e instanceof UserCannotBeSavedException:
