@@ -1,7 +1,5 @@
 # Configuration
 
-преопределение штатного класса сущности
-
     contractor:
         db_driver: orm модель данных
         factory: App\User\Factory\UserFactory фабрика для создания объектов,
@@ -14,8 +12,12 @@
         decorates:
           command - декоратор mediator команд пользователя 
           query - декоратор mediator запросов пользователя
-          pre_validator - декоратор валидатора пользователя
-          pre_checker_password - декоратор проверки требований к паролю пользователя
+        services:
+          pre_validator - переопределение сервиса валидатора user
+          pre_checker_password - переопределение сервиса првоерки пароля
+          role_mediator - переопределение сервиса управления ролями
+          create_bridge - переопределение сервиса моста между командой и логикой создания user
+          role_bridge - переопределение сервиса моста между командой и логикой назначения ролей user
 
 # CQRS model
 
