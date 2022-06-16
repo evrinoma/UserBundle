@@ -11,19 +11,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve;
+namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 
-trait RolesTrait
+interface GrantInterface
 {
     /**
-     * @param array $roles
-     *
      * @return DtoInterface
      */
-    public function setRoles(array $roles): DtoInterface
-    {
-        return parent::setRoles($roles);
-    }
+    public function setGrant(): DtoInterface;
+
+    /**
+     * @return DtoInterface
+     */
+    public function resetGrant(): DtoInterface;
 }

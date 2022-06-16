@@ -15,15 +15,21 @@ namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
 
-trait RolesTrait
+trait GrantTrait
 {
     /**
-     * @param array $roles
-     *
      * @return DtoInterface
      */
-    public function setRoles(array $roles): DtoInterface
+    public function setGrant(): DtoInterface
     {
-        return parent::setRoles($roles);
+        return parent::setGrant();
+    }
+
+    /**
+     * @return DtoInterface
+     */
+    public function resetGrant(): DtoInterface
+    {
+        return parent::resetGrant();
     }
 }

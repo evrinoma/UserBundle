@@ -25,7 +25,7 @@ use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\PatronymicTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\RolesTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\SurnameTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\UsernameTrait;
-use Evrinoma\UtilsBundle\Model\ActiveModel;
+use Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable\GrantTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserApiDto extends AbstractDto implements UserApiDtoInterface
@@ -33,6 +33,7 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
     use ActiveTrait;
     use EmailTrait;
     use ExpiredAtTrait;
+    use GrantTrait;
     use IdTrait;
     use NameTrait;
     use PasswordTrait;
@@ -40,11 +41,6 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
     use RolesTrait;
     use SurnameTrait;
     use UsernameTrait;
-
-    public function isActive(): bool
-    {
-        return ActiveModel::ACTIVE == $this->active;
-    }
 
     public function toDto(Request $request): DtoInterface
     {

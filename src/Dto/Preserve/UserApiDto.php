@@ -11,10 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Evrinoma\UserBundle\Command\Dto\Preserve;
+namespace Evrinoma\UserBundle\Dto\Preserve;
 
-use Evrinoma\UserBundle\Dto\Preserve\UserApiDtoInterface;
 
-interface PreserveUserApiDtoInterface extends UserApiDtoInterface
+use Evrinoma\UserBundle\Dto\UserApiDto as BaseUserApiDto;
+
+class UserApiDto extends BaseUserApiDto implements UserApiDtoInterface
 {
+    use UserApiDtoTrait;
 }

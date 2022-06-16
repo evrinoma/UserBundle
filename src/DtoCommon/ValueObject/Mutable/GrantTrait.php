@@ -14,20 +14,28 @@ declare(strict_types=1);
 namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Mutable;
 
 use Evrinoma\DtoBundle\Dto\DtoInterface;
-use Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable\RolesTrait as RolesImmutableTrait;
+use Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable\GrantTrait as GrantImmutableTrait;
 
-trait RolesTrait
+trait GrantTrait
 {
-    use RolesImmutableTrait;
+    use GrantImmutableTrait;
 
     /**
-     * @param array $roles
-     *
      * @return DtoInterface
      */
-    protected function setRoles(array $roles): DtoInterface
+    protected function setGrant(): DtoInterface
     {
-        $this->roles = $roles;
+        $this->grant = true;
+
+        return $this;
+    }
+
+    /**
+     * @return DtoInterface
+     */
+    protected function resetGrant(): DtoInterface
+    {
+        $this->grant = false;
 
         return $this;
     }

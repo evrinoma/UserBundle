@@ -18,6 +18,7 @@ use Evrinoma\DtoCommon\ValueObject\Preserve\IdTrait;
 use Evrinoma\DtoCommon\ValueObject\Preserve\NameTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve\EmailTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve\ExpiredAtTrait;
+use Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve\GrantTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve\PasswordTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve\PatronymicTrait;
 use Evrinoma\UserBundle\DtoCommon\ValueObject\Preserve\RolesTrait;
@@ -29,6 +30,7 @@ trait UserApiDtoTrait
     use ActiveTrait;
     use EmailTrait;
     use ExpiredAtTrait;
+    use GrantTrait;
     use IdTrait;
     use NameTrait;
     use PasswordTrait;

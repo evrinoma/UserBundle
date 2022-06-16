@@ -13,23 +13,23 @@ declare(strict_types=1);
 
 namespace Evrinoma\UserBundle\DtoCommon\ValueObject\Immutable;
 
-trait RolesTrait
+trait GrantTrait
 {
-    private array $roles = [];
+    private ?bool  $grant = null;
 
     /**
      * @return bool
      */
-    public function hasRoles(): bool
+    public function isGranted(): bool
     {
-        return 0 !== \count($this->roles);
+        return $this->grant;
     }
 
     /**
-     * @return array
+     * @return bool
      */
-    public function getRoles(): array
+    public function hasGranted(): bool
     {
-        return $this->roles;
+        return null !== $this->grant;
     }
 }
