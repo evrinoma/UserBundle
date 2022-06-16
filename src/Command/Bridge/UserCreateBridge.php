@@ -26,11 +26,8 @@ use Symfony\Component\Console\Question\Question;
 
 class UserCreateBridge implements BridgeInterface
 {
-    private static string $dtoClass;
-    protected string      $username = '';
-    protected string      $email = '';
-    protected string      $password = '';
-    protected string      $inactive = '';
+    protected static string $dtoClass;
+
     /**
      * @var DtoPreValidator
      */
