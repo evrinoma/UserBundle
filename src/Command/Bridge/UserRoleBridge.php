@@ -166,7 +166,7 @@ EOT;
                 ->setSurname($user->getSurname())
                 ->setPatronymic($user->getPatronymic())
                 ->setActive($user->getActive())
-                ->setExpiredAt($user->hasExpiredAt() ? $user->getExpiredAt() : '');
+                ->setExpiredAt($user->hasExpiredAt() ? $user->getExpiredAt()->format('Y-m-d H:i:s') : '');
         }
 
         $roles = $input->getArgument(UserApiDtoInterface::ROLES);
