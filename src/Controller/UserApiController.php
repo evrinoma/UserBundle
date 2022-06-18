@@ -171,7 +171,7 @@ final class UserApiController extends AbstractApiController implements ApiContro
      *         )
      *     )
      * )
-     * @OA\Response(response=200, description="Save code")
+     * @OA\Response(response=200, description="Save user")
      *
      * @return JsonResponse
      */
