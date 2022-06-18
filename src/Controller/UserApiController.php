@@ -21,7 +21,7 @@ use Evrinoma\UserBundle\Exception\UserInvalidException;
 use Evrinoma\UserBundle\Exception\UserNotFoundException;
 use Evrinoma\UserBundle\Manager\CommandManagerInterface;
 use Evrinoma\UserBundle\Manager\QueryManagerInterface;
-use Evrinoma\UserBundle\PreValidator\DtoPreValidator;
+use Evrinoma\UserBundle\PreValidator\DtoPreValidatorInterface;
 use Evrinoma\UtilsBundle\Controller\AbstractApiController;
 use Evrinoma\UtilsBundle\Controller\ApiControllerInterface;
 use Evrinoma\UtilsBundle\Rest\RestInterface;
@@ -53,11 +53,11 @@ final class UserApiController extends AbstractApiController implements ApiContro
      */
     private QueryManagerInterface $queryManager;
     /**
-     * @var DtoPreValidator
+     * @var DtoPreValidatorInterface
      */
-    private DtoPreValidator $preValidator;
+    private DtoPreValidatorInterface $preValidator;
 
-    public function __construct(SerializerInterface $serializer, RequestStack $requestStack, FactoryDtoInterface $factoryDto, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidator $preValidator, string $dtoClass)
+    public function __construct(SerializerInterface $serializer, RequestStack $requestStack, FactoryDtoInterface $factoryDto, CommandManagerInterface $commandManager, QueryManagerInterface $queryManager, DtoPreValidatorInterface $preValidator, string $dtoClass)
     {
         parent::__construct($serializer);
         $this->request = $requestStack->getCurrentRequest();
