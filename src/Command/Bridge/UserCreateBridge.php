@@ -173,6 +173,9 @@ EOT;
         if (!$input->getArgument(UserApiDtoInterface::ROLES)) {
             $question = new Question('Please add an role:');
             $question->setValidator(function ($roles) {
+                if (null === $roles) {
+                    throw new \Exception('Role can not be empty');
+                }
                 $roles = explode(' ', $roles);
                 $result = array_filter($roles, function ($v) {
                     return trim($v);

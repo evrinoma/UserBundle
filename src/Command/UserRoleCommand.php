@@ -46,10 +46,10 @@ class UserRoleCommand extends AbstractCommand
                     $output->writeln(sprintf('User <comment>%s</comment> already exists', $dto->getUsername()));
                     break;
                 case $e instanceof UserNotFoundException:
-                    $output->writeln('User doesn\'t exist or multiply users');
+                    $output->writeln(sprintf('User doesn\'t exist or multiply users <comment>%s</comment>', $e->getMessage()));
                     break;
                 case $e instanceof UserInvalidException:
-                    $output->writeln('User doesn\'t have required params');
+                    $output->writeln(sprintf('User does\'t have required params User <comment>%s</comment>', $e->getMessage()));
                     break;
                 default:
                     $output->writeln('Something went wrong with user');
