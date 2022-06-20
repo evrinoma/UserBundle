@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Evrinoma\UserBundle\Role;
 
+use Evrinoma\DtoBundle\Dto\DtoInterface;
+
 interface RoleMediatorInterface
 {
-    public function revokePrivileges(array $roles): array;
+    public function revokePrivileges(DtoInterface $dto, array $roles): array;
 
-    public function grantPrivileges(array $roles): array;
+    public function grantPrivileges(DtoInterface $dto): array;
 }

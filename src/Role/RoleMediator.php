@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace Evrinoma\UserBundle\Role;
 
+use Evrinoma\DtoBundle\Dto\DtoInterface;
+use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
+
 final class RoleMediator implements RoleMediatorInterface
 {
-    public function revokePrivileges(array $roles): array
+    public function revokePrivileges(DtoInterface $dto, array $roles): array
     {
         return [];
     }
 
-    public function grantPrivileges(array $roles): array
+    public function grantPrivileges(DtoInterface $dto): array
     {
-        return $roles;
+        /* @var UserApiDtoInterface $dto */
+        return $dto->getRoles();
     }
 }

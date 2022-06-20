@@ -15,7 +15,7 @@ namespace Evrinoma\UserBundle\Command\Bridge;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Evrinoma\DtoBundle\Dto\DtoInterface;
-use Evrinoma\UserBundle\Command\Dto\Preserve\PreserveUserApiDtoInterface;
+use Evrinoma\UserBundle\Dto\Preserve\UserApiDtoInterface as PreserveUserApiDtoInterface;
 use Evrinoma\UserBundle\Dto\UserApiDtoInterface;
 use Evrinoma\UserBundle\Manager\CommandManagerInterface;
 use Evrinoma\UserBundle\PreValidator\DtoPreValidator;
