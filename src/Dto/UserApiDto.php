@@ -63,25 +63,25 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
                 $this->setActive($active);
             }
             if ($id) {
-                $this->setId($id);
+                $this->idParseString($id);
             }
             if ($name) {
-                $this->setName(trim($name));
+                $this->setName($name);
             }
             if ($surname) {
-                $this->setSurname(trim($surname));
+                $this->setSurname($surname);
             }
             if ($patronymic) {
-                $this->setPatronymic(trim($patronymic));
+                $this->setPatronymic($patronymic);
             }
             if ($email) {
-                $this->setEmail(trim($email));
+                $this->setEmail($email);
             }
             if ($password) {
-                $this->setPassword(trim($password));
+                $this->setPassword($password);
             }
             if ($username) {
-                $this->setUserName(trim($username));
+                $this->setUserName($username);
             }
             if ($roles) {
                 $this->setRoles($roles);
@@ -94,7 +94,7 @@ class UserApiDto extends AbstractDto implements UserApiDtoInterface
                 }
             }
             if (null !== $expiredAt) {
-                $this->setExpiredAt(trim($expiredAt));
+                $this->setExpiredAt($expiredAt);
             }
         }
 
