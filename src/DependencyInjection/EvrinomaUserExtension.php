@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Evrinoma\UserBundle\DependencyInjection;
 
 use Evrinoma\UserBundle\Command\Bridge\UserCreateBridge;
-use Evrinoma\UserBundle\Command\Bridge\UserRolesBridge;
+use Evrinoma\UserBundle\Command\Bridge\UserRoleBridge;
 use Evrinoma\UserBundle\DependencyInjection\Compiler\Constraint\Property\UserPass;
 use Evrinoma\UserBundle\Dto\Preserve\UserApiDto as PreserveUserApiDto;
 use Evrinoma\UserBundle\Dto\UserApiDto;
@@ -40,7 +40,7 @@ class EvrinomaUserExtension extends Extension
     public const DTO_BASE_USER = UserApiDto::class;
     public const DTO_PRESERVE_BASE_USER = PreserveUserApiDto::class;
     public const BRIDGE_CREATE_USER = UserCreateBridge::class;
-    public const BRIDGE_ROLES_USER = UserRolesBridge::class;
+    public const BRIDGE_ROLES_USER = UserRoleBridge::class;
     /**
      * @var array
      */
@@ -222,6 +222,6 @@ class EvrinomaUserExtension extends Extension
 
     public function getAlias()
     {
-        return EvrinomaUserBundle::USER_BUNDLE;
+        return EvrinomaUserBundle::BUNDLE;
     }
 }

@@ -24,18 +24,18 @@ class DecoratorPass extends AbstractRecursivePass
      */
     public function process(ContainerBuilder $container)
     {
-        $decoratorQuery = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.query');
+        $decoratorQuery = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.decorates.query');
         if ($decoratorQuery) {
-            $decoratorQuery = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.query');
+            $decoratorQuery = $container->getParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.decorates.query');
             $queryMediator = $container->getDefinition($decoratorQuery);
-            $repository = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.repository');
+            $repository = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.repository');
             $repository->setArgument(2, $queryMediator);
         }
-        $decoratorCommand = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.command');
+        $decoratorCommand = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.decorates.command');
         if ($decoratorCommand) {
-            $decoratorCommand = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.decorates.command');
+            $decoratorCommand = $container->getParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.decorates.command');
             $commandMediator = $container->getDefinition($decoratorCommand);
-            $commandManager = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.manager');
+            $commandManager = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.command.manager');
             $commandManager->setArgument(3, $commandMediator);
         }
     }

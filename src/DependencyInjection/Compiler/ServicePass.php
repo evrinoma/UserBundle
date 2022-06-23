@@ -24,49 +24,49 @@ class ServicePass extends AbstractRecursivePass
      */
     public function process(ContainerBuilder $container)
     {
-        $serviceRole = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.role.mediator');
+        $serviceRole = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.role.mediator');
         if ($serviceRole) {
-            $serviceRole = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.role.mediator');
+            $serviceRole = $container->getParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.role.mediator');
             $serviceRoleMediator = $container->getDefinition($serviceRole);
-            $commandMediator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.mediator');
+            $commandMediator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.command.mediator');
             $commandMediator->setArgument(1, $serviceRoleMediator);
         }
 
-        $servicePreValidator = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.pre.validator');
+        $servicePreValidator = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.pre.validator');
         if ($servicePreValidator) {
-            $servicePreValidator = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.pre.validator');
+            $servicePreValidator = $container->getParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.pre.validator');
             $preValidator = $container->getDefinition($servicePreValidator);
-            $apiController = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.api.controller');
+            $apiController = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.api.controller');
             $apiController->setArgument(5, $preValidator);
-            $bridgeCreate = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.bridge.create');
+            $bridgeCreate = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.bridge.create');
             $bridgeCreate->setArgument(3, $preValidator);
         }
 
-        $servicePreCheckerPassword = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.pre.checker.password');
+        $servicePreCheckerPassword = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.pre.checker.password');
         if ($servicePreCheckerPassword) {
-            $servicePreCheckerPassword = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.pre.checker.password');
+            $servicePreCheckerPassword = $container->getParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.pre.checker.password');
             $preCheckerPost = $container->getDefinition($servicePreCheckerPassword);
-            if ($container->hasDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.pre.validator')) {
-                $preValidator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.pre.validator');
+            if ($container->hasDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.pre.validator')) {
+                $preValidator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.pre.validator');
             } else {
-                $preValidator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.pre.validator');
+                $preValidator = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.pre.validator');
             }
             $preValidator->setArgument(0, $preCheckerPost);
         }
 
-        $serviceBridgeCreate = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.bridge.create');
+        $serviceBridgeCreate = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.bridge.create');
         if ($serviceBridgeCreate) {
-            $serviceBridgeCreate = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.bridge.create');
+            $serviceBridgeCreate = $container->getParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.bridge.create');
             $bridgeCreate = $container->getDefinition($serviceBridgeCreate);
-            $commandCreate = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.create');
+            $commandCreate = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.command.create');
             $commandCreate->setArgument(0, $bridgeCreate);
         }
 
-        $serviceBridgeRole = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.bridge.role');
+        $serviceBridgeRole = $container->hasParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.bridge.role');
         if ($serviceBridgeRole) {
-            $serviceBridgeRole = $container->getParameter('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.services.bridge.role');
+            $serviceBridgeRole = $container->getParameter('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.services.bridge.role');
             $bridgeRole = $container->getDefinition($serviceBridgeRole);
-            $commandRole = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::USER_BUNDLE.'.command.role');
+            $commandRole = $container->getDefinition('evrinoma.'.EvrinomaUserBundle::BUNDLE.'.command.role');
             $commandRole->setArgument(0, $bridgeRole);
         }
     }

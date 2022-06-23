@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EvrinomaUserBundle extends Bundle
 {
-    public const USER_BUNDLE = 'user';
+    public const BUNDLE = 'user';
 
     public function build(ContainerBuilder $container)
     {
