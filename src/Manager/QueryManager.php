@@ -60,7 +60,11 @@ final class QueryManager implements QueryManagerInterface, RestInterface
     public function proxy(UserApiDtoInterface $dto): UserInterface
     {
         try {
-            $user = $this->repository->proxy($dto->idToString());
+            if ($dto->hasId()) {
+                $user = $this->repository->proxy($dto->idToString());
+            } else {
+                throw new UserProxyException('Id value is not set while trying get proxy object');
+            }
         } catch (UserProxyException $e) {
             throw $e;
         }
