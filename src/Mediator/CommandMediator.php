@@ -57,7 +57,7 @@ class CommandMediator implements CommandMediatorInterface
                 $entity->setExpiredAt(new \DateTimeImmutable($dto->getExpiredAt()));
             }
         } else {
-            throw new UserCannotBeSavedException();
+            throw new UserCannotBeSavedException('Please set value filed expiredAt');
         }
 
         if ($dto->hasRoles()) {
