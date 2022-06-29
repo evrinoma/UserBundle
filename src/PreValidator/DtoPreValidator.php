@@ -30,6 +30,8 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
 
     public function onPost(DtoInterface $dto): void
     {
+        $this->checkUserName($dto);
+
         /** @var UserApiDtoInterface $dto */
         if (!$dto->hasPassword()) {
             throw new UserInvalidException('The Dto has\'t Password');
@@ -44,13 +46,10 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
 
     public function onPut(DtoInterface $dto): void
     {
-        $this->check($dto);
+        $this->checkId($dto);
 
+        $this->checkUserName($dto);
         /** @var UserApiDtoInterface $dto */
-        if (!$dto->hasUsername()) {
-            throw new UserInvalidException('The Dto has\'t UserName');
-        }
-
         if ($dto->hasPassword()) {
             try {
                 $this->passwordPreChecker->check($dto);
@@ -62,14 +61,35 @@ class DtoPreValidator extends AbstractPreValidator implements DtoPreValidatorInt
 
     public function onDelete(DtoInterface $dto): void
     {
-        $this->check($dto);
+        $this->checkId($dto);
     }
 
-    private function check(DtoInterface $dto): void
+    private function checkId(DtoInterface $dto): void
     {
         /** @var UserApiDtoInterface $dto */
         if (!$dto->hasId()) {
             throw new UserInvalidException('The Dto has\'t ID or class invalid');
+        }
+    }
+
+    private function checkUserName(DtoInterface $dto): void
+    {
+        /** @var UserApiDtoInterface $dto */
+        if (!$dto->hasUsername()) {
+            throw new UserInvalidException('The Dto has\'t UserName');
+        }
+
+        $username = $dto->getUsername();
+        $isValid = false;
+
+        if (preg_match('/^(?=.{4})(?!.{21})[\w.-]*[a-z][\w]*$/i', $username)) {
+            $isValid = true;
+        }
+        if (preg_match('/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i', $username)) {
+            $isValid = true;
+        }
+        if (!$isValid) {
+            throw new UserInvalidException('The Dto username must contain symbols, digit and special characters [._-] or username should have email format');
         }
     }
 }
