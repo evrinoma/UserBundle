@@ -136,10 +136,10 @@ EOT;
     {
         $questions = [];
 
-        if (!$input->getOption(UserApiDtoInterface::GRANT_ROLES)) {
+        if (null === $input->getOption(UserApiDtoInterface::GRANT_ROLES)) {
             $question = new ConfirmationQuestion('Would you like to set grant?[y/n]', false);
             $question->setValidator(function ($grant) {
-                return '--'.($grant ? '' : 'no-').UserApiDtoInterface::GRANT_ROLES;
+                return $grant;
             });
             $questions[UserApiDtoInterface::GRANT_ROLES] = $question;
         }
@@ -175,7 +175,7 @@ EOT;
         }
         $grantRoles = $input->getOption(UserApiDtoInterface::GRANT_ROLES);
 
-        if ($grantRoles === '--'.UserApiDtoInterface::GRANT_ROLES) {
+        if ($grantRoles) {
             $dto->setGrant();
         } else {
             $dto->resetGrant();
