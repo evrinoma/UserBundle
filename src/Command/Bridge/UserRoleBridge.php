@@ -77,7 +77,7 @@ class UserRoleBridge implements BridgeInterface
     {
         return <<<'EOT'
 The <info>evrinoma:user:role</info> command demotes or promotes a user by removing or adding a role
-  <info>php %command.full_name% nikolns ROLE_CUSTOM_A ROLE_CUSTOM_B  --no-grand (--grand)</info>
+  <info>php %command.full_name% nikolns ROLE_CUSTOM_A ROLE_CUSTOM_B  --no-grant (--grant)</info>
 EOT;
     }
 
@@ -138,8 +138,8 @@ EOT;
 
         if (!$input->getOption(UserApiDtoInterface::GRANT_ROLES)) {
             $question = new ConfirmationQuestion('Would you like to set grant?[y/n]', false);
-            $question->setValidator(function ($grand) {
-                return '--'.($grand ? '' : 'no-').UserApiDtoInterface::GRANT_ROLES;
+            $question->setValidator(function ($grant) {
+                return '--'.($grant ? '' : 'no-').UserApiDtoInterface::GRANT_ROLES;
             });
             $questions[UserApiDtoInterface::GRANT_ROLES] = $question;
         }
@@ -173,9 +173,9 @@ EOT;
         if (\count($roles) > 0) {
             $dto->setRoles($roles);
         }
-        $grandRoles = $input->getOption(UserApiDtoInterface::GRANT_ROLES);
+        $grantRoles = $input->getOption(UserApiDtoInterface::GRANT_ROLES);
 
-        if ($grandRoles === '--'.UserApiDtoInterface::GRANT_ROLES) {
+        if ($grantRoles === '--'.UserApiDtoInterface::GRANT_ROLES) {
             $dto->setGrant();
         } else {
             $dto->resetGrant();
